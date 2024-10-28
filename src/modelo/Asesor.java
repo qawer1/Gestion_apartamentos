@@ -1,30 +1,30 @@
 package modelo;
 
 public class Asesor {
-    private String cedula;
+    private int cedula;
     private String nombre;
     private String direccion;
     private String telefono;
-    private String correo;
+    private String Correo_electronico;
 
     // Constructor vacío
     public Asesor() {}
 
     // Constructor con parámetros
-    public Asesor(String cedula, String nombre, String direccion, String telefono, String correo) {
+    public Asesor(int cedula, String nombre, String direccion, String telefono, String Correo_electronico) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.correo = correo;
+        this.Correo_electronico = Correo_electronico;
     }
 
     // Getters y Setters
-    public String getCedula() {
+    public int getCedula() {
         return cedula;
     }
 
-    public void setCedula(String cedula) {
+    public void setCedula(int cedula) {
         this.cedula = cedula;
     }
 
@@ -52,11 +52,16 @@ public class Asesor {
         this.telefono = telefono;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getCorreo_electronico() {
+        return Correo_electronico;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setCorreo_electronico(String Correo_electronico) {
+        this.Correo_electronico = Correo_electronico;
+    }
+
+    @Override
+    public String toString() {
+        return "Asesor{cedula=" + cedula + ", nombre='" + nombre + "', direccion='" + direccion + "', telefono='" + telefono + "', Correo_electronico='" + Correo_electronico+ "'}";
     }
 }

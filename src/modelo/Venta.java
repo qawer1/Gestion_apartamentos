@@ -1,31 +1,34 @@
+// Venta.java
 package modelo;
 
 public class Venta {
-    private int id;
+    private int idVenta;
     private double precioTotal;
     private int numeroCuotas;
     private double intereses;
-    private String clienteCedula;
+    private int idCliente;  
+    private int idApartamento;
 
     // Constructor vacío
     public Venta() {}
 
-    // Constructor con parámetros
-    public Venta(int id, double precioTotal, int numeroCuotas, double intereses, String clienteCedula) {
-        this.id = id;
+    // Constructor con todos los atributos
+    public Venta(int idVenta, double precioTotal, int numeroCuotas, double intereses, int idCliente, int idApartamento) {
+        this.idVenta = idVenta;
         this.precioTotal = precioTotal;
         this.numeroCuotas = numeroCuotas;
         this.intereses = intereses;
-        this.clienteCedula = clienteCedula;
+        this.idCliente = idCliente;
+        this.idApartamento = idApartamento;
     }
 
     // Getters y Setters
-    public int getId() {
-        return id;
+    public int getIdVenta() {
+        return idVenta;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdVenta(int idVenta) {
+        this.idVenta = idVenta;
     }
 
     public double getPrecioTotal() {
@@ -52,11 +55,31 @@ public class Venta {
         this.intereses = intereses;
     }
 
-    public String getClienteCedula() {
-        return clienteCedula;
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    public void setClienteCedula(String clienteCedula) {
-        this.clienteCedula = clienteCedula;
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public int getIdApartamento() {
+        return idApartamento;
+    }
+
+    public void setIdApartamento(int idApartamento) {
+        this.idApartamento = idApartamento;
+    }
+
+    @Override
+    public String toString() {
+        return "Venta{" +
+                "idVenta=" + idVenta +
+                ", precioTotal=" + precioTotal +
+                ", numeroCuotas=" + numeroCuotas +
+                ", intereses=" + intereses +
+                ", idCliente=" + idCliente +
+                ", idApartamento=" + idApartamento +
+                '}';
     }
 }

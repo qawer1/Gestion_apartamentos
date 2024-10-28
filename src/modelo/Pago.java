@@ -1,52 +1,74 @@
+// Pago.java
 package modelo;
 
 public class Pago {
-    private int id;
-    private double monto;
-    private String fechaPago;
-    private int ventaId;
+    private int ID_Pago;
+    private double valorPago;
+    private String fecha; // Cambiado a String para mayor flexibilidad
+    private int Cedula_cliente; // Puedes incluir otros campos según lo necesites
+    private int Cedula_asesor;   // ID de la venta asociada al pago
 
     // Constructor vacío
     public Pago() {}
 
     // Constructor con parámetros
-    public Pago(int id, double monto, String fechaPago, int ventaId) {
-        this.id = id;
-        this.monto = monto;
-        this.fechaPago = fechaPago;
-        this.ventaId = ventaId;
+    public Pago(int ID_Pago, double valorPago, String fecha, int Cedula_cliente, int idVenta) {
+        this.ID_Pago = ID_Pago;
+        this.valorPago = valorPago;
+        this.fecha = fecha;
+        this.Cedula_cliente = Cedula_cliente;
+        this.Cedula_asesor = Cedula_asesor;
     }
 
     // Getters y Setters
-    public int getId() {
-        return id;
+    public int getID_Pago() {
+        return ID_Pago;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setID_Pago(int ID_Pago) {
+        this.ID_Pago = ID_Pago;
     }
 
-    public double getMonto() {
-        return monto;
+    public double getValorPago() {
+        return valorPago;
     }
 
-    public void setMonto(double monto) {
-        this.monto = monto;
+    public void setValorPago(double valorPago) {
+        this.valorPago = valorPago;
     }
 
-    public String getFechaPago() {
-        return fechaPago;
+    public String getFecha() {
+        return fecha;
     }
 
-    public void setFechaPago(String fechaPago) {
-        this.fechaPago = fechaPago;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
-    public int getVentaId() {
-        return ventaId;
+    public int getCedula_cliente() {
+        return Cedula_cliente;
     }
 
-    public void setVentaId(int ventaId) {
-        this.ventaId = ventaId;
+    public void setCedula_cliente(int Cedula_cliente) {
+        this.Cedula_cliente = Cedula_cliente;
+    }
+
+    public int getCedula_asesor() {
+        return Cedula_asesor;
+    }
+
+    public void setCedula_asesor(int Cedula_asesor) {
+        this.Cedula_asesor = Cedula_asesor;
+    }
+
+    @Override
+    public String toString() {
+        return "Pago{" +
+                "ID_Pago=" + ID_Pago +
+                ", valorPago=" + valorPago +
+                ", fecha='" + fecha + '\'' +
+                ", Cedula_cliente=" + Cedula_cliente +
+                ", Cedula_asesor=" + Cedula_asesor +
+                '}';
     }
 }

@@ -12,7 +12,7 @@ public class conexion {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(URL);
-            System.out.println("Conexión a la base de datos establecida.");
+            System.out.println("Conexion a la base de datos establecida.");
         } catch (SQLException e) {
             System.out.println("Error al conectar con la base de datos: " + e.getMessage());
         }
@@ -26,9 +26,9 @@ public class conexion {
             try {
                 // Si la conexión se establece, cierra la conexión aquí
                 connection.close();
-                System.out.println("Conexión cerrada.");
+                System.out.println("Conexion cerrada.");
             } catch (SQLException e) {
-                System.out.println("Error al cerrar la conexión: " + e.getMessage());
+                System.out.println("Error al cerrar la conexion: " + e.getMessage());
             }
         }
     }

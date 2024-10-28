@@ -1,34 +1,35 @@
 package modelo;
 
 public class Cliente {
-    private String cedula;
+    private int cedula;
     private String nombre;
     private String sisben;
     private String subsidioMinisterio;
     private String direccion;
     private String telefono;
-    private String correo;
+    private String correoElectronico;
 
     // Constructor vacío
     public Cliente() {}
 
     // Constructor con parámetros
-    public Cliente(String cedula, String nombre, String sisben, String subsidioMinisterio, String direccion, String telefono, String correo) {
+    public Cliente(int cedula, String nombre, String sisben, String subsidioMinisterio,
+                   String direccion, String telefono, String correoElectronico) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.sisben = sisben;
         this.subsidioMinisterio = subsidioMinisterio;
         this.direccion = direccion;
         this.telefono = telefono;
-        this.correo = correo;
+        this.correoElectronico = correoElectronico;
     }
 
     // Getters y Setters
-    public String getCedula() {
+    public int getCedula() {
         return cedula;
     }
 
-    public void setCedula(String cedula) {
+    public void setCedula(int cedula) {
         this.cedula = cedula;
     }
 
@@ -72,11 +73,24 @@ public class Cliente {
         this.telefono = telefono;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getCorreoElectronico() {
+        return correoElectronico;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setCorreoElectronico(String correoElectronico) {
+        this.correoElectronico = correoElectronico;
     }
+
+    @Override
+public String toString() {
+    return "Cliente{" +
+            "cedula=" + cedula + // Sin comillas, ya que es un int
+            ", nombre='" + nombre + '\'' +
+            ", sisben='" + sisben + '\'' +
+            ", subsidioMinisterio='" + subsidioMinisterio + '\'' +
+            ", direccion='" + direccion + '\'' +
+            ", telefono='" + telefono + '\'' +
+            ", correoElectronico='" + correoElectronico + '\'' +
+            '}';
+}
 }

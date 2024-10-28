@@ -1,7 +1,8 @@
+// ProyectoController.java
 package controlador;
 
+import dao.ProyectoDAO;
 import modelo.Proyecto;
-import modelo.dao.ProyectoDAO;
 import java.util.List;
 
 public class ProyectoController {
@@ -11,22 +12,29 @@ public class ProyectoController {
         this.proyectoDAO = new ProyectoDAO();
     }
 
-    public void agregarProyecto(Proyecto proyecto) {
-        proyectoDAO.insertarProyecto(proyecto);
-        System.out.println("Proyecto añadido exitosamente.");
+    public void crearProyecto(String nombre, int numeroTorres) {
+        Proyecto proyecto = new Proyecto();
+        proyecto.setNombre(nombre);
+        proyecto.setNumeroTorres(numeroTorres);
+        proyectoDAO.crearProyecto(proyecto);
+        System.out.println("Proyecto creado exitosamente.");
     }
 
-    public void eliminarProyecto(int id) {
-        proyectoDAO.eliminarProyecto(id);
-        System.out.println("Proyecto eliminado exitosamente.");
+    public void listarProyectos() {
+        List<Proyecto> proyectos = proyectoDAO.obtenerProyectos();
+        for (Proyecto proyecto : proyectos) {
+            System.out.println(proyecto);
+        }
     }
 
-    public List<Proyecto> obtenerProyectos() {
-        return proyectoDAO.obtenerProyectos();
-    }
-
-    public void actualizarProyecto(Proyecto proyecto) {
+    public void actualizarProyecto(int idProyecto, String nombre, int numeroTorres) {
+        Proyecto proyecto = new Proyecto(idProyecto, nombre, numeroTorres);
         proyectoDAO.actualizarProyecto(proyecto);
         System.out.println("Proyecto actualizado exitosamente.");
+    }
+
+    public void eliminarProyecto(int idProyecto) {
+        proyectoDAO.eliminarProyecto(idProyecto);
+        System.out.println("Proyecto eliminado exitosamente.");
     }
 }

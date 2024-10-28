@@ -1,34 +1,28 @@
+// Proyecto.java
 package modelo;
 
 public class Proyecto {
-    private int id;
+    private int idProyecto;  // Cambiado de 'id' a 'idProyecto'
     private String nombre;
     private int numeroTorres;
 
     // Constructor vacío
     public Proyecto() {}
 
-    // Constructor con todos los parámetros
-    public Proyecto(int id, String nombre, int numeroTorres) {
-        this.id = id;
+    // Constructor con parámetros
+    public Proyecto(int idProyecto, String nombre, int numeroTorres) {
+        this.idProyecto = idProyecto;
         this.nombre = nombre;
         this.numeroTorres = numeroTorres;
     }
 
-    // Constructor que solo recibe el nombre del proyecto
-    public Proyecto(String nombre) {
-        this.nombre = nombre;
-        this.id = 0;  // Asignar un valor por defecto al id
-        this.numeroTorres = 0;  // Asignar un valor por defecto al número de torres
-    }
-
     // Getters y Setters
-    public int getId() {
-        return id;
+    public int getIdProyecto() {
+        return idProyecto;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdProyecto(int idProyecto) {
+        this.idProyecto = idProyecto;
     }
 
     public String getNombre() {
@@ -45,5 +39,10 @@ public class Proyecto {
 
     public void setNumeroTorres(int numeroTorres) {
         this.numeroTorres = numeroTorres;
+    }
+
+    @Override
+    public String toString() {
+        return "Proyecto{idProyecto=" + idProyecto + ", nombre='" + nombre + "', numeroTorres=" + numeroTorres + "}";
     }
 }

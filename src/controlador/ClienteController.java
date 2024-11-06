@@ -21,12 +21,27 @@ public class ClienteController {
         System.out.println("Cliente creado exitosamente.");
     }
 
-    // Método para listar todos los clientes
-    public void listarClientes() {
-        List<Cliente> clientes = clienteDAO.obtenerClientes();
+    // Método para listar todos los clientes en formato legible
+    public String listarClientes() {
+        List<Cliente> clientes = obtenerClientes(); // Llama a obtenerClientes() para obtener la lista
+        StringBuilder sb = new StringBuilder();
+        sb.append("Lista de Clientes:\n");
         for (Cliente cliente : clientes) {
-            System.out.println(cliente);
+            sb.append("Cédula: ").append(cliente.getCedula())
+              .append(", Nombre: ").append(cliente.getNombre())
+              .append(", SISBEN: ").append(cliente.getSisben())
+              .append(", Subsidio Ministerio: ").append(cliente.getSubsidioMinisterio())
+              .append(", Dirección: ").append(cliente.getDireccion())
+              .append(", Teléfono: ").append(cliente.getTelefono())
+              .append(", Correo Electrónico: ").append(cliente.getCorreoElectronico())
+              .append("\n");
         }
+        return sb.toString();
+    }
+
+    // Método para obtener todos los clientes
+    public List<Cliente> obtenerClientes() {
+        return clienteDAO.obtenerClientes();
     }
 
     // Método para actualizar un cliente existente

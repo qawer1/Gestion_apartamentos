@@ -1,4 +1,5 @@
 package Vistas;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -50,7 +51,7 @@ public class MainFrame extends JFrame {
         // Asignar la barra de menú a la ventana
         setJMenuBar(menuBar);
 
-       
+        // Crear el panel de CardLayout para cambiar entre los diferentes paneles
         JPanel mainPanel = new JPanel(new CardLayout());
 
         // Panel de bienvenida
@@ -65,22 +66,10 @@ public class MainFrame extends JFrame {
         mainPanel.add(new ProyectoPanel(), "Proyectos");
         mainPanel.add(new ApartamentoPanel(), "Apartamentos");
         mainPanel.add(new TorresPanel(), "Torres");
-        mainPanel.add(new AsesoresPanel(),"Asesores");
-
-        // Crear paneles en blanco para las secciones que aún no tienes implementadas
-        
-
-        JPanel clientesPanel = new JPanel();
-        clientesPanel.add(new JLabel("Panel de Clientes"));
-        mainPanel.add(clientesPanel, "Clientes");
-
-        JPanel pagosPanel = new JPanel();
-        pagosPanel.add(new JLabel("Panel de Pagos"));
-        mainPanel.add(pagosPanel, "Pagos");
-
-        JPanel ventasPanel = new JPanel();
-        ventasPanel.add(new JLabel("Panel de Ventas"));
-        mainPanel.add(ventasPanel, "Ventas");
+        mainPanel.add(new AsesoresPanel(), "Asesores");
+        mainPanel.add(new ClientesPanel(), "Clientes");
+        mainPanel.add(new PagosPanel(), "Pagos");
+        mainPanel.add(new VentasPanel(), "Ventas");  
 
         // Mostrar el panel de bienvenida al iniciar la aplicación
         showPanel(mainPanel, "Bienvenida");
@@ -92,7 +81,7 @@ public class MainFrame extends JFrame {
         itemAsesores.addActionListener(e -> showPanel(mainPanel, "Asesores"));
         itemClientes.addActionListener(e -> showPanel(mainPanel, "Clientes"));
         itemPagos.addActionListener(e -> showPanel(mainPanel, "Pagos"));
-        itemVentas.addActionListener(e -> showPanel(mainPanel, "Ventas"));
+        itemVentas.addActionListener(e -> showPanel(mainPanel, "Ventas"));  // Añadir acción para Ventas
 
         // Agregar el panel principal al frame
         add(mainPanel);

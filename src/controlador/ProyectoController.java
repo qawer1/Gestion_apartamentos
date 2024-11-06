@@ -42,6 +42,9 @@ public class ProyectoController {
                   .append("\n");
             }
         }
+
+        System.out.println(sb.toString());  // Depuración para verificar los proyectos en la consola
+        
         return sb.toString();
     }
 

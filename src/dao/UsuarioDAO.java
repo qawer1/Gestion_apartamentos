@@ -11,8 +11,10 @@ public class UsuarioDAO {
         Connection conn = null;
         try {
             // Asegúrate de que la ruta sea la correcta para tu base de datos
-            String url = "jdbc:sqlite:C:\\Users\\Sebastian\\Downloads\\bd\\base de datos apartamentos.db";
-            conn = DriverManager.getConnection(url);
+            String url = "jdbc:oracle:thin:@localhost:1521:xe"; // Actualiza la URL de conexión
+            String username = "tu_usuario"; // Cambia a tu usuario de Oracle
+            String password = "tu_contraseña"; // Cambia a tu contraseña de Oracle
+            conn = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -21,11 +23,12 @@ public class UsuarioDAO {
 
     // Método para registrar un usuario
     public void registrarUsuario(Usuario usuario) {
-        String sql = "INSERT INTO Usuario (nombre,contrasena, rol) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Usuario (id, nombre, contrasena, rol) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = this.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, usuario.getNombre());
+            pstmt.setInt(1, usuario.getId()); // Se solicita el ID manualmente
+            pstmt.setString(2, usuario.getNombre());
             pstmt.setString(3, usuario.getContrasena());
             pstmt.setString(4, usuario.getRol());
             pstmt.executeUpdate();

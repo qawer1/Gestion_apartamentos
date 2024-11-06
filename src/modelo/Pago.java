@@ -4,9 +4,9 @@ package modelo;
 public class Pago {
     private int ID_Pago;
     private double valorPago;
-    private String fecha; // Cambiado a String para mayor flexibilidad
-    private int Cedula_cliente; // Puedes incluir otros campos según lo necesites
-    private int Cedula_asesor;   // ID de la venta asociada al pago
+    private String fecha; 
+    private int Cedula_cliente; 
+    private int Cedula_asesor;   
 
     // Constructor vacío
     public Pago() {}

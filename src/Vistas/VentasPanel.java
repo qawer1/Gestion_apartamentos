@@ -1,7 +1,11 @@
 package Vistas;
 
 import controlador.VentaController;
+import controlador.ClienteController;
+import controlador.ApartamentoController;
 import modelo.Venta;
+import modelo.Cliente;
+import modelo.Apartamento;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,13 +16,17 @@ public class VentasPanel extends JPanel {
     private JTextField txtPrecioTotal;
     private JTextField txtNumeroCuotas;
     private JTextField txtIntereses;
-    private JTextField txtIdCliente;
-    private JTextField txtIdApartamento;
+    private JComboBox<String> cmbClientes;
+    private JComboBox<String> cmbApartamentos;
     private JTextArea txtVentas;
     private VentaController ventaController;
+    private ClienteController clienteController;
+    private ApartamentoController apartamentoController;
 
     public VentasPanel() {
         ventaController = new VentaController();
+        clienteController = new ClienteController();
+        apartamentoController = new ApartamentoController();
         setLayout(new BorderLayout(10, 10));
 
         // Panel de entrada de datos
@@ -36,13 +44,16 @@ public class VentasPanel extends JPanel {
         txtIntereses = new JTextField();
         inputPanel.add(txtIntereses);
 
-        inputPanel.add(new JLabel("ID Cliente:"));
-        txtIdCliente = new JTextField();
-        inputPanel.add(txtIdCliente);
+        // Panel para seleccionar el cliente y apartamento mediante JComboBox
+        inputPanel.add(new JLabel("Seleccionar Cliente:"));
+        cmbClientes = new JComboBox<>();
+        cargarClientes();
+        inputPanel.add(cmbClientes);
 
-        inputPanel.add(new JLabel("ID Apartamento:"));
-        txtIdApartamento = new JTextField();
-        inputPanel.add(txtIdApartamento);
+        inputPanel.add(new JLabel("Seleccionar Apartamento:"));
+        cmbApartamentos = new JComboBox<>();
+        cargarApartamentos();
+        inputPanel.add(cmbApartamentos);
 
         // Panel de botones
         JPanel buttonPanel = new JPanel();
@@ -74,8 +85,13 @@ public class VentasPanel extends JPanel {
                 double precioTotal = Double.parseDouble(txtPrecioTotal.getText());
                 int numeroCuotas = Integer.parseInt(txtNumeroCuotas.getText());
                 double intereses = Double.parseDouble(txtIntereses.getText());
-                int idCliente = Integer.parseInt(txtIdCliente.getText());
-                int idApartamento = Integer.parseInt(txtIdApartamento.getText());
+                
+                // Obtener el cliente y apartamento seleccionados
+                String clienteSeleccionado = (String) cmbClientes.getSelectedItem();
+                int idCliente = Integer.parseInt(clienteSeleccionado.split(" - ")[0]); // Asumimos que el formato es "ID - Nombre"
+                
+                String apartamentoSeleccionado = (String) cmbApartamentos.getSelectedItem();
+                int idApartamento = Integer.parseInt(apartamentoSeleccionado.split(" - ")[0]);
 
                 ventaController.crearVenta(precioTotal, numeroCuotas, intereses, idCliente, idApartamento);
                 JOptionPane.showMessageDialog(null, "Venta creada exitosamente");
@@ -119,8 +135,12 @@ public class VentasPanel extends JPanel {
                 double precioTotal = Double.parseDouble(txtPrecioTotal.getText());
                 int numeroCuotas = Integer.parseInt(txtNumeroCuotas.getText());
                 double intereses = Double.parseDouble(txtIntereses.getText());
-                int idCliente = Integer.parseInt(txtIdCliente.getText());
-                int idApartamento = Integer.parseInt(txtIdApartamento.getText());
+
+                String clienteSeleccionado = (String) cmbClientes.getSelectedItem();
+                int idCliente = Integer.parseInt(clienteSeleccionado.split(" - ")[0]);
+
+                String apartamentoSeleccionado = (String) cmbApartamentos.getSelectedItem();
+                int idApartamento = Integer.parseInt(apartamentoSeleccionado.split(" - ")[0]);
 
                 ventaController.actualizarVenta(idVenta, precioTotal, numeroCuotas, intereses, idCliente, idApartamento);
                 JOptionPane.showMessageDialog(null, "Venta actualizada exitosamente");
@@ -129,12 +149,28 @@ public class VentasPanel extends JPanel {
         });
     }
 
+    // Método para cargar los clientes en el JComboBox
+    private void cargarClientes() {
+        List<Cliente> clientes = clienteController.obtenerClientes();
+        for (Cliente cliente : clientes) {
+            cmbClientes.addItem(cliente.getCedula() + " - " + cliente.getNombre());
+        }
+    }
+
+    // Método para cargar los apartamentos en el JComboBox
+    private void cargarApartamentos() {
+        List<Apartamento> apartamentos = apartamentoController.obtenerApartamentos();
+        for (Apartamento apartamento : apartamentos) {
+            cmbApartamentos.addItem(apartamento.getID_apartamento() + " - " + apartamento.getNumero_apartamento());
+        }
+    }
+
     // Método para limpiar los campos después de una operación
     private void limpiarCampos() {
         txtPrecioTotal.setText("");
         txtNumeroCuotas.setText("");
         txtIntereses.setText("");
-        txtIdCliente.setText("");
-        txtIdApartamento.setText("");
+        cmbClientes.setSelectedIndex(0);
+        cmbApartamentos.setSelectedIndex(0);
     }
 }

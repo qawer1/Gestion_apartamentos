@@ -1,76 +1,99 @@
-// PagoDAO.java
 package dao;
 
-import conexion.conexion;
 import modelo.Pago;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PagoDAO {
 
+    // Método de conexión
+    private Connection conectar() {
+        Connection conn = null;
+        try {
+            // Configuración de conexión para Oracle
+            String url = "jdbc:oracle:thin:@localhost:1521:xe";  // Ajusta el URL si es necesario
+            String username = "SYSTEM";  // Cambia el usuario según tu configuración
+            String password = "Case18283022";  // Cambia la contraseña según tu configuración
+            conn = DriverManager.getConnection(url, username, password);
+        } catch (SQLException e) {
+            System.out.println("Error de conexión: " + e.getMessage());
+        }
+        return conn;
+    }
+
+    // Método para crear un pago
     public void crearPago(Pago pago) {
-        String sql = "INSERT INTO Pago (valorPago, fecha, Cedula_cliente, Cedula_asesor) VALUES (?, ?, ?, ?)";
-        try (Connection conn = conexion.connect();
+        String sql = "INSERT INTO Pago (ID_PAGO, VALORPAGO, FECHA, CEDULA_CLIENTE, CEDULA_ASESOR) VALUES (?, ?, ?, ?, ?)";
+        
+        try (Connection conn = this.conectar();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, pago.getID_Pago());
+            pstmt.setDouble(2, pago.getValorPago());
+            pstmt.setString(3, pago.getFecha());
+            pstmt.setInt(4, pago.getCedula_cliente());
+            pstmt.setInt(5, pago.getCedula_asesor());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error al crear pago: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // Método para obtener todos los pagos
+    public List<Pago> obtenerPagos() {
+        List<Pago> pagos = new ArrayList<>();
+        String sql = "SELECT ID_PAGO, VALORPAGO, FECHA, CEDULA_CLIENTE, CEDULA_ASESOR FROM Pago";
+
+        try (Connection conn = this.conectar();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Pago pago = new Pago();
+                pago.setID_Pago(rs.getInt("ID_PAGO"));
+                pago.setValorPago(rs.getDouble("VALORPAGO"));
+                pago.setFecha(rs.getString("FECHA"));
+                pago.setCedula_cliente(rs.getInt("CEDULA_CLIENTE"));
+                pago.setCedula_asesor(rs.getInt("CEDULA_ASESOR"));
+                pagos.add(pago);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener pagos: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return pagos;
+    }
+
+    // Método para actualizar un pago
+    public void actualizarPago(Pago pago) {
+        String sql = "UPDATE Pago SET VALORPAGO = ?, FECHA = ?, CEDULA_CLIENTE = ?, CEDULA_ASESOR = ? WHERE ID_PAGO = ?";
+
+        try (Connection conn = this.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setDouble(1, pago.getValorPago());
             pstmt.setString(2, pago.getFecha());
             pstmt.setInt(3, pago.getCedula_cliente());
             pstmt.setInt(4, pago.getCedula_asesor());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Error al crear pago: " + e.getMessage());
-        }
-    }
-
-    public List<Pago> obtenerPagos() {
-        String sql = "SELECT * FROM Pago";
-        List<Pago> pagos = new ArrayList<>();
-        try (Connection conn = conexion.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-            while (rs.next()) {
-                Pago pago = new Pago();
-                pago.setID_Pago(rs.getInt("ID_Pago"));
-                pago.setValorPago(rs.getDouble("valorPago"));
-                pago.setFecha(rs.getString("fecha")); // Asumiendo que `fecha` es de tipo String
-                pago.setCedula_cliente(rs.getInt("Cedula_cliente"));
-                pago.setCedula_asesor(rs.getInt("Cedula_asesor"));
-                pagos.add(pago);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error al obtener pagos: " + e.getMessage());
-        }
-        return pagos;
-    }
-
-    public void actualizarPago(Pago pago) {
-        String sql = "UPDATE Pago SET valorPago = ?, fecha = ?, Cedula_cliente = ?, Cedula_asesor = ? WHERE ID_Pago = ?";
-        try (Connection conn = conexion.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setDouble(1, pago.getValorPago());
-            pstmt.setString(2, pago.getFecha()); // Suponiendo que `fecha` es de tipo Date
-            pstmt.setInt(3, pago.getCedula_cliente());
-            pstmt.setInt(4, pago.getCedula_asesor());
             pstmt.setInt(5, pago.getID_Pago());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error al actualizar pago: " + e.getMessage());
+            System.out.println("Error al actualizar pago con ID: " + pago.getID_Pago());
+            e.printStackTrace();
         }
     }
 
-    public void eliminarPago(int ID_Pago) {
-        String sql = "DELETE FROM Pago WHERE ID_Pago = ?";
-        try (Connection conn = conexion.connect();
+    // Método para eliminar un pago
+    public void eliminarPago(int idPago) {
+        String sql = "DELETE FROM Pago WHERE ID_PAGO = ?";
+
+        try (Connection conn = this.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, ID_Pago);
+            pstmt.setInt(1, idPago);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error al eliminar pago: " + e.getMessage());
+            System.out.println("Error al eliminar pago con ID: " + idPago);
+            e.printStackTrace();
         }
     }
 }

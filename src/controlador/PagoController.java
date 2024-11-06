@@ -1,4 +1,3 @@
-
 package controlador;
 
 import dao.PagoDAO;
@@ -13,8 +12,10 @@ public class PagoController {
         this.pagoDAO = new PagoDAO();
     }
 
-    public void crearPago(double valorPago, String fecha, int Cedula_cliente, int Cedula_asesor) {
+    // Método para crear un pago
+    public void crearPago(int ID_Pago, double valorPago, String fecha, int Cedula_cliente, int Cedula_asesor) {
         Pago pago = new Pago();
+        pago.setID_Pago(ID_Pago);  // Asignar ID_Pago manualmente
         pago.setValorPago(valorPago);
         pago.setFecha(fecha);
         pago.setCedula_cliente(Cedula_cliente);
@@ -22,24 +23,27 @@ public class PagoController {
         pagoDAO.crearPago(pago);
     }
 
+    // Método para obtener la lista de pagos
     public List<Pago> obtenerPagos() {
         return pagoDAO.obtenerPagos();
     }
+
+    // Método para listar los pagos
     public void listarPagos() {
-    List<Pago> pagos = pagoDAO.obtenerPagos(); // Asegúrate de usar el nombre correcto
-    if (pagos.isEmpty()) {
-        System.out.println("No hay pagos registrados.");
-    } else {
-        for (Pago pago : pagos) {
-            System.out.println(pago);
+        List<Pago> pagos = pagoDAO.obtenerPagos(); // Asegúrate de usar el nombre correcto
+        if (pagos.isEmpty()) {
+            System.out.println("No hay pagos registrados.");
+        } else {
+            for (Pago pago : pagos) {
+                System.out.println(pago);
+            }
         }
     }
-}
 
-
+    // Método para actualizar un pago
     public void actualizarPago(int ID_Pago, double valorPago, String fecha, int Cedula_cliente, int Cedula_asesor) {
         Pago pago = new Pago();
-        pago.setID_Pago(ID_Pago);
+        pago.setID_Pago(ID_Pago);  // Asignar ID_Pago manualmente
         pago.setValorPago(valorPago);
         pago.setFecha(fecha);
         pago.setCedula_cliente(Cedula_cliente);
@@ -47,7 +51,8 @@ public class PagoController {
         pagoDAO.actualizarPago(pago);
     }
 
-    public void eliminarPago(int idPago) {
-        pagoDAO.eliminarPago(idPago);
+    // Método para eliminar un pago
+    public void eliminarPago(int ID_Pago) {
+        pagoDAO.eliminarPago(ID_Pago);
     }
 }

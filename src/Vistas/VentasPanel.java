@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class VentasPanel extends JPanel {
+    private JTextField txtIdVenta; // Campo para el ID de la venta
     private JTextField txtPrecioTotal;
     private JTextField txtNumeroCuotas;
     private JTextField txtIntereses;
@@ -30,7 +31,11 @@ public class VentasPanel extends JPanel {
         setLayout(new BorderLayout(10, 10));
 
         // Panel de entrada de datos
-        JPanel inputPanel = new JPanel(new GridLayout(5, 2, 5, 5));
+        JPanel inputPanel = new JPanel(new GridLayout(6, 2, 5, 5));
+
+        inputPanel.add(new JLabel("ID Venta:"));
+        txtIdVenta = new JTextField();
+        inputPanel.add(txtIdVenta);
 
         inputPanel.add(new JLabel("Precio Total:"));
         txtPrecioTotal = new JTextField();
@@ -120,7 +125,7 @@ public class VentasPanel extends JPanel {
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int idVenta = Integer.parseInt(txtPrecioTotal.getText()); // Usando precioTotal como ID para el ejemplo
+                int idVenta = Integer.parseInt(txtIdVenta.getText()); // Ahora usamos el ID de la venta
                 ventaController.eliminarVenta(idVenta);
                 JOptionPane.showMessageDialog(null, "Venta eliminada exitosamente");
                 limpiarCampos();
@@ -131,7 +136,7 @@ public class VentasPanel extends JPanel {
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int idVenta = Integer.parseInt(txtPrecioTotal.getText());
+                int idVenta = Integer.parseInt(txtIdVenta.getText()); // Ahora usamos el ID de la venta
                 double precioTotal = Double.parseDouble(txtPrecioTotal.getText());
                 int numeroCuotas = Integer.parseInt(txtNumeroCuotas.getText());
                 double intereses = Double.parseDouble(txtIntereses.getText());
@@ -167,6 +172,7 @@ public class VentasPanel extends JPanel {
 
     // Método para limpiar los campos después de una operación
     private void limpiarCampos() {
+        txtIdVenta.setText("");  // Limpiar el campo de ID Venta
         txtPrecioTotal.setText("");
         txtNumeroCuotas.setText("");
         txtIntereses.setText("");

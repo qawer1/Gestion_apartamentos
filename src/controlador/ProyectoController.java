@@ -13,12 +13,10 @@ public class ProyectoController {
     }
 
     // Método para crear un proyecto
-    public void crearProyecto(String nombre, int idTorre, int numeroTorre, int numeroApartamentos) {
+    public void crearProyecto(String nombre, int numeroTorres) {
         Proyecto proyecto = new Proyecto();
         proyecto.setNombre(nombre);
-        proyecto.setIdTorre(idTorre);
-        proyecto.setNumeroTorre(numeroTorre);
-        proyecto.setNumeroApartamentos(numeroApartamentos);
+        proyecto.setNumeroTorres(numeroTorres);
         proyectoDAO.crearProyecto(proyecto);
         System.out.println("Proyecto creado exitosamente.");
     }
@@ -40,9 +38,7 @@ public class ProyectoController {
             for (Proyecto proyecto : proyectos) {
                 sb.append("ID Proyecto: ").append(proyecto.getIdProyecto())
                   .append(", Nombre: ").append(proyecto.getNombre())
-                  .append(", ID Torre: ").append(proyecto.getIdTorre())
-                  .append(", Número de Torre: ").append(proyecto.getNumeroTorre())
-                  .append(", Número de Apartamentos: ").append(proyecto.getNumeroApartamentos())
+                  .append(", Número de Torres: ").append(proyecto.getNumeroTorres())
                   .append("\n");
             }
         }
@@ -50,13 +46,11 @@ public class ProyectoController {
     }
 
     // Método para actualizar un proyecto
-    public void actualizarProyecto(int idProyecto, String nombre, int idTorre, int numeroTorre, int numeroApartamentos) {
+    public void actualizarProyecto(int idProyecto, String nombre, int numeroTorres) {
         Proyecto proyecto = new Proyecto();
         proyecto.setIdProyecto(idProyecto);
         proyecto.setNombre(nombre);
-        proyecto.setIdTorre(idTorre);
-        proyecto.setNumeroTorre(numeroTorre);
-        proyecto.setNumeroApartamentos(numeroApartamentos);
+        proyecto.setNumeroTorres(numeroTorres);
         proyectoDAO.actualizarProyecto(proyecto);
         System.out.println("Proyecto actualizado exitosamente.");
     }

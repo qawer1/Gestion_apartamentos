@@ -82,15 +82,15 @@ public class Cliente {
     }
 
     @Override
-public String toString() {
-    return "Cliente{" +
-            "cedula=" + cedula + // Sin comillas, ya que es un int
-            ", nombre='" + nombre + '\'' +
-            ", sisben='" + sisben + '\'' +
-            ", subsidioMinisterio='" + subsidioMinisterio + '\'' +
-            ", direccion='" + direccion + '\'' +
-            ", telefono='" + telefono + '\'' +
-            ", correoElectronico='" + correoElectronico + '\'' +
-            '}';
-}
+    public String toString() {
+        return "Cliente{" +
+                "cedula=" + cedula + // Sin comillas porque es un número
+                ", nombre='" + nombre + '\'' +
+                ", sisben='" + sisben + '\'' +
+                ", subsidioMinisterio='" + subsidioMinisterio + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", correoElectronico='" + correoElectronico + '\'' +
+                '}';
+    }
 }

@@ -1,4 +1,3 @@
-// ProyectoDAO.java
 package dao;
 
 import modelo.Proyecto;
@@ -25,14 +24,12 @@ public class ProyectoDAO {
 
     // Método para crear un proyecto
     public void crearProyecto(Proyecto proyecto) {
-        String sql = "INSERT INTO Proyecto (nombre, idTorre, numeroTorre, numeroApartamentos) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Proyecto (nombre, numeroTorres) VALUES (?, ?)"; // Solo necesitamos el nombre y número de torres
         
         try (Connection conn = this.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, proyecto.getNombre());
-            pstmt.setInt(2, proyecto.getIdTorre());
-            pstmt.setInt(3, proyecto.getNumeroTorre());
-            pstmt.setInt(4, proyecto.getNumeroApartamentos());
+            pstmt.setInt(2, proyecto.getNumeroTorres());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al crear proyecto: " + e.getMessage());
@@ -42,7 +39,7 @@ public class ProyectoDAO {
     // Método para obtener todos los proyectos
     public List<Proyecto> obtenerProyectos() {
         List<Proyecto> proyectos = new ArrayList<>();
-        String sql = "SELECT ID_PROYECTO, nombre, idTorre, numeroTorre, numeroApartamentos FROM Proyecto";
+        String sql = "SELECT ID_PROYECTO, nombre, numeroTorres FROM Proyecto"; // Consultar solo los campos requeridos
         
         try (Connection conn = this.conectar();
              Statement stmt = conn.createStatement();
@@ -52,9 +49,7 @@ public class ProyectoDAO {
                 Proyecto proyecto = new Proyecto();
                 proyecto.setIdProyecto(rs.getInt("ID_PROYECTO"));
                 proyecto.setNombre(rs.getString("nombre"));
-                proyecto.setIdTorre(rs.getInt("idTorre"));
-                proyecto.setNumeroTorre(rs.getInt("numeroTorre"));
-                proyecto.setNumeroApartamentos(rs.getInt("numeroApartamentos"));
+                proyecto.setNumeroTorres(rs.getInt("numeroTorres"));
                 proyectos.add(proyecto);
             }
         } catch (SQLException e) {
@@ -65,15 +60,13 @@ public class ProyectoDAO {
 
     // Método para actualizar un proyecto
     public void actualizarProyecto(Proyecto proyecto) {
-        String sql = "UPDATE Proyecto SET nombre = ?, idTorre = ?, numeroTorre = ?, numeroApartamentos = ? WHERE ID_PROYECTO = ?";
+        String sql = "UPDATE Proyecto SET nombre = ?, numeroTorres = ? WHERE ID_PROYECTO = ?"; // Actualización solo de los campos relevantes
         
         try (Connection conn = this.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, proyecto.getNombre());
-            pstmt.setInt(2, proyecto.getIdTorre());
-            pstmt.setInt(3, proyecto.getNumeroTorre());
-            pstmt.setInt(4, proyecto.getNumeroApartamentos());
-            pstmt.setInt(5, proyecto.getIdProyecto());
+            pstmt.setInt(2, proyecto.getNumeroTorres());
+            pstmt.setInt(3, proyecto.getIdProyecto());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al actualizar proyecto con ID: " + proyecto.getIdProyecto());

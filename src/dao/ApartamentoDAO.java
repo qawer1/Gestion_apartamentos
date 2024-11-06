@@ -1,21 +1,32 @@
-// ApartamentoDAO.java
 package dao;
 
-import conexion.conexion;
 import modelo.Apartamento;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ApartamentoDAO {
 
+    // Método de conexión
+    private Connection conectar() {
+        Connection conn = null;
+        try {
+            // Configuración de conexión para Oracle
+            String url = "jdbc:oracle:thin:@localhost:1521:xe";
+            String username = "SYSTEM"; // Cambia esto si es necesario
+            String password = "Case18283022"; // Cambia esto si es necesario
+            conn = DriverManager.getConnection(url, username, password);
+        } catch (SQLException e) {
+            System.out.println("Error al conectar a la base de datos: " + e.getMessage());
+        }
+        return conn;
+    }
+
+    // Método para crear un apartamento
     public void crearApartamento(Apartamento apartamento) {
         String sql = "INSERT INTO Apartamento (ID_torre, Numero_apartamento, valorApartamento, tipoUnidad, area, matricula, Id_vendedor, fechaEscritura) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = conexion.connect();
+        
+        try (Connection conn = this.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, apartamento.getID_torre());
             pstmt.setInt(2, apartamento.getNumero_apartamento());
@@ -31,12 +42,15 @@ public class ApartamentoDAO {
         }
     }
 
+    // Método para obtener todos los apartamentos
     public List<Apartamento> obtenerApartamentos() {
-        String sql = "SELECT * FROM Apartamento";
         List<Apartamento> apartamentos = new ArrayList<>();
-        try (Connection conn = conexion.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+        String sql = "SELECT ID_apartamento, ID_torre, Numero_apartamento, valorApartamento, tipoUnidad, area, matricula, Id_vendedor, fechaEscritura FROM Apartamento";
+        
+        try (Connection conn = this.conectar();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
             while (rs.next()) {
                 Apartamento apartamento = new Apartamento();
                 apartamento.setID_apartamento(rs.getInt("ID_apartamento"));
@@ -56,9 +70,11 @@ public class ApartamentoDAO {
         return apartamentos;
     }
 
+    // Método para actualizar un apartamento
     public void actualizarApartamento(Apartamento apartamento) {
         String sql = "UPDATE Apartamento SET ID_torre = ?, Numero_apartamento = ?, valorApartamento = ?, tipoUnidad = ?, area = ?, matricula = ?, Id_vendedor = ?, fechaEscritura = ? WHERE ID_apartamento = ?";
-        try (Connection conn = conexion.connect();
+        
+        try (Connection conn = this.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, apartamento.getID_torre());
             pstmt.setInt(2, apartamento.getNumero_apartamento());
@@ -71,18 +87,22 @@ public class ApartamentoDAO {
             pstmt.setInt(9, apartamento.getID_apartamento());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error al actualizar apartamento: " + e.getMessage());
+            System.out.println("Error al actualizar apartamento con ID: " + apartamento.getID_apartamento());
+            e.printStackTrace();
         }
     }
 
+    // Método para eliminar un apartamento
     public void eliminarApartamento(int ID_apartamento) {
         String sql = "DELETE FROM Apartamento WHERE ID_apartamento = ?";
-        try (Connection conn = conexion.connect();
+        
+        try (Connection conn = this.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, ID_apartamento);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error al eliminar apartamento: " + e.getMessage());
+            System.out.println("Error al eliminar apartamento con ID: " + ID_apartamento);
+            e.printStackTrace();
         }
     }
 }

@@ -1,4 +1,3 @@
-// ProyectoController.java
 package controlador;
 
 import dao.ProyectoDAO;
@@ -8,34 +7,61 @@ import java.util.List;
 public class ProyectoController {
     private ProyectoDAO proyectoDAO;
 
+    // Constructor que inicializa el DAO de Proyecto
     public ProyectoController() {
         this.proyectoDAO = new ProyectoDAO();
     }
 
-    public void crearProyecto(String nombre, int numeroTorres) {
+    // Método para crear un proyecto
+    public void crearProyecto(String nombre, int idTorre, int numeroTorre, int numeroApartamentos) {
         Proyecto proyecto = new Proyecto();
         proyecto.setNombre(nombre);
-        proyecto.setNumeroTorres(numeroTorres);
+        proyecto.setIdTorre(idTorre);
+        proyecto.setNumeroTorre(numeroTorre);
+        proyecto.setNumeroApartamentos(numeroApartamentos);
         proyectoDAO.crearProyecto(proyecto);
         System.out.println("Proyecto creado exitosamente.");
     }
+
+    // Método para obtener todos los proyectos
     public List<Proyecto> obtenerProyectos() {
         return proyectoDAO.obtenerProyectos();
     }
 
-    public void listarProyectos() {
+    // Método para listar todos los proyectos de manera estructurada
+    public String listarProyectos() {
         List<Proyecto> proyectos = proyectoDAO.obtenerProyectos();
-        for (Proyecto proyecto : proyectos) {
-            System.out.println(proyecto);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Lista de Proyectos:\n");
+
+        if (proyectos.isEmpty()) {
+            sb.append("No hay proyectos registrados.\n");
+        } else {
+            for (Proyecto proyecto : proyectos) {
+                sb.append("ID Proyecto: ").append(proyecto.getIdProyecto())
+                  .append(", Nombre: ").append(proyecto.getNombre())
+                  .append(", ID Torre: ").append(proyecto.getIdTorre())
+                  .append(", Número de Torre: ").append(proyecto.getNumeroTorre())
+                  .append(", Número de Apartamentos: ").append(proyecto.getNumeroApartamentos())
+                  .append("\n");
+            }
         }
+        return sb.toString();
     }
 
-    public void actualizarProyecto(int idProyecto, String nombre, int numeroTorres) {
-        Proyecto proyecto = new Proyecto(idProyecto, nombre, numeroTorres);
+    // Método para actualizar un proyecto
+    public void actualizarProyecto(int idProyecto, String nombre, int idTorre, int numeroTorre, int numeroApartamentos) {
+        Proyecto proyecto = new Proyecto();
+        proyecto.setIdProyecto(idProyecto);
+        proyecto.setNombre(nombre);
+        proyecto.setIdTorre(idTorre);
+        proyecto.setNumeroTorre(numeroTorre);
+        proyecto.setNumeroApartamentos(numeroApartamentos);
         proyectoDAO.actualizarProyecto(proyecto);
         System.out.println("Proyecto actualizado exitosamente.");
     }
 
+    // Método para eliminar un proyecto
     public void eliminarProyecto(int idProyecto) {
         proyectoDAO.eliminarProyecto(idProyecto);
         System.out.println("Proyecto eliminado exitosamente.");

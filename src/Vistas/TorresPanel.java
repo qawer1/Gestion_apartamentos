@@ -76,10 +76,18 @@ public class TorresPanel extends JPanel {
         btnLeer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                List<Torre> torres = torreController.listarTorres(); 
+                List<Torre> torres = torreController.obtenerTorres();
                 txtTorres.setText("");  // Limpiar el área de texto antes de listar
-                for (Torre torre : torres) {
-                    txtTorres.append(torre + "\n");
+                if (torres.isEmpty()) {
+                    txtTorres.append("No hay torres registradas.\n");
+                } else {
+                    for (Torre torre : torres) {
+                        txtTorres.append(String.format("ID Torre: %d\n", torre.getIdTorre()));
+                        txtTorres.append(String.format("ID Proyecto: %d\n", torre.getIdProyecto()));
+                        txtTorres.append(String.format("Número Torre: %d\n", torre.getNumero_torre()));
+                        txtTorres.append(String.format("Número Apartamentos: %d\n", torre.getNumeroApartamentos()));
+                        txtTorres.append("----------------------------\n");
+                    }
                 }
             }
         });

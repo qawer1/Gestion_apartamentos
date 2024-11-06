@@ -1,7 +1,11 @@
 package Vistas;
 
 import controlador.PagoController;
+import controlador.ClienteController;
+import controlador.AsesorController;
 import modelo.Pago;
+import modelo.Cliente;
+import modelo.Asesor;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,13 +16,17 @@ public class PagosPanel extends JPanel {
     private JTextField txtIDPago;
     private JTextField txtValorPago;
     private JTextField txtFecha;
-    private JTextField txtCedulaCliente;
-    private JTextField txtCedulaAsesor;
+    private JComboBox<String> cmbClientes;
+    private JComboBox<String> cmbAsesores;
     private JTextArea txtPagos;
     private PagoController pagoController;
+    private ClienteController clienteController;
+    private AsesorController asesorController;
 
     public PagosPanel() {
         pagoController = new PagoController();
+        clienteController = new ClienteController();
+        asesorController = new AsesorController();
         setLayout(new BorderLayout(10, 10));
 
         JPanel inputPanel = new JPanel(new GridLayout(5, 2, 5, 5));
@@ -36,13 +44,16 @@ public class PagosPanel extends JPanel {
         txtFecha = new JTextField();
         inputPanel.add(txtFecha);
 
-        inputPanel.add(new JLabel("Cédula Cliente:"));
-        txtCedulaCliente = new JTextField();
-        inputPanel.add(txtCedulaCliente);
+        // Paneles para seleccionar cliente y asesor mediante JComboBox
+        inputPanel.add(new JLabel("Seleccionar Cliente:"));
+        cmbClientes = new JComboBox<>();
+        cargarClientes();
+        inputPanel.add(cmbClientes);
 
-        inputPanel.add(new JLabel("Cédula Asesor:"));
-        txtCedulaAsesor = new JTextField();
-        inputPanel.add(txtCedulaAsesor);
+        inputPanel.add(new JLabel("Seleccionar Asesor:"));
+        cmbAsesores = new JComboBox<>();
+        cargarAsesores();
+        inputPanel.add(cmbAsesores);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
@@ -70,10 +81,15 @@ public class PagosPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 double valorPago = Double.parseDouble(txtValorPago.getText());
                 String fecha = txtFecha.getText();
-                int cedulaCliente = Integer.parseInt(txtCedulaCliente.getText());
-                int cedulaAsesor = Integer.parseInt(txtCedulaAsesor.getText());
+                
+                // Obtener el cliente y asesor seleccionados
+                String clienteSeleccionado = (String) cmbClientes.getSelectedItem();
+                int cedulaCliente = Integer.parseInt(clienteSeleccionado.split(" - ")[0]); // Extraer la cédula del cliente
+                
+                String asesorSeleccionado = (String) cmbAsesores.getSelectedItem();
+                int cedulaAsesor = Integer.parseInt(asesorSeleccionado.split(" - ")[0]); // Extraer la cédula del asesor
 
-                // Generar ID_Pago manualmente (puedes ajustarlo si es necesario)
+                // Generar ID_Pago manualmente (puedes mejorarlo si es necesario)
                 int ID_Pago = (int) (Math.random() * 10000); // Generación simple de ID (puedes mejorarlo)
 
                 pagoController.crearPago(ID_Pago, valorPago, fecha, cedulaCliente, cedulaAsesor);
@@ -116,8 +132,12 @@ public class PagosPanel extends JPanel {
                 int idPago = Integer.parseInt(txtIDPago.getText());  // Obtener ID_Pago de su campo respectivo
                 double valorPago = Double.parseDouble(txtValorPago.getText());
                 String fecha = txtFecha.getText();
-                int cedulaCliente = Integer.parseInt(txtCedulaCliente.getText());
-                int cedulaAsesor = Integer.parseInt(txtCedulaAsesor.getText());
+
+                String clienteSeleccionado = (String) cmbClientes.getSelectedItem();
+                int cedulaCliente = Integer.parseInt(clienteSeleccionado.split(" - ")[0]);
+
+                String asesorSeleccionado = (String) cmbAsesores.getSelectedItem();
+                int cedulaAsesor = Integer.parseInt(asesorSeleccionado.split(" - ")[0]);
 
                 pagoController.actualizarPago(idPago, valorPago, fecha, cedulaCliente, cedulaAsesor);
                 JOptionPane.showMessageDialog(null, "Pago actualizado exitosamente");
@@ -126,12 +146,28 @@ public class PagosPanel extends JPanel {
         });
     }
 
+    // Método para cargar los clientes en el JComboBox
+    private void cargarClientes() {
+        List<Cliente> clientes = clienteController.obtenerClientes();
+        for (Cliente cliente : clientes) {
+            cmbClientes.addItem(cliente.getCedula() + " - " + cliente.getNombre()); // Formato "Cedula - Nombre"
+        }
+    }
+
+    // Método para cargar los asesores en el JComboBox
+    private void cargarAsesores() {
+        List<Asesor> asesores = asesorController.obtenerAsesores();
+        for (Asesor asesor : asesores) {
+            cmbAsesores.addItem(asesor.getCedula() + " - " + asesor.getNombre()); // Formato "Cedula - Nombre"
+        }
+    }
+
     // Método para limpiar los campos del formulario
     private void limpiarCampos() {
         txtIDPago.setText("");
         txtValorPago.setText("");
         txtFecha.setText("");
-        txtCedulaCliente.setText("");
-        txtCedulaAsesor.setText("");
+        cmbClientes.setSelectedIndex(0);  // Restablecer el JComboBox de clientes
+        cmbAsesores.setSelectedIndex(0);  // Restablecer el JComboBox de asesores
     }
 }

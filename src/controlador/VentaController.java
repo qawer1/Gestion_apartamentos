@@ -14,8 +14,9 @@ public class VentaController {
     }
 
     // Método para crear una venta
-    public void crearVenta(double precioTotal, int numeroCuotas, double intereses, int idCliente, int idApartamento) {
+    public void crearVenta(int idVenta, double precioTotal, int numeroCuotas, double intereses, int idCliente, int idApartamento) {
         Venta venta = new Venta();
+        venta.setIdVenta(idVenta); // Asigna ID de venta manualmente
         venta.setPrecioTotal(precioTotal);
         venta.setNumeroCuotas(numeroCuotas);
         venta.setIntereses(intereses);

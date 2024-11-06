@@ -12,8 +12,8 @@ public class UsuarioDAO {
         try {
             // Asegúrate de que la ruta sea la correcta para tu base de datos
             String url = "jdbc:oracle:thin:@localhost:1521:xe"; // Actualiza la URL de conexión
-            String username = "tu_usuario"; // Cambia a tu usuario de Oracle
-            String password = "tu_contraseña"; // Cambia a tu contraseña de Oracle
+            String username = "SYSTEM"; // Cambia a tu usuario de Oracle
+            String password = "Case18283022"; // Cambia a tu contraseña de Oracle
             conn = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
             System.out.println(e.getMessage());

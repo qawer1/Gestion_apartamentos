@@ -1,113 +1,95 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+package dao;
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
-  <NonVisualComponents>
-    <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
-      <SubComponents>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Proyecto"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Crear proyecto"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Editar proyecto"/>
-              </Properties>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Asesor"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Crear asesor"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Editar asesor"/>
-              </Properties>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu3">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Cliente"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Agregar Cliente"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Editar Cliente"/>
-              </Properties>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu4">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Pago"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Agregar pago"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem8">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Editar pago"/>
-              </Properties>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-      </SubComponents>
-    </Menu>
-  </NonVisualComponents>
-  <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
-  </Properties>
-  <SyntheticProperties>
-    <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
-    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
-  </SyntheticProperties>
-  <AuxValues>
-    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
-    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
-    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
-    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
-    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
-    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
-    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
-    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
-    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-  </AuxValues>
+import modelo.Torre;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-  <Layout>
-    <DimensionLayout dim="0">
-      <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="698" max="32767" attributes="0"/>
-      </Group>
-    </DimensionLayout>
-    <DimensionLayout dim="1">
-      <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="399" max="32767" attributes="0"/>
-      </Group>
-    </DimensionLayout>
-  </Layout>
-</Form>
+public class TorreDAO {
+
+    // Método de conexión
+    private Connection conectar() {
+        Connection conn = null;
+        try {
+            // Configuración de conexión para Oracle
+            String url = "jdbc:oracle:thin:@localhost:1521:xe";
+            String username = "SYSTEM";
+            String password = "Case18283022";
+            conn = DriverManager.getConnection(url, username, password);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return conn;
+    }
+
+    // Método para crear una torre
+    public void crearTorre(Torre torre) {
+        String sql = "INSERT INTO Torre (ID_PROYECTO, NUMERO_TORRE, NUMEROAPARTAMENTOS) VALUES (?, ?, ?)";
+        
+        try (Connection conn = this.conectar();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, torre.getIdProyecto());
+            pstmt.setInt(2, torre.getNumero_torre());
+            pstmt.setInt(3, torre.getNumeroApartamentos());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error al crear torre: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // Método para obtener todas las torres
+    public List<Torre> obtenerTorres() {
+        List<Torre> torres = new ArrayList<>();
+        String sql = "SELECT ID_TORRE, ID_PROYECTO, NUMERO_TORRE, NUMEROAPARTAMENTOS FROM Torre";
+
+        try (Connection conn = this.conectar();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Torre torre = new Torre();
+                torre.setIdTorre(rs.getInt("ID_TORRE"));
+                torre.setIdProyecto(rs.getInt("ID_PROYECTO"));
+                torre.setNumero_torre(rs.getInt("NUMERO_TORRE"));
+                torre.setNumeroApartamentos(rs.getInt("NUMEROAPARTAMENTOS"));
+                torres.add(torre);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener torres");
+            e.printStackTrace();
+        }
+        return torres;
+    }
+
+    // Método para actualizar una torre
+    public void actualizarTorre(Torre torre) {
+        String sql = "UPDATE Torre SET ID_PROYECTO = ?, NUMERO_TORRE = ?, NUMEROAPARTAMENTOS = ? WHERE ID_TORRE = ?";
+
+        try (Connection conn = this.conectar();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, torre.getIdProyecto());
+            pstmt.setInt(2, torre.getNumero_torre());
+            pstmt.setInt(3, torre.getNumeroApartamentos());
+            pstmt.setInt(4, torre.getIdTorre());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar torre con ID: " + torre.getIdTorre());
+            e.printStackTrace();
+        }
+    }
+
+    // Método para eliminar una torre
+    public void eliminarTorre(int idTorre) {
+        String sql = "DELETE FROM Torre WHERE ID_TORRE = ?";
+
+        try (Connection conn = this.conectar();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, idTorre);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar torre con ID: " + idTorre);
+            e.printStackTrace();
+        }
+    }
+}

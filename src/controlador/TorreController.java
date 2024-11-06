@@ -1,4 +1,3 @@
-// TorreController.java
 package controlador;
 
 import dao.TorreDAO;
@@ -16,21 +15,18 @@ public class TorreController {
     public void crearTorre(int idProyecto, int numeroTorre, int numeroApartamentos) {
         Torre torre = new Torre();
         torre.setIdProyecto(idProyecto);
-        torre.setNumero_torre(numeroTorre);
+        torre.setNumero_torre(numeroTorre); // Cambiado a camelCase
         torre.setNumeroApartamentos(numeroApartamentos);
         torreDAO.crearTorre(torre);
         System.out.println("Torre creada exitosamente.");
     }
 
-    public void listarTorres() {
-        List<Torre> torres = torreDAO.obtenerTorres();
-        for (Torre torre : torres) {
-            System.out.println(torre);
-        }
+    public List<Torre> listarTorres() {
+        return torreDAO.obtenerTorres();
     }
 
-    public void actualizarTorre(int idTorre, int idProyecto, int Numero_torre, int numeroApartamentos) {
-        Torre torre = new Torre(idTorre, idProyecto, Numero_torre, numeroApartamentos);
+    public void actualizarTorre(int idTorre, int idProyecto, int numeroTorre, int numeroApartamentos) {
+        Torre torre = new Torre(idTorre, idProyecto, numeroTorre, numeroApartamentos); // Cambiado a camelCase
         torreDAO.actualizarTorre(torre);
         System.out.println("Torre actualizada exitosamente.");
     }

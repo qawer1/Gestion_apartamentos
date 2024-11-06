@@ -1,3 +1,4 @@
+// AsesorDAO.java
 package dao;
 
 import modelo.Asesor;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AsesorDAO {
-    // Elimina la variable connection, ya que obtendrás la conexión directamente en cada método
+
     public void crearAsesor(Asesor asesor) {
         String sql = "INSERT INTO Asesor (cedula, nombre, direccion, telefono, Correo_electronico) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = conexion.connect();
@@ -22,13 +23,13 @@ public class AsesorDAO {
             statement.setString(4, asesor.getTelefono());
             statement.setString(5, asesor.getCorreo_electronico());
             statement.executeUpdate();
-            System.out.println("Asesor creado con exito.");
+            System.out.println("Asesor creado con éxito.");
         } catch (SQLException e) {
             System.out.println("Error al crear el asesor: " + e.getMessage());
         }
     }
 
-    public List<Asesor> listarAsesores() {
+    public List<Asesor> obtenerAsesores() {
         List<Asesor> asesores = new ArrayList<>();
         String sql = "SELECT * FROM Asesor";
         try (Connection connection = conexion.connect();
@@ -45,7 +46,7 @@ public class AsesorDAO {
                 asesores.add(asesor);
             }
         } catch (SQLException e) {
-            System.out.println("Error al listar asesores: " + e.getMessage());
+            System.out.println("Error al obtener asesores: " + e.getMessage());
         }
         return asesores;
     }
@@ -63,7 +64,7 @@ public class AsesorDAO {
             if (rowsUpdated > 0) {
                 System.out.println("Asesor actualizado con éxito.");
             } else {
-                System.out.println("No se encontro un asesor con la cedula proporcionada.");
+                System.out.println("No se encontró un asesor con la cédula proporcionada.");
             }
         } catch (SQLException e) {
             System.out.println("Error al actualizar el asesor: " + e.getMessage());
@@ -79,7 +80,7 @@ public class AsesorDAO {
             if (rowsDeleted > 0) {
                 System.out.println("Asesor eliminado con éxito.");
             } else {
-                System.out.println("No se encontro un asesor con la cedula proporcionada.");
+                System.out.println("No se encontró un asesor con la cédula proporcionada.");
             }
         } catch (SQLException e) {
             System.out.println("Error al eliminar el asesor: " + e.getMessage());

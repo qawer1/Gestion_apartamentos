@@ -1,8 +1,6 @@
 package Vistas;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MainFrame extends JFrame {
     public MainFrame() {
@@ -52,7 +50,7 @@ public class MainFrame extends JFrame {
         // Asignar la barra de menú a la ventana
         setJMenuBar(menuBar);
 
-        // Panel central donde se mostrarán las opciones CRUD o la pantalla de bienvenida
+       
         JPanel mainPanel = new JPanel(new CardLayout());
 
         // Panel de bienvenida
@@ -64,13 +62,25 @@ public class MainFrame extends JFrame {
 
         // Agregar el panel de bienvenida y otros paneles CRUD individuales
         mainPanel.add(welcomePanel, "Bienvenida");
+        mainPanel.add(new ProyectoPanel(), "Proyectos");
         mainPanel.add(new ApartamentoPanel(), "Apartamentos");
-        mainPanel.add(new JLabel("Gestión de Proyectos - CRUD aquí"), "Proyectos");
-        mainPanel.add(new JLabel("Gestión de Torres - CRUD aquí"), "Torres");
-        mainPanel.add(new JLabel("Gestión de Asesores - CRUD aquí"), "Asesores");
-        mainPanel.add(new JLabel("Gestión de Clientes - CRUD aquí"), "Clientes");
-        mainPanel.add(new JLabel("Gestión de Pagos - CRUD aquí"), "Pagos");
-        mainPanel.add(new JLabel("Gestión de Ventas - CRUD aquí"), "Ventas");
+        mainPanel.add(new TorresPanel(), "Torres");
+        mainPanel.add(new AsesoresPanel(),"Asesores");
+
+        // Crear paneles en blanco para las secciones que aún no tienes implementadas
+        
+
+        JPanel clientesPanel = new JPanel();
+        clientesPanel.add(new JLabel("Panel de Clientes"));
+        mainPanel.add(clientesPanel, "Clientes");
+
+        JPanel pagosPanel = new JPanel();
+        pagosPanel.add(new JLabel("Panel de Pagos"));
+        mainPanel.add(pagosPanel, "Pagos");
+
+        JPanel ventasPanel = new JPanel();
+        ventasPanel.add(new JLabel("Panel de Ventas"));
+        mainPanel.add(ventasPanel, "Ventas");
 
         // Mostrar el panel de bienvenida al iniciar la aplicación
         showPanel(mainPanel, "Bienvenida");
@@ -99,14 +109,5 @@ public class MainFrame extends JFrame {
             MainFrame frame = new MainFrame();
             frame.setVisible(true);
         });
-    }
-}
-
-// Panel de ejemplo para la gestión de Apartamentos (puedes modificar este panel)
-class ApartamentoPanel extends JPanel {
-    public ApartamentoPanel() {
-        setLayout(new BorderLayout());
-        JLabel label = new JLabel("Gestión de Apartamentos - CRUD aquí", SwingConstants.CENTER);
-        add(label, BorderLayout.CENTER);
     }
 }

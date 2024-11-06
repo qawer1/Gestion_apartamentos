@@ -1,7 +1,6 @@
-// TorreDAO.java
 package dao;
 
-import conexion.conexion;
+import conexion.conexion; // Asegúrate de que esta conexión esté bien configurada
 import modelo.Torre;
 
 import java.sql.Connection;
@@ -15,10 +14,10 @@ public class TorreDAO {
 
     public void crearTorre(Torre torre) {
         String sql = "INSERT INTO Torre (ID_proyecto, Numero_torre, numeroApartamentos) VALUES (?, ?, ?)";
-        try (Connection conn = conexion.connect();
+        try (Connection conn = conexion.connect(); // Asegúrate de que el método connect() sea correcto
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, torre.getIdProyecto());
-            pstmt.setInt(2, torre.getNumero_torre());
+            pstmt.setInt(2, torre.getNumero_torre()); // Cambiado a camelCase
             pstmt.setInt(3, torre.getNumeroApartamentos());
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -27,16 +26,16 @@ public class TorreDAO {
     }
 
     public List<Torre> obtenerTorres() {
-        String sql = "SELECT * FROM Torre";
+        String sql = "SELECT * FROM Torre"; // Asegúrate de que la tabla y los nombres de las columnas sean correctos
         List<Torre> torres = new ArrayList<>();
-        try (Connection conn = conexion.connect();
+        try (Connection conn = conexion.connect(); // Asegúrate de que el método connect() sea correcto
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
                 Torre torre = new Torre();
                 torre.setIdTorre(rs.getInt("ID_torre"));
                 torre.setIdProyecto(rs.getInt("ID_proyecto"));
-                torre.setNumero_torre(rs.getInt("Numero_torre"));
+                torre.setNumero_torre(rs.getInt("Numero_torre")); // Cambiado a camelCase
                 torre.setNumeroApartamentos(rs.getInt("numeroApartamentos"));
                 torres.add(torre);
             }
@@ -51,7 +50,7 @@ public class TorreDAO {
         try (Connection conn = conexion.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, torre.getIdProyecto());
-            pstmt.setInt(2, torre.getNumero_torre());
+            pstmt.setInt(2, torre.getNumero_torre()); // Cambiado a camelCase
             pstmt.setInt(3, torre.getNumeroApartamentos());
             pstmt.setInt(4, torre.getIdTorre());
             pstmt.executeUpdate();

@@ -1,98 +1,170 @@
+// ApartamentoPanel.java
 package Vistas;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import controlador.ApartamentoController;
+import modelo.Apartamento;
+import java.util.List;
 
 public class ApartamentoPanel extends JPanel {
-    private JTextField txtNumero, txtValor, txtTipo, txtArea, txtMatricula;
-    private JButton btnCrear, btnLeer, btnActualizar, btnEliminar;
+    private JTextField txtID;
+    private JTextField txtIDTorre;
+    private JTextField txtNumeroApartamento;
+    private JTextField txtValorApartamento;
+    private JTextField txtTipoUnidad;
+    private JTextField txtArea;
+    private JTextField txtMatricula;
+    private JTextField txtIdVendedor;
+    private JTextField txtFechaEscritura;
+    private JTextArea txtApartamentos;
+    private ApartamentoController apartamentoController;
 
     public ApartamentoPanel() {
-        setLayout(new GridLayout(7, 2, 5, 5));  // Layout en una cuadrícula
+        apartamentoController = new ApartamentoController();
+        setLayout(new BorderLayout(10, 10));
 
-        // Crear los campos y etiquetas
-        add(new JLabel("Número de Apartamento:"));
-        txtNumero = new JTextField();
-        add(txtNumero);
+        JPanel inputPanel = new JPanel(new GridLayout(9, 2, 5, 5));
+        
+        inputPanel.add(new JLabel("ID del Apartamento:"));
+        txtID = new JTextField();
+        inputPanel.add(txtID);
 
-        add(new JLabel("Valor del Apartamento:"));
-        txtValor = new JTextField();
-        add(txtValor);
+        inputPanel.add(new JLabel("ID Torre:"));
+        txtIDTorre = new JTextField();
+        inputPanel.add(txtIDTorre);
 
-        add(new JLabel("Tipo de Unidad:"));
-        txtTipo = new JTextField();
-        add(txtTipo);
+        inputPanel.add(new JLabel("Número del Apartamento:"));
+        txtNumeroApartamento = new JTextField();
+        inputPanel.add(txtNumeroApartamento);
 
-        add(new JLabel("Área:"));
+        inputPanel.add(new JLabel("Valor del Apartamento:"));
+        txtValorApartamento = new JTextField();
+        inputPanel.add(txtValorApartamento);
+
+        inputPanel.add(new JLabel("Tipo de Unidad:"));
+        txtTipoUnidad = new JTextField();
+        inputPanel.add(txtTipoUnidad);
+
+        inputPanel.add(new JLabel("Área:"));
         txtArea = new JTextField();
-        add(txtArea);
+        inputPanel.add(txtArea);
 
-        add(new JLabel("Matrícula:"));
+        inputPanel.add(new JLabel("Matrícula:"));
         txtMatricula = new JTextField();
-        add(txtMatricula);
+        inputPanel.add(txtMatricula);
 
-        // Crear los botones para el CRUD
-        btnCrear = new JButton("Crear");
-        btnLeer = new JButton("Leer");
-        btnActualizar = new JButton("Actualizar");
-        btnEliminar = new JButton("Eliminar");
+        inputPanel.add(new JLabel("ID Vendedor:"));
+        txtIdVendedor = new JTextField();
+        inputPanel.add(txtIdVendedor);
 
-        add(btnCrear);
-        add(btnLeer);
-        add(btnActualizar);
-        add(btnEliminar);
+        inputPanel.add(new JLabel("Fecha de Escritura:"));
+        txtFechaEscritura = new JTextField();
+        inputPanel.add(txtFechaEscritura);
 
-        // Agregar los listeners a los botones
+        // Panel de botones
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+
+        JButton btnCrear = new JButton("Crear Apartamento");
+        JButton btnLeer = new JButton("Leer Apartamentos");
+        JButton btnEliminar = new JButton("Eliminar Apartamento");
+        JButton btnEditar = new JButton("Editar Apartamento");
+
+        buttonPanel.add(btnCrear);
+        buttonPanel.add(btnLeer);
+        buttonPanel.add(btnEliminar);
+        buttonPanel.add(btnEditar);
+
+        add(inputPanel, BorderLayout.NORTH);
+        add(buttonPanel, BorderLayout.CENTER);
+
+        txtApartamentos = new JTextArea(10, 30);
+        txtApartamentos.setEditable(false);
+        add(new JScrollPane(txtApartamentos), BorderLayout.SOUTH);
+
+        // Acción para crear apartamento
         btnCrear.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                crearApartamento();
+                int idTorre = Integer.parseInt(txtIDTorre.getText());
+                int numero = Integer.parseInt(txtNumeroApartamento.getText());
+                double valor = Double.parseDouble(txtValorApartamento.getText());
+                String tipoUnidad = txtTipoUnidad.getText();
+                double area = Double.parseDouble(txtArea.getText());
+                String matricula = txtMatricula.getText();
+                String idVendedor = txtIdVendedor.getText();
+                String fechaEscritura = txtFechaEscritura.getText();
+
+                apartamentoController.crearApartamento(idTorre, numero, valor, tipoUnidad, area, matricula, idVendedor, fechaEscritura);
+                JOptionPane.showMessageDialog(null, "Apartamento creado exitosamente");
+                limpiarCampos();
             }
         });
 
+        // Acción para leer apartamentos
         btnLeer.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                leerApartamento();
+                List<Apartamento> apartamentos = apartamentoController.obtenerApartamentos();
+                txtApartamentos.setText(""); // Limpiar antes de listar
+                for (Apartamento apartamento : apartamentos) {
+                    txtApartamentos.append("ID: " + apartamento.getID_apartamento() + 
+                                            ", Torre ID: " + apartamento.getID_torre() + 
+                                            ", Número: " + apartamento.getNumero_apartamento() +
+                                            ", Valor: " + apartamento.getValorApartamento() +
+                                            ", Tipo: " + apartamento.getTipoUnidad() +
+                                            ", Área: " + apartamento.getArea() +
+                                            ", Matrícula: " + apartamento.getMatricula() +
+                                            ", ID Vendedor: " + apartamento.getId_vendedor() +
+                                            ", Fecha Escritura: " + apartamento.getFechaEscritura() + "\n");
+                }
             }
         });
 
-        btnActualizar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                actualizarApartamento();
-            }
-        });
-
+        // Acción para eliminar apartamento
         btnEliminar.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                eliminarApartamento();
+                int idApartamento = Integer.parseInt(txtID.getText());
+                apartamentoController.eliminarApartamento(idApartamento);
+                JOptionPane.showMessageDialog(null, "Apartamento eliminado exitosamente");
+                limpiarCampos();
+            }
+        });
+
+        // Acción para editar apartamento
+        btnEditar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int idApartamento = Integer.parseInt(txtID.getText());
+                int idTorre = Integer.parseInt(txtIDTorre.getText());
+                int numero = Integer.parseInt(txtNumeroApartamento.getText());
+                double valor = Double.parseDouble(txtValorApartamento.getText());
+                String tipoUnidad = txtTipoUnidad.getText();
+                double area = Double.parseDouble(txtArea.getText());
+                String matricula = txtMatricula.getText();
+                String idVendedor = txtIdVendedor.getText();
+                String fechaEscritura = txtFechaEscritura.getText();
+
+                apartamentoController.actualizarApartamento(idApartamento, idTorre, numero, valor, tipoUnidad, area, matricula, idVendedor, fechaEscritura);
+                JOptionPane.showMessageDialog(null, "Apartamento actualizado exitosamente");
+                limpiarCampos();
             }
         });
     }
 
-    // Métodos CRUD simulados (con lógica real en la base de datos)
-    private void crearApartamento() {
-        String numero = txtNumero.getText();
-        String valor = txtValor.getText();
-        String tipo = txtTipo.getText();
-        String area = txtArea.getText();
-        String matricula = txtMatricula.getText();
-
-        // Aquí colocarías la lógica para insertar en la base de datos
-        JOptionPane.showMessageDialog(this, "Apartamento creado: " + numero);
-    }
-
-    private void leerApartamento() {
-        // Aquí colocarías la lógica para leer un apartamento específico de la base de datos
-        JOptionPane.showMessageDialog(this, "Leer apartamento (por número)");
-    }
-
-    private void actualizarApartamento() {
-        // Aquí colocarías la lógica para actualizar el apartamento en la base de datos
-        JOptionPane.showMessageDialog(this, "Apartamento actualizado.");
-    }
-
-    private void eliminarApartamento() {
-        // Aquí colocarías la lógica para eliminar el apartamento de la base de datos
-        JOptionPane.showMessageDialog(this, "Apartamento eliminado.");
+    private void limpiarCampos() {
+        txtID.setText("");
+        txtIDTorre.setText("");
+        txtNumeroApartamento.setText("");
+        txtValorApartamento.setText("");
+        txtTipoUnidad.setText("");
+        txtArea.setText("");
+        txtMatricula.setText("");
+        txtIdVendedor.setText("");
+        txtFechaEscritura.setText("");
     }
 }

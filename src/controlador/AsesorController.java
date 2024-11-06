@@ -1,42 +1,58 @@
+// AsesorController.java
 package controlador;
 
 import dao.AsesorDAO;
 import modelo.Asesor;
+
 import java.util.List;
 
 public class AsesorController {
-    private AsesorDAO asesorDAO; // Cambié el nombre de la variable a asesorDAO
+    private AsesorDAO asesorDAO;
 
     public AsesorController() {
-        this.asesorDAO = new AsesorDAO(); // Instanciar AsesorDAO
+        asesorDAO = new AsesorDAO();
     }
 
-    public void crearAsesor(int cedula, String nombre, String direccion, String telefono, String Correo_electronico) {
-        Asesor asesor = new Asesor(); // Crear un objeto Asesor
+    public void crearAsesor(int cedula, String nombre, String direccion, String telefono, String correoElectronico) {
+        Asesor asesor = new Asesor();
         asesor.setCedula(cedula);
         asesor.setNombre(nombre);
         asesor.setDireccion(direccion);
         asesor.setTelefono(telefono);
-        asesor.setCorreo_electronico(Correo_electronico);
-        asesorDAO.crearAsesor(asesor); // Llamar al método para crear asesor
-        System.out.println("Asesor creado exitosamente.");
+        asesor.setCorreo_electronico(correoElectronico);
+        asesorDAO.crearAsesor(asesor);
     }
 
-    public void listarAsesores() {
-        List<Asesor> asesores = asesorDAO.listarAsesores(); // Obtener la lista de asesores
+    public List<Asesor> obtenerAsesores() {
+        return asesorDAO.obtenerAsesores();
+    }
+
+    public void actualizarAsesor(int cedula, String nombre, String direccion, String telefono, String correoElectronico) {
+        Asesor asesor = new Asesor();
+        asesor.setCedula(cedula);
+        asesor.setNombre(nombre);
+        asesor.setDireccion(direccion);
+        asesor.setTelefono(telefono);
+        asesor.setCorreo_electronico(correoElectronico);
+        asesorDAO.actualizarAsesor(asesor);
+    }
+
+    public String listarAsesores() {
+        List<Asesor> asesores = obtenerAsesores(); // Llama a obtenerAsesores()
+        StringBuilder sb = new StringBuilder();
+        sb.append("Lista de Asesores:\n");
         for (Asesor asesor : asesores) {
-            System.out.println(asesor); // Imprimir cada asesor
+            sb.append("Cédula: ").append(asesor.getCedula())
+              .append(", Nombre: ").append(asesor.getNombre())
+              .append(", Dirección: ").append(asesor.getDireccion())
+              .append(", Teléfono: ").append(asesor.getTelefono())
+              .append(", Correo Electrónico: ").append(asesor.getCorreo_electronico())
+              .append("\n");
         }
-    }
-
-    public void actualizarAsesor(int cedula, String nombre, String direccion, String telefono, String Correo_electronico) {
-        Asesor asesor = new Asesor(cedula, nombre, direccion, telefono, Correo_electronico); // Crear un objeto Asesor
-        asesorDAO.actualizarAsesor(asesor); // Llamar al método para actualizar asesor
-        System.out.println("Asesor actualizado exitosamente.");
+        return sb.toString();
     }
 
     public void eliminarAsesor(int cedula) {
-        asesorDAO.eliminarAsesor(cedula); // Llamar al método para eliminar asesor
-        System.out.println("Asesor eliminado exitosamente.");
+        asesorDAO.eliminarAsesor(cedula);
     }
 }

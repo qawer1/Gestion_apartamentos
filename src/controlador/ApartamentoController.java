@@ -10,19 +10,18 @@ public class ApartamentoController {
     private ApartamentoDAO apartamentoDAO;
 
     public ApartamentoController() {
-        this.apartamentoDAO = new ApartamentoDAO();
+        apartamentoDAO = new ApartamentoDAO();
     }
 
-    public void crearApartamento(int ID_torre, int Numero_apartamento, double valorApartamento, String tipoUnidad,
-                                 double area, String matricula, String Id_vendedor, String fechaEscritura) {
+    public void crearApartamento(int id_torre, int numero_apartamento, double valorApartamento, String tipoUnidad, double area, String matricula, String id_vendedor, String fechaEscritura) {
         Apartamento apartamento = new Apartamento();
-        apartamento.setID_torre(ID_torre);
-        apartamento.setNumero_apartamento(Numero_apartamento);
+        apartamento.setID_torre(id_torre);
+        apartamento.setNumero_apartamento(numero_apartamento);
         apartamento.setValorApartamento(valorApartamento);
         apartamento.setTipoUnidad(tipoUnidad);
         apartamento.setArea(area);
         apartamento.setMatricula(matricula);
-        apartamento.setId_vendedor(Id_vendedor);
+        apartamento.setId_vendedor(id_vendedor);
         apartamento.setFechaEscritura(fechaEscritura);
         apartamentoDAO.crearApartamento(apartamento);
     }
@@ -31,43 +30,40 @@ public class ApartamentoController {
         return apartamentoDAO.obtenerApartamentos();
     }
 
-    public void listarApartamentos() {
-        List<Apartamento> apartamentos = obtenerApartamentos();
-        if (apartamentos.isEmpty()) {
-            System.out.println("No hay apartamentos registrados.");
-        } else {
-            System.out.println("Lista de Apartamentos:");
-            for (Apartamento apartamento : apartamentos) {
-                System.out.println("ID Apartamento: " + apartamento.getID_apartamento());
-                System.out.println("ID Torre: " + apartamento.getID_torre());
-                System.out.println("Número Apartamento: " + apartamento.getNumero_apartamento());
-                System.out.println("Valor Apartamento: " + apartamento.getValorApartamento());
-                System.out.println("Tipo de Unidad: " + apartamento.getTipoUnidad());
-                System.out.println("Área: " + apartamento.getArea());
-                System.out.println("Matrícula: " + apartamento.getMatricula());
-                System.out.println("Id_vendedor: " + apartamento.getId_vendedor());
-                System.out.println("Fecha de Escritura: " + apartamento.getFechaEscritura());
-                System.out.println("------------------------");
-            }
-        }
-    }
-
-    public void actualizarApartamento(int ID_apartamento, int ID_torre, int Numero_apartamento, double valorApartamento,
-                                      String tipoUnidad, double area, String matricula, String Id_vendedor, String fechaEscritura) {
+    public void actualizarApartamento(int id_apartamento, int id_torre, int numero_apartamento, double valorApartamento, String tipoUnidad, double area, String matricula, String id_vendedor, String fechaEscritura) {
         Apartamento apartamento = new Apartamento();
-        apartamento.setID_apartamento(ID_apartamento);
-        apartamento.setID_torre(ID_torre);
-        apartamento.setNumero_apartamento(Numero_apartamento);
+        apartamento.setID_apartamento(id_apartamento);
+        apartamento.setID_torre(id_torre);
+        apartamento.setNumero_apartamento(numero_apartamento);
         apartamento.setValorApartamento(valorApartamento);
         apartamento.setTipoUnidad(tipoUnidad);
         apartamento.setArea(area);
         apartamento.setMatricula(matricula);
-        apartamento.setId_vendedor(Id_vendedor);
+        apartamento.setId_vendedor(id_vendedor);
         apartamento.setFechaEscritura(fechaEscritura);
         apartamentoDAO.actualizarApartamento(apartamento);
     }
+    
+    public String listarApartamentos() {
+        List<Apartamento> apartamentos = apartamentoDAO.obtenerApartamentos();
+        StringBuilder sb = new StringBuilder();
+        sb.append("Lista de Apartamentos:\n");
+        for (Apartamento apartamento : apartamentos) {
+            sb.append("ID Apartamento: ").append(apartamento.getID_apartamento())
+              .append(", Torre: ").append(apartamento.getID_torre())
+              .append(", Número: ").append(apartamento.getNumero_apartamento())
+              .append(", Valor: ").append(apartamento.getValorApartamento())
+              .append(", Tipo: ").append(apartamento.getTipoUnidad())
+              .append(", Área: ").append(apartamento.getArea())
+              .append(", Matrícula: ").append(apartamento.getMatricula())
+              .append(", Vendedor: ").append(apartamento.getId_vendedor())
+              .append(", Fecha de Escritura: ").append(apartamento.getFechaEscritura())
+              .append("\n");
+        }
+        return sb.toString();
+    }
 
-    public void eliminarApartamento(int ID_apartamento) {
-        apartamentoDAO.eliminarApartamento(ID_apartamento);
+    public void eliminarApartamento(int id_apartamento) {
+        apartamentoDAO.eliminarApartamento(id_apartamento);
     }
 }

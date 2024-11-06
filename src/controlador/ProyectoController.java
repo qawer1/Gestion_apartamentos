@@ -19,6 +19,9 @@ public class ProyectoController {
         proyectoDAO.crearProyecto(proyecto);
         System.out.println("Proyecto creado exitosamente.");
     }
+    public List<Proyecto> obtenerProyectos() {
+        return proyectoDAO.obtenerProyectos();
+    }
 
     public void listarProyectos() {
         List<Proyecto> proyectos = proyectoDAO.obtenerProyectos();

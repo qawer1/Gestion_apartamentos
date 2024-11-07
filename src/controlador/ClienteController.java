@@ -52,4 +52,9 @@ public class ClienteController {
         System.out.println("Cliente actualizado exitosamente.");
     }
 
-   
+    // Método para eliminar un cliente
+    public void eliminarCliente(int cedula) {
+        clienteDAO.eliminarCliente(cedula);
+        System.out.println("Cliente eliminado exitosamente.");
+    }
+}

@@ -20,6 +20,7 @@ public class MainFrame extends JFrame {
         JMenu menuClientes = new JMenu("Clientes");
         JMenu menuPagos = new JMenu("Pagos");
         JMenu menuVentas = new JMenu("Ventas");
+        JMenu menuUsuarios = new JMenu("Usuarios"); // Nuevo menú Usuarios
 
         // Crear los elementos de menú para cada sección
         JMenuItem itemProyectos = new JMenuItem("Gestionar Proyectos");
@@ -29,6 +30,7 @@ public class MainFrame extends JFrame {
         JMenuItem itemClientes = new JMenuItem("Gestionar Clientes");
         JMenuItem itemPagos = new JMenuItem("Gestionar Pagos");
         JMenuItem itemVentas = new JMenuItem("Gestionar Ventas");
+        JMenuItem itemUsuarios = new JMenuItem("Gestionar Usuarios"); // Nuevo item para Usuarios
 
         // Agregar los elementos de menú a cada menú correspondiente
         menuProyectos.add(itemProyectos);
@@ -38,6 +40,7 @@ public class MainFrame extends JFrame {
         menuClientes.add(itemClientes);
         menuPagos.add(itemPagos);
         menuVentas.add(itemVentas);
+        menuUsuarios.add(itemUsuarios); // Agregar itemUsuarios al menú Usuarios
 
         // Agregar los menús a la barra de menú
         menuBar.add(menuProyectos);
@@ -47,6 +50,7 @@ public class MainFrame extends JFrame {
         menuBar.add(menuClientes);
         menuBar.add(menuPagos);
         menuBar.add(menuVentas);
+        menuBar.add(menuUsuarios); // Agregar menú Usuarios
 
         // Asignar la barra de menú a la ventana
         setJMenuBar(menuBar);
@@ -70,6 +74,7 @@ public class MainFrame extends JFrame {
         mainPanel.add(new ClientesPanel(), "Clientes");
         mainPanel.add(new PagosPanel(), "Pagos");
         mainPanel.add(new VentasPanel(), "Ventas");  
+        mainPanel.add(new UsuarioPanel(), "Usuarios"); // Agregar el panel de Usuarios
 
         // Mostrar el panel de bienvenida al iniciar la aplicación
         showPanel(mainPanel, "Bienvenida");
@@ -81,7 +86,8 @@ public class MainFrame extends JFrame {
         itemAsesores.addActionListener(e -> showPanel(mainPanel, "Asesores"));
         itemClientes.addActionListener(e -> showPanel(mainPanel, "Clientes"));
         itemPagos.addActionListener(e -> showPanel(mainPanel, "Pagos"));
-        itemVentas.addActionListener(e -> showPanel(mainPanel, "Ventas"));  // Añadir acción para Ventas
+        itemVentas.addActionListener(e -> showPanel(mainPanel, "Ventas"));
+        itemUsuarios.addActionListener(e -> showPanel(mainPanel, "Usuarios")); // Acción para mostrar Usuarios
 
         // Agregar el panel principal al frame
         add(mainPanel);

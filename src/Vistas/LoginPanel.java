@@ -74,7 +74,8 @@ public class LoginPanel extends JFrame {
                 if (usuarioController.validarUsuario(username, password)) {
                     JOptionPane.showMessageDialog(null, "Bienvenido " + username);
                     dispose();  // Cierra la ventana de login.
-                    new MainFrame();  // Abre la MainFrame si las credenciales son correctas.
+                    MainFrame mainFrame = new MainFrame();  // Crear la instancia del MainFrame.
+                    mainFrame.setVisible(true);  // Hacer visible el MainFrame.
                 } else {
                     lblMessage.setText("Credenciales incorrectas. Intente de nuevo.");
                 }
@@ -85,7 +86,7 @@ public class LoginPanel extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             LoginPanel login = new LoginPanel();
-            login.setVisible(true);
+            login.setVisible(true);  // Hacer visible la ventana de Login.
         });
     }
 }

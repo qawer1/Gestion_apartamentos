@@ -24,12 +24,13 @@ public class ProyectoDAO {
 
     // Método para crear un proyecto
     public void crearProyecto(Proyecto proyecto) {
-        String sql = "INSERT INTO Proyecto (nombre, numeroTorres) VALUES (?, ?)"; // Solo necesitamos el nombre y número de torres
+        String sql = "INSERT INTO Proyecto (ID_PROYECTO, nombre, numeroTorres) VALUES (?, ?, ?)"; // Agregado el campo ID_PROYECTO
         
         try (Connection conn = this.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, proyecto.getNombre());
-            pstmt.setInt(2, proyecto.getNumeroTorres());
+            pstmt.setInt(1, proyecto.getIdProyecto()); // Ahora también insertamos el ID del proyecto
+            pstmt.setString(2, proyecto.getNombre());
+            pstmt.setInt(3, proyecto.getNumeroTorres());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al crear proyecto: " + e.getMessage());

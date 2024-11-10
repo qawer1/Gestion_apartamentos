@@ -53,4 +53,9 @@ public class UsuarioController {
     public void eliminarUsuario(int id) {
         usuarioDAO.eliminarUsuario(id);
     }
+
+    // Método para validar un usuario
+    public boolean validarUsuario(String nombre, String contrasena) {
+        return usuarioDAO.validarUsuario(nombre, contrasena);
+    }
 }

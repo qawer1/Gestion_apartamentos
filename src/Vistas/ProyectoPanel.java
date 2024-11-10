@@ -6,20 +6,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import controlador.ProyectoController;
 import modelo.Proyecto;
+import java.util.List;
 
 public class ProyectoPanel extends JPanel {
     private JTextField txtIdProyecto;      // Campo para ingresar el ID del proyecto
     private JTextField txtNombre;          // Campo para ingresar el nombre del proyecto
     private JTextField txtNumeroTorre;     // Campo para ingresar el número de la torre
-   private JTextArea txtProyectos;        // Área para mostrar proyectos
+    private JTextArea txtProyectos;        // Área para mostrar proyectos
     private ProyectoController proyectoController;
 
     public ProyectoPanel() {
         proyectoController = new ProyectoController();
         setLayout(new BorderLayout(10, 10));
 
-        // Panel de entrada de datos
-        JPanel inputPanel = new JPanel(new GridLayout(6, 2, 5, 5)); // Ahora con 6 campos: ID, Nombre, IdTorre, NumeroTorre, NumeroApartamentos
+        JPanel inputPanel = new JPanel(new GridLayout(4, 2, 5, 5));
+        
         inputPanel.add(new JLabel("ID del Proyecto:"));
         txtIdProyecto = new JTextField();
         inputPanel.add(txtIdProyecto);
@@ -28,67 +29,64 @@ public class ProyectoPanel extends JPanel {
         txtNombre = new JTextField();
         inputPanel.add(txtNombre);
 
-
         inputPanel.add(new JLabel("Número de Torre:"));
         txtNumeroTorre = new JTextField();
         inputPanel.add(txtNumeroTorre);
 
-
-
         // Panel de botones
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS)); // Disposición vertical
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+
         JButton btnCrear = new JButton("Crear Proyecto");
         JButton btnLeer = new JButton("Leer Proyectos");
         JButton btnEliminar = new JButton("Eliminar Proyecto");
         JButton btnEditar = new JButton("Editar Proyecto");
 
-        // Añadir botones al panel
         buttonPanel.add(btnCrear);
         buttonPanel.add(btnLeer);
         buttonPanel.add(btnEliminar);
         buttonPanel.add(btnEditar);
 
-        // Añadir paneles al layout principal
         add(inputPanel, BorderLayout.NORTH);
-        add(buttonPanel, BorderLayout.CENTER); // Añadir el panel de botones al centro
+        add(buttonPanel, BorderLayout.CENTER);
 
-        // Área de texto para mostrar los proyectos
         txtProyectos = new JTextArea(10, 30);
         txtProyectos.setEditable(false);
-        add(new JScrollPane(txtProyectos), BorderLayout.SOUTH); // Cambiar a la parte inferior
+        add(new JScrollPane(txtProyectos), BorderLayout.SOUTH);
 
-        // ActionListener para el botón "Crear Proyecto"
+        // Acción para crear proyecto
         btnCrear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    int idProyecto = Integer.parseInt(txtIdProyecto.getText()); // Leer el ID del Proyecto
                     String nombre = txtNombre.getText();
                     int numeroTorre = Integer.parseInt(txtNumeroTorre.getText());
-                    
 
-                    // Crear un Proyecto con todos los datos
-                    proyectoController.crearProyecto(nombre, numeroTorre);
+                    proyectoController.crearProyecto(idProyecto, nombre, numeroTorre);
                     JOptionPane.showMessageDialog(null, "Proyecto creado exitosamente");
                     limpiarCampos();
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Por favor ingrese valores válidos en todos los campos.");
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Error al crear el proyecto: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese valores válidos.");
                 }
             }
         });
 
-        // ActionListener para el botón "Leer Proyectos"
+        // Acción para leer proyectos
         btnLeer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String proyectos = proyectoController.listarProyectos();
-                txtProyectos.setText(proyectos);  // Mostrar la lista de proyectos en el área de texto
+                List<Proyecto> proyectos = proyectoController.obtenerProyectos();
+                txtProyectos.setText(""); // Limpiar antes de listar
+                for (Proyecto proyecto : proyectos) {
+                    txtProyectos.append("ID Proyecto: " + proyecto.getIdProyecto() + 
+                                         ", Nombre: " + proyecto.getNombre() + 
+                                         ", Torres: " + proyecto.getNumeroTorres() + "\n");
+                }
             }
         });
 
-        // ActionListener para el botón "Eliminar Proyecto"
+        // Acción para eliminar proyecto
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -98,12 +96,12 @@ public class ProyectoPanel extends JPanel {
                     JOptionPane.showMessageDialog(null, "Proyecto eliminado exitosamente");
                     limpiarCampos();
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Por favor ingrese un ID de proyecto válido.");
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese un ID válido.");
                 }
             }
         });
 
-        // ActionListener para el botón "Editar Proyecto"
+        // Acción para editar proyecto
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,22 +110,19 @@ public class ProyectoPanel extends JPanel {
                     String nombre = txtNombre.getText();
                     int numeroTorre = Integer.parseInt(txtNumeroTorre.getText());
 
-                    // Actualizar el proyecto con todos los datos
-                    proyectoController.actualizarProyecto(idProyecto, nombre,  numeroTorre);
+                    proyectoController.actualizarProyecto(idProyecto, nombre, numeroTorre);
                     JOptionPane.showMessageDialog(null, "Proyecto actualizado exitosamente");
                     limpiarCampos();
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Por favor ingrese valores válidos en todos los campos.");
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese valores válidos.");
                 }
             }
         });
     }
 
-    // Método para limpiar los campos después de realizar una acción
     private void limpiarCampos() {
-        txtIdProyecto.setText("");          // Limpiar el campo de ID de proyecto
-        txtNombre.setText("");              // Limpiar el campo de nombre
-        txtNumeroTorre.setText("");         // Limpiar el campo de número de torre
-        
+        txtIdProyecto.setText("");
+        txtNombre.setText("");
+        txtNumeroTorre.setText("");
     }
 }

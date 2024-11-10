@@ -12,9 +12,10 @@ public class ProyectoController {
         this.proyectoDAO = new ProyectoDAO();
     }
 
-    // Método para crear un proyecto
-    public void crearProyecto(String nombre, int numeroTorres) {
+    // Método para crear un proyecto (ahora solicita el idProyecto)
+    public void crearProyecto(int idProyecto, String nombre, int numeroTorres) {
         Proyecto proyecto = new Proyecto();
+        proyecto.setIdProyecto(idProyecto);  // Ahora se incluye el id del proyecto
         proyecto.setNombre(nombre);
         proyecto.setNumeroTorres(numeroTorres);
         proyectoDAO.crearProyecto(proyecto);
@@ -42,6 +43,9 @@ public class ProyectoController {
                   .append("\n");
             }
         }
+
+        System.out.println(sb.toString());  // Depuración para verificar los proyectos en la consola
+        
         return sb.toString();
     }
 

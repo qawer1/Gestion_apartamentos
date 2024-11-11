@@ -21,6 +21,7 @@ public class MainFrame extends JFrame {
         JMenu menuPagos = new JMenu("Pagos");
         JMenu menuVentas = new JMenu("Ventas");
         JMenu menuUsuarios = new JMenu("Usuarios"); // Nuevo menú Usuarios
+        JMenu menuCuenta = new JMenu("Cuenta"); // Nuevo menú para la cuenta
 
         // Crear los elementos de menú para cada sección
         JMenuItem itemProyectos = new JMenuItem("Gestionar Proyectos");
@@ -31,6 +32,7 @@ public class MainFrame extends JFrame {
         JMenuItem itemPagos = new JMenuItem("Gestionar Pagos");
         JMenuItem itemVentas = new JMenuItem("Gestionar Ventas");
         JMenuItem itemUsuarios = new JMenuItem("Gestionar Usuarios"); // Nuevo item para Usuarios
+        JMenuItem itemCerrarSesion = new JMenuItem("Cerrar sesión"); // Nuevo item para cerrar sesión
 
         // Agregar los elementos de menú a cada menú correspondiente
         menuProyectos.add(itemProyectos);
@@ -41,6 +43,7 @@ public class MainFrame extends JFrame {
         menuPagos.add(itemPagos);
         menuVentas.add(itemVentas);
         menuUsuarios.add(itemUsuarios); // Agregar itemUsuarios al menú Usuarios
+        menuCuenta.add(itemCerrarSesion); // Agregar itemCerrarSesion al menú Cuenta
 
         // Agregar los menús a la barra de menú
         menuBar.add(menuProyectos);
@@ -51,6 +54,7 @@ public class MainFrame extends JFrame {
         menuBar.add(menuPagos);
         menuBar.add(menuVentas);
         menuBar.add(menuUsuarios); // Agregar menú Usuarios
+        menuBar.add(menuCuenta); // Agregar menú Cuenta
 
         // Asignar la barra de menú a la ventana
         setJMenuBar(menuBar);
@@ -88,6 +92,14 @@ public class MainFrame extends JFrame {
         itemPagos.addActionListener(e -> showPanel(mainPanel, "Pagos"));
         itemVentas.addActionListener(e -> showPanel(mainPanel, "Ventas"));
         itemUsuarios.addActionListener(e -> showPanel(mainPanel, "Usuarios")); // Acción para mostrar Usuarios
+
+        // Acción para cerrar sesión y salir del programa
+        itemCerrarSesion.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(this, "¿Seguro que desea cerrar sesión?", "Confirmar Cerrar Sesión", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                System.exit(0); // Cerrar el programa
+            }
+        });
 
         // Agregar el panel principal al frame
         add(mainPanel);

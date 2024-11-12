@@ -79,6 +79,7 @@ public class ApartamentoPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    int idApartamento = Integer.parseInt(txtID.getText()); // Obtener ID del apartamento
                     int idTorre = Integer.parseInt(txtIDTorre.getText());
                     int numero = Integer.parseInt(txtNumeroApartamento.getText());
                     double valor = Double.parseDouble(txtValorApartamento.getText());
@@ -86,7 +87,7 @@ public class ApartamentoPanel extends JPanel {
                     double area = Double.parseDouble(txtArea.getText());
                     String matricula = txtMatricula.getText();
 
-                    apartamentoController.crearApartamento(idTorre, numero, valor, tipoUnidad, area, matricula);
+                    apartamentoController.crearApartamento(idApartamento, idTorre, numero, valor, tipoUnidad, area, matricula);
                     JOptionPane.showMessageDialog(null, "Apartamento creado exitosamente");
                     limpiarCampos();
                 } catch (NumberFormatException ex) {

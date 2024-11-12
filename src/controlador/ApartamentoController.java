@@ -1,4 +1,3 @@
-// ApartamentoController.java
 package controlador;
 
 import dao.ApartamentoDAO;
@@ -13,8 +12,10 @@ public class ApartamentoController {
         apartamentoDAO = new ApartamentoDAO();
     }
 
-    public void crearApartamento(int id_torre, int numero_apartamento, double valorApartamento, String tipoUnidad, double area, String matricula) {
+    // Método para crear un apartamento, ahora incluye ID_apartamento como parámetro
+    public void crearApartamento(int id_apartamento, int id_torre, int numero_apartamento, double valorApartamento, String tipoUnidad, double area, String matricula) {
         Apartamento apartamento = new Apartamento();
+        apartamento.setID_apartamento(id_apartamento); // Asigna el ID manualmente
         apartamento.setID_torre(id_torre);
         apartamento.setNumero_apartamento(numero_apartamento);
         apartamento.setValorApartamento(valorApartamento);
@@ -28,9 +29,10 @@ public class ApartamentoController {
         return apartamentoDAO.obtenerApartamentos();
     }
 
+    // Método para actualizar un apartamento, que también incluye ID_apartamento
     public void actualizarApartamento(int id_apartamento, int id_torre, int numero_apartamento, double valorApartamento, String tipoUnidad, double area, String matricula) {
         Apartamento apartamento = new Apartamento();
-        apartamento.setID_apartamento(id_apartamento);
+        apartamento.setID_apartamento(id_apartamento); // Asigna el ID para actualizar el registro correcto
         apartamento.setID_torre(id_torre);
         apartamento.setNumero_apartamento(numero_apartamento);
         apartamento.setValorApartamento(valorApartamento);

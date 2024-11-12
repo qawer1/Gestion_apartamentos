@@ -2,6 +2,8 @@ package Vistas;
 
 import javax.swing.*;
 import java.awt.*;
+import vistas.ReportesPanel;
+
 
 public class MainFrame extends JFrame {
     public MainFrame() {
@@ -21,8 +23,8 @@ public class MainFrame extends JFrame {
         JMenu menuPagos = new JMenu("Pagos");
         JMenu menuVentas = new JMenu("Ventas");
         JMenu menuUsuarios = new JMenu("Usuarios");
+        JMenu menuReportes = new JMenu("Reportes");  // Menú nuevo para reportes
         JMenu menuCuenta = new JMenu("Cuenta");
-        JMenu menuReportes = new JMenu("Reportes"); // Menú para reportes
 
         // Crear los elementos de menú para cada sección
         JMenuItem itemProyectos = new JMenuItem("Gestionar Proyectos");
@@ -33,8 +35,8 @@ public class MainFrame extends JFrame {
         JMenuItem itemPagos = new JMenuItem("Gestionar Pagos");
         JMenuItem itemVentas = new JMenuItem("Gestionar Ventas");
         JMenuItem itemUsuarios = new JMenuItem("Gestionar Usuarios");
+        JMenuItem itemReportes = new JMenuItem("Generar Reportes"); // Nuevo item para reportes
         JMenuItem itemCerrarSesion = new JMenuItem("Cerrar sesión");
-        JMenuItem itemGenerarReporte = new JMenuItem("Generar Reporte de Ventas"); // Nuevo ítem para generar reporte
 
         // Agregar los elementos de menú a cada menú correspondiente
         menuProyectos.add(itemProyectos);
@@ -45,8 +47,8 @@ public class MainFrame extends JFrame {
         menuPagos.add(itemPagos);
         menuVentas.add(itemVentas);
         menuUsuarios.add(itemUsuarios);
+        menuReportes.add(itemReportes);  // Agregar el menú de reportes
         menuCuenta.add(itemCerrarSesion);
-        menuReportes.add(itemGenerarReporte); // Agregar ítem de reportes
 
         // Agregar los menús a la barra de menú
         menuBar.add(menuProyectos);
@@ -57,8 +59,8 @@ public class MainFrame extends JFrame {
         menuBar.add(menuPagos);
         menuBar.add(menuVentas);
         menuBar.add(menuUsuarios);
+        menuBar.add(menuReportes);  // Añadir el menú de reportes a la barra de menú
         menuBar.add(menuCuenta);
-        menuBar.add(menuReportes); // Menú de reportes
 
         // Asignar la barra de menú a la ventana
         setJMenuBar(menuBar);
@@ -83,7 +85,9 @@ public class MainFrame extends JFrame {
         mainPanel.add(new PagosPanel(), "Pagos");
         mainPanel.add(new VentasPanel(), "Ventas");
         mainPanel.add(new UsuarioPanel(), "Usuarios");
-        mainPanel.add(new ReportesPanel(), "Reportes"); // Panel de Reportes
+
+        // Agregar el nuevo panel de reportes
+        mainPanel.add(new ReportesPanel(), "Reportes");
 
         // Mostrar el panel de bienvenida al iniciar la aplicación
         showPanel(mainPanel, "Bienvenida");
@@ -97,7 +101,9 @@ public class MainFrame extends JFrame {
         itemPagos.addActionListener(e -> showPanel(mainPanel, "Pagos"));
         itemVentas.addActionListener(e -> showPanel(mainPanel, "Ventas"));
         itemUsuarios.addActionListener(e -> showPanel(mainPanel, "Usuarios"));
-        itemGenerarReporte.addActionListener(e -> showPanel(mainPanel, "Reportes")); // Mostrar panel de reportes
+
+        // Acción para mostrar el panel de reportes
+        itemReportes.addActionListener(e -> showPanel(mainPanel, "Reportes"));
 
         // Acción para cerrar sesión y salir del programa
         itemCerrarSesion.addActionListener(e -> {

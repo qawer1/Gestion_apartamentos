@@ -2,10 +2,11 @@ package Vistas;
 
 import javax.swing.*;
 import java.awt.*;
+import vistas.ReportesPanel;
 
 public class MainFrameAsesor extends JFrame {
     public MainFrameAsesor() {
-        setTitle("Gestión de Asesores");
+        setTitle("Gestión de Apartamentos - Asesor");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -16,28 +17,28 @@ public class MainFrameAsesor extends JFrame {
         JMenu menuClientes = new JMenu("Clientes");
         JMenu menuPagos = new JMenu("Pagos");
         JMenu menuVentas = new JMenu("Ventas");
-        JMenu menuReportes = new JMenu("Reportes");
+        JMenu menuReportes = new JMenu("Reportes");  // Menú para reportes
         JMenu menuCuenta = new JMenu("Cuenta");
 
         // Crear los elementos de menú para cada sección
         JMenuItem itemClientes = new JMenuItem("Gestionar Clientes");
         JMenuItem itemPagos = new JMenuItem("Gestionar Pagos");
         JMenuItem itemVentas = new JMenuItem("Gestionar Ventas");
-        JMenuItem itemGenerarReporte = new JMenuItem("Generar Reporte de Ventas"); // Nuevo ítem para generar reporte
+        JMenuItem itemReportes = new JMenuItem("Generar Reportes"); // Item para reportes
         JMenuItem itemCerrarSesion = new JMenuItem("Cerrar sesión");
 
         // Agregar los elementos de menú a cada menú correspondiente
         menuClientes.add(itemClientes);
         menuPagos.add(itemPagos);
         menuVentas.add(itemVentas);
-        menuReportes.add(itemGenerarReporte);
+        menuReportes.add(itemReportes);  // Agregar el menú de reportes
         menuCuenta.add(itemCerrarSesion);
 
         // Agregar los menús a la barra de menú
         menuBar.add(menuClientes);
         menuBar.add(menuPagos);
         menuBar.add(menuVentas);
-        menuBar.add(menuReportes);
+        menuBar.add(menuReportes);  // Añadir el menú de reportes a la barra de menú
         menuBar.add(menuCuenta);
 
         // Asignar la barra de menú a la ventana
@@ -49,7 +50,7 @@ public class MainFrameAsesor extends JFrame {
         // Panel de bienvenida
         JPanel welcomePanel = new JPanel();
         welcomePanel.setLayout(new BorderLayout());
-        JLabel welcomeLabel = new JLabel("Bienvenido a la Gestión de Asesores", SwingConstants.CENTER);
+        JLabel welcomeLabel = new JLabel("Bienvenido a la Gestión de Apartamentos - Asesor", SwingConstants.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
         welcomePanel.add(welcomeLabel, BorderLayout.CENTER);
 
@@ -58,6 +59,8 @@ public class MainFrameAsesor extends JFrame {
         mainPanel.add(new ClientesPanel(), "Clientes");
         mainPanel.add(new PagosPanel(), "Pagos");
         mainPanel.add(new VentasPanel(), "Ventas");
+
+        // Agregar el nuevo panel de reportes
         mainPanel.add(new ReportesPanel(), "Reportes");
 
         // Mostrar el panel de bienvenida al iniciar la aplicación
@@ -67,7 +70,9 @@ public class MainFrameAsesor extends JFrame {
         itemClientes.addActionListener(e -> showPanel(mainPanel, "Clientes"));
         itemPagos.addActionListener(e -> showPanel(mainPanel, "Pagos"));
         itemVentas.addActionListener(e -> showPanel(mainPanel, "Ventas"));
-        itemGenerarReporte.addActionListener(e -> showPanel(mainPanel, "Reportes"));
+
+        // Acción para mostrar el panel de reportes
+        itemReportes.addActionListener(e -> showPanel(mainPanel, "Reportes"));
 
         // Acción para cerrar sesión y salir del programa
         itemCerrarSesion.addActionListener(e -> {

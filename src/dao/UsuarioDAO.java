@@ -81,6 +81,31 @@ public class UsuarioDAO {
         return usuarios;
     }
 
+    // Método para obtener un usuario por nombre
+    public Usuario obtenerUsuarioPorNombre(String nombre) {
+        String sql = "SELECT * FROM Usuario WHERE nombre = ?";
+        Usuario usuario = null;
+
+        try (Connection conn = this.conectar();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, nombre);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                usuario = new Usuario(
+                    rs.getInt("id"),
+                    rs.getString("nombre"),
+                    rs.getString("contrasena"),
+                    rs.getString("rol")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener usuario por nombre: " + nombre);
+            e.printStackTrace();
+        }
+        return usuario;
+    }
+
     // Método para actualizar un usuario
     public void actualizarUsuario(Usuario usuario) {
         String sql = "UPDATE Usuario SET nombre = ?, contrasena = ?, rol = ? WHERE id = ?";

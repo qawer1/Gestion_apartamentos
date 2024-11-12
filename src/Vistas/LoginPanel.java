@@ -71,11 +71,23 @@ public class LoginPanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String username = txtUsername.getText();
                 String password = new String(txtPassword.getPassword());
+                
                 if (usuarioController.validarUsuario(username, password)) {
-                    JOptionPane.showMessageDialog(null, "Bienvenido " + username);
-                    dispose();  // Cierra la ventana de login.
-                    MainFrame mainFrame = new MainFrame();  // Crear la instancia del MainFrame.
-                    mainFrame.setVisible(true);  // Hacer visible el MainFrame.
+                    String rol = usuarioController.obtenerRolUsuario(username); // Obtiene el rol del usuario
+                    
+                    if ("admin".equalsIgnoreCase(rol)) {
+                        JOptionPane.showMessageDialog(null, "Bienvenido Administrador " + username);
+                        dispose();  // Cierra la ventana de login.
+                        MainFrame mainFrame = new MainFrame();  // Crear la instancia del MainFrame.
+                        mainFrame.setVisible(true);  // Hacer visible el MainFrame.
+                    } else if ("asesor".equalsIgnoreCase(rol)) {
+                        JOptionPane.showMessageDialog(null, "Bienvenido Asesor " + username);
+                        dispose();  // Cierra la ventana de login.
+                        MainFrameAsesor mainFrameAsesor = new MainFrameAsesor();  // Crear la instancia del MainFrameAsesor.
+                        mainFrameAsesor.setVisible(true);  // Hacer visible el MainFrameAsesor.
+                    } else {
+                        lblMessage.setText("Rol no reconocido.");
+                    }
                 } else {
                     lblMessage.setText("Credenciales incorrectas. Intente de nuevo.");
                 }

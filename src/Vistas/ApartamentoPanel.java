@@ -1,4 +1,3 @@
-// ApartamentoPanel.java
 package Vistas;
 
 import javax.swing.*;
@@ -17,8 +16,6 @@ public class ApartamentoPanel extends JPanel {
     private JTextField txtTipoUnidad;
     private JTextField txtArea;
     private JTextField txtMatricula;
-    private JTextField txtIdVendedor;
-    private JTextField txtFechaEscritura;
     private JTextArea txtApartamentos;
     private ApartamentoController apartamentoController;
 
@@ -27,7 +24,7 @@ public class ApartamentoPanel extends JPanel {
         setLayout(new BorderLayout(10, 10));
 
         JPanel inputPanel = new JPanel(new GridLayout(9, 2, 5, 5));
-        
+
         inputPanel.add(new JLabel("ID del Apartamento:"));
         txtID = new JTextField();
         inputPanel.add(txtID);
@@ -56,14 +53,6 @@ public class ApartamentoPanel extends JPanel {
         txtMatricula = new JTextField();
         inputPanel.add(txtMatricula);
 
-        inputPanel.add(new JLabel("ID Vendedor:"));
-        txtIdVendedor = new JTextField();
-        inputPanel.add(txtIdVendedor);
-
-        inputPanel.add(new JLabel("Fecha de Escritura:"));
-        txtFechaEscritura = new JTextField();
-        inputPanel.add(txtFechaEscritura);
-
         // Panel de botones
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
@@ -89,18 +78,20 @@ public class ApartamentoPanel extends JPanel {
         btnCrear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int idTorre = Integer.parseInt(txtIDTorre.getText());
-                int numero = Integer.parseInt(txtNumeroApartamento.getText());
-                double valor = Double.parseDouble(txtValorApartamento.getText());
-                String tipoUnidad = txtTipoUnidad.getText();
-                double area = Double.parseDouble(txtArea.getText());
-                String matricula = txtMatricula.getText();
-                String idVendedor = txtIdVendedor.getText();
-                String fechaEscritura = txtFechaEscritura.getText();
+                try {
+                    int idTorre = Integer.parseInt(txtIDTorre.getText());
+                    int numero = Integer.parseInt(txtNumeroApartamento.getText());
+                    double valor = Double.parseDouble(txtValorApartamento.getText());
+                    String tipoUnidad = txtTipoUnidad.getText();
+                    double area = Double.parseDouble(txtArea.getText());
+                    String matricula = txtMatricula.getText();
 
-                apartamentoController.crearApartamento(idTorre, numero, valor, tipoUnidad, area, matricula, idVendedor, fechaEscritura);
-                JOptionPane.showMessageDialog(null, "Apartamento creado exitosamente");
-                limpiarCampos();
+                    apartamentoController.crearApartamento(idTorre, numero, valor, tipoUnidad, area, matricula);
+                    JOptionPane.showMessageDialog(null, "Apartamento creado exitosamente");
+                    limpiarCampos();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Error: Por favor, ingresa valores válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
@@ -117,9 +108,7 @@ public class ApartamentoPanel extends JPanel {
                                             ", Valor: " + apartamento.getValorApartamento() +
                                             ", Tipo: " + apartamento.getTipoUnidad() +
                                             ", Área: " + apartamento.getArea() +
-                                            ", Matrícula: " + apartamento.getMatricula() +
-                                            ", ID Vendedor: " + apartamento.getId_vendedor() +
-                                            ", Fecha Escritura: " + apartamento.getFechaEscritura() + "\n");
+                                            ", Matrícula: " + apartamento.getMatricula() + "\n");
                 }
             }
         });
@@ -128,10 +117,14 @@ public class ApartamentoPanel extends JPanel {
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int idApartamento = Integer.parseInt(txtID.getText());
-                apartamentoController.eliminarApartamento(idApartamento);
-                JOptionPane.showMessageDialog(null, "Apartamento eliminado exitosamente");
-                limpiarCampos();
+                try {
+                    int idApartamento = Integer.parseInt(txtID.getText());
+                    apartamentoController.eliminarApartamento(idApartamento);
+                    JOptionPane.showMessageDialog(null, "Apartamento eliminado exitosamente");
+                    limpiarCampos();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Error: Por favor, ingresa un ID de apartamento válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
@@ -139,19 +132,21 @@ public class ApartamentoPanel extends JPanel {
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int idApartamento = Integer.parseInt(txtID.getText());
-                int idTorre = Integer.parseInt(txtIDTorre.getText());
-                int numero = Integer.parseInt(txtNumeroApartamento.getText());
-                double valor = Double.parseDouble(txtValorApartamento.getText());
-                String tipoUnidad = txtTipoUnidad.getText();
-                double area = Double.parseDouble(txtArea.getText());
-                String matricula = txtMatricula.getText();
-                String idVendedor = txtIdVendedor.getText();
-                String fechaEscritura = txtFechaEscritura.getText();
+                try {
+                    int idApartamento = Integer.parseInt(txtID.getText());
+                    int idTorre = Integer.parseInt(txtIDTorre.getText());
+                    int numero = Integer.parseInt(txtNumeroApartamento.getText());
+                    double valor = Double.parseDouble(txtValorApartamento.getText());
+                    String tipoUnidad = txtTipoUnidad.getText();
+                    double area = Double.parseDouble(txtArea.getText());
+                    String matricula = txtMatricula.getText();
 
-                apartamentoController.actualizarApartamento(idApartamento, idTorre, numero, valor, tipoUnidad, area, matricula, idVendedor, fechaEscritura);
-                JOptionPane.showMessageDialog(null, "Apartamento actualizado exitosamente");
-                limpiarCampos();
+                    apartamentoController.actualizarApartamento(idApartamento, idTorre, numero, valor, tipoUnidad, area, matricula);
+                    JOptionPane.showMessageDialog(null, "Apartamento actualizado exitosamente");
+                    limpiarCampos();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Error: Por favor, ingresa valores válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
@@ -164,7 +159,5 @@ public class ApartamentoPanel extends JPanel {
         txtTipoUnidad.setText("");
         txtArea.setText("");
         txtMatricula.setText("");
-        txtIdVendedor.setText("");
-        txtFechaEscritura.setText("");
     }
 }

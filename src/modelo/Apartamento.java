@@ -9,8 +9,7 @@ public class Apartamento {
     private String tipoUnidad;
     private double area;
     private String matricula;
-    private String id_vendedor;
-    private String fechaEscritura;
+   
 
     // Getters y Setters
     public int getID_apartamento() {
@@ -69,19 +68,4 @@ public class Apartamento {
         this.matricula = matricula;
     }
 
-    public String getId_vendedor() {
-        return id_vendedor;
-    }
-
-    public void setId_vendedor(String id_vendedor) {
-        this.id_vendedor = id_vendedor;
-    }
-
-    public String getFechaEscritura() {
-        return fechaEscritura;
-    }
-
-    public void setFechaEscritura(String fechaEscritura) {
-        this.fechaEscritura = fechaEscritura;
-    }
 }

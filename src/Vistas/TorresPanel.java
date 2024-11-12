@@ -63,10 +63,11 @@ public class TorresPanel extends JPanel {
         btnCrear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int idTorre = Integer.parseInt(txtId.getText()); // Ahora incluye el ID de la Torre
                 int idProyecto = Integer.parseInt(txtIdProyecto.getText());
                 int numeroTorre = Integer.parseInt(txtNumeroTorre.getText());
                 int numeroApartamentos = Integer.parseInt(txtNumeroApartamentos.getText());
-                torreController.crearTorre(idProyecto, numeroTorre, numeroApartamentos);
+                torreController.crearTorre(idTorre, idProyecto, numeroTorre, numeroApartamentos);
                 JOptionPane.showMessageDialog(null, "Torre creada exitosamente");
                 limpiarCampos();
             }

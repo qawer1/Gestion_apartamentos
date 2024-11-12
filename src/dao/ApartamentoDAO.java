@@ -24,7 +24,7 @@ public class ApartamentoDAO {
 
     // Método para crear un apartamento
     public void crearApartamento(Apartamento apartamento) {
-        String sql = "INSERT INTO Apartamento (ID_torre, Numero_apartamento, valorApartamento, tipoUnidad, area, matricula, Id_vendedor, fechaEscritura) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Apartamento (ID_torre, Numero_apartamento, valorApartamento, tipoUnidad, area, matricula) VALUES (?, ?, ?, ?, ?, ?)";
         
         try (Connection conn = this.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -34,8 +34,6 @@ public class ApartamentoDAO {
             pstmt.setString(4, apartamento.getTipoUnidad());
             pstmt.setDouble(5, apartamento.getArea());
             pstmt.setString(6, apartamento.getMatricula());
-            pstmt.setString(7, apartamento.getId_vendedor());
-            pstmt.setString(8, apartamento.getFechaEscritura());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al crear apartamento: " + e.getMessage());
@@ -45,7 +43,7 @@ public class ApartamentoDAO {
     // Método para obtener todos los apartamentos
     public List<Apartamento> obtenerApartamentos() {
         List<Apartamento> apartamentos = new ArrayList<>();
-        String sql = "SELECT ID_apartamento, ID_torre, Numero_apartamento, valorApartamento, tipoUnidad, area, matricula, Id_vendedor, fechaEscritura FROM Apartamento";
+        String sql = "SELECT ID_apartamento, ID_torre, Numero_apartamento, valorApartamento, tipoUnidad, area, matricula FROM Apartamento";
         
         try (Connection conn = this.conectar();
              Statement stmt = conn.createStatement();
@@ -60,8 +58,6 @@ public class ApartamentoDAO {
                 apartamento.setTipoUnidad(rs.getString("tipoUnidad"));
                 apartamento.setArea(rs.getDouble("area"));
                 apartamento.setMatricula(rs.getString("matricula"));
-                apartamento.setId_vendedor(rs.getString("Id_vendedor"));
-                apartamento.setFechaEscritura(rs.getString("fechaEscritura"));
                 apartamentos.add(apartamento);
             }
         } catch (SQLException e) {
@@ -82,8 +78,6 @@ public class ApartamentoDAO {
             pstmt.setString(4, apartamento.getTipoUnidad());
             pstmt.setDouble(5, apartamento.getArea());
             pstmt.setString(6, apartamento.getMatricula());
-            pstmt.setString(7, apartamento.getId_vendedor());
-            pstmt.setString(8, apartamento.getFechaEscritura());
             pstmt.setInt(9, apartamento.getID_apartamento());
             pstmt.executeUpdate();
         } catch (SQLException e) {

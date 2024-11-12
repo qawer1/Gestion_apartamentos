@@ -22,15 +22,16 @@ public class TorreDAO {
         return conn;
     }
 
-    // Método para crear una torre
+    // Método para crear una torre, incluyendo el ID_TORRE
     public void crearTorre(Torre torre) {
-        String sql = "INSERT INTO Torre (ID_PROYECTO, NUMERO_TORRE, NUMEROAPARTAMENTOS) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Torre (ID_TORRE, ID_PROYECTO, NUMERO_TORRE, NUMEROAPARTAMENTOS) VALUES (?, ?, ?, ?)";
         
         try (Connection conn = this.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, torre.getIdProyecto());
-            pstmt.setInt(2, torre.getNumero_torre());
-            pstmt.setInt(3, torre.getNumeroApartamentos());
+            pstmt.setInt(1, torre.getIdTorre()); // Ahora se incluye el ID_TORRE
+            pstmt.setInt(2, torre.getIdProyecto());
+            pstmt.setInt(3, torre.getNumero_torre());
+            pstmt.setInt(4, torre.getNumeroApartamentos());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al crear torre: " + e.getMessage());

@@ -2,7 +2,6 @@ package controlador;
 
 import dao.TorreDAO;
 import modelo.Torre;
-
 import java.util.List;
 
 public class TorreController {
@@ -13,9 +12,10 @@ public class TorreController {
         this.torreDAO = new TorreDAO();
     }
 
-    // Método para crear una torre
-    public void crearTorre(int idProyecto, int numeroTorre, int numeroApartamentos) {
+    // Método para crear una torre, incluyendo ID_TORRE
+    public void crearTorre(int idTorre, int idProyecto, int numeroTorre, int numeroApartamentos) {
         Torre torre = new Torre();
+        torre.setIdTorre(idTorre); // Ahora se incluye el ID_TORRE
         torre.setIdProyecto(idProyecto);
         torre.setNumero_torre(numeroTorre);
         torre.setNumeroApartamentos(numeroApartamentos);
@@ -28,26 +28,25 @@ public class TorreController {
         return torreDAO.obtenerTorres();
     }
 
-   // Método para listar todas las torres de manera estructurada
-public String listarTorres() {
-    List<Torre> torres = torreDAO.obtenerTorres();
-    StringBuilder sb = new StringBuilder();
-    sb.append("Lista de Torres:\n");
+    // Método para listar todas las torres de manera estructurada
+    public String listarTorres() {
+        List<Torre> torres = torreDAO.obtenerTorres();
+        StringBuilder sb = new StringBuilder();
+        sb.append("Lista de Torres:\n");
 
-    if (torres.isEmpty()) {
-        sb.append("No hay torres registradas.\n");
-    } else {
-        for (Torre torre : torres) {
-            sb.append("ID Torre: ").append(torre.getIdTorre())
-              .append(", ID Proyecto: ").append(torre.getIdProyecto())
-              .append(", Número de Torre: ").append(torre.getNumero_torre())
-              .append(", Número de Apartamentos: ").append(torre.getNumeroApartamentos())
-              .append("\n");
+        if (torres.isEmpty()) {
+            sb.append("No hay torres registradas.\n");
+        } else {
+            for (Torre torre : torres) {
+                sb.append("ID Torre: ").append(torre.getIdTorre())
+                  .append(", ID Proyecto: ").append(torre.getIdProyecto())
+                  .append(", Número de Torre: ").append(torre.getNumero_torre())
+                  .append(", Número de Apartamentos: ").append(torre.getNumeroApartamentos())
+                  .append("\n");
+            }
         }
+        return sb.toString();
     }
-    return sb.toString();
-}
-
 
     // Método para actualizar una torre
     public void actualizarTorre(int idTorre, int idProyecto, int numeroTorre, int numeroApartamentos) {

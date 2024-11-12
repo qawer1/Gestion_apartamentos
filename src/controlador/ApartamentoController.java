@@ -13,7 +13,7 @@ public class ApartamentoController {
         apartamentoDAO = new ApartamentoDAO();
     }
 
-    public void crearApartamento(int id_torre, int numero_apartamento, double valorApartamento, String tipoUnidad, double area, String matricula, String id_vendedor, String fechaEscritura) {
+    public void crearApartamento(int id_torre, int numero_apartamento, double valorApartamento, String tipoUnidad, double area, String matricula) {
         Apartamento apartamento = new Apartamento();
         apartamento.setID_torre(id_torre);
         apartamento.setNumero_apartamento(numero_apartamento);
@@ -21,8 +21,6 @@ public class ApartamentoController {
         apartamento.setTipoUnidad(tipoUnidad);
         apartamento.setArea(area);
         apartamento.setMatricula(matricula);
-        apartamento.setId_vendedor(id_vendedor);
-        apartamento.setFechaEscritura(fechaEscritura);
         apartamentoDAO.crearApartamento(apartamento);
     }
 
@@ -30,7 +28,7 @@ public class ApartamentoController {
         return apartamentoDAO.obtenerApartamentos();
     }
 
-    public void actualizarApartamento(int id_apartamento, int id_torre, int numero_apartamento, double valorApartamento, String tipoUnidad, double area, String matricula, String id_vendedor, String fechaEscritura) {
+    public void actualizarApartamento(int id_apartamento, int id_torre, int numero_apartamento, double valorApartamento, String tipoUnidad, double area, String matricula) {
         Apartamento apartamento = new Apartamento();
         apartamento.setID_apartamento(id_apartamento);
         apartamento.setID_torre(id_torre);
@@ -39,8 +37,6 @@ public class ApartamentoController {
         apartamento.setTipoUnidad(tipoUnidad);
         apartamento.setArea(area);
         apartamento.setMatricula(matricula);
-        apartamento.setId_vendedor(id_vendedor);
-        apartamento.setFechaEscritura(fechaEscritura);
         apartamentoDAO.actualizarApartamento(apartamento);
     }
     
@@ -56,8 +52,6 @@ public class ApartamentoController {
               .append(", Tipo: ").append(apartamento.getTipoUnidad())
               .append(", Área: ").append(apartamento.getArea())
               .append(", Matrícula: ").append(apartamento.getMatricula())
-              .append(", Vendedor: ").append(apartamento.getId_vendedor())
-              .append(", Fecha de Escritura: ").append(apartamento.getFechaEscritura())
               .append("\n");
         }
         return sb.toString();

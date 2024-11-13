@@ -4,16 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.Venta;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
 public class VentaDAO {
 
     private Connection conectar() {
@@ -32,17 +23,25 @@ public class VentaDAO {
 
     // Método para crear una venta
     public void crearVenta(Venta venta) {
-        String sql = "INSERT INTO Venta (ID_VENTA, PRECIO_TOTAL, NUMERO_CUOTAS, INTERESES, CEDULA_CLIENTES, ID_APARTAMENTO) VALUES (?, ?, ?, ?, ?, ?)";
-        
+        String sql = "INSERT INTO Venta (PRECIO_TOTAL, NUMERO_CUOTAS, INTERESES, CEDULA_CLIENTES, ID_APARTAMENTO, ESTADO_VENTA) VALUES (?, ?, ?, ?, ?, ?)";
+
         try (Connection conn = this.conectar();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, venta.getIdVenta());
-            pstmt.setDouble(2, venta.getPrecioTotal());
-            pstmt.setInt(3, venta.getNumeroCuotas());
-            pstmt.setDouble(4, venta.getIntereses());
-            pstmt.setInt(5, venta.getIdCliente());
-            pstmt.setInt(6, venta.getIdApartamento());
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setDouble(1, venta.getPrecioTotal());
+            pstmt.setInt(2, venta.getNumeroCuotas());
+            pstmt.setDouble(3, venta.getIntereses());
+            pstmt.setInt(4, venta.getIdCliente());
+            pstmt.setInt(5, venta.getIdApartamento());
+            pstmt.setString(6, venta.getEstadoVenta());  // Establecer el estado de la venta
+
             pstmt.executeUpdate();
+
+            // Obtener el ID generado por la base de datos
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    venta.setIdVenta(rs.getInt(1));  // Asignar el ID generado
+                }
+            }
         } catch (SQLException e) {
             System.out.println("Error al crear venta: " + e.getMessage());
             e.printStackTrace();
@@ -52,7 +51,7 @@ public class VentaDAO {
     // Método para obtener todas las ventas
     public List<Venta> obtenerVentas() {
         List<Venta> ventas = new ArrayList<>();
-        String sql = "SELECT ID_VENTA, PRECIO_TOTAL, NUMERO_CUOTAS, INTERESES, CEDULA_CLIENTES, ID_APARTAMENTO FROM Venta";
+        String sql = "SELECT ID_VENTA, PRECIO_TOTAL, NUMERO_CUOTAS, INTERESES, CEDULA_CLIENTES, ID_APARTAMENTO, ESTADO_VENTA FROM Venta";  // Agregar estado de la venta
 
         try (Connection conn = this.conectar();
              Statement stmt = conn.createStatement();
@@ -66,6 +65,7 @@ public class VentaDAO {
                 venta.setIntereses(rs.getDouble("INTERESES"));
                 venta.setIdCliente(rs.getInt("CEDULA_CLIENTES"));
                 venta.setIdApartamento(rs.getInt("ID_APARTAMENTO"));
+                venta.setEstadoVenta(rs.getString("ESTADO_VENTA"));  // Obtener el estado de la venta
                 ventas.add(venta);
             }
         } catch (SQLException e) {
@@ -77,7 +77,7 @@ public class VentaDAO {
 
     // Método para actualizar una venta
     public void actualizarVenta(Venta venta) {
-        String sql = "UPDATE Venta SET PRECIO_TOTAL = ?, NUMERO_CUOTAS = ?, INTERESES = ?, CEDULA_CLIENTES = ?, ID_APARTAMENTO = ? WHERE ID_VENTA = ?";
+        String sql = "UPDATE Venta SET PRECIO_TOTAL = ?, NUMERO_CUOTAS = ?, INTERESES = ?, CEDULA_CLIENTES = ?, ID_APARTAMENTO = ?, ESTADO_VENTA = ? WHERE ID_VENTA = ?";
 
         try (Connection conn = this.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -86,7 +86,8 @@ public class VentaDAO {
             pstmt.setDouble(3, venta.getIntereses());
             pstmt.setInt(4, venta.getIdCliente());
             pstmt.setInt(5, venta.getIdApartamento());
-            pstmt.setInt(6, venta.getIdVenta());
+            pstmt.setString(6, venta.getEstadoVenta());  // Actualizar el estado de la venta
+            pstmt.setInt(7, venta.getIdVenta());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al actualizar venta con ID: " + venta.getIdVenta());
@@ -105,51 +106,6 @@ public class VentaDAO {
         } catch (SQLException e) {
             System.out.println("Error al eliminar venta con ID: " + idVenta);
             e.printStackTrace();
-        }
-    }
-    
-    public void generarReporteVentasPDF(String rutaArchivo) {
-        Document document = new Document();
-        try {
-            PdfWriter.getInstance(document, new FileOutputStream(rutaArchivo));
-            document.open();
-
-            // Agregar título
-            Font fontTitulo = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
-            Paragraph titulo = new Paragraph("Reporte de Ventas", fontTitulo);
-            titulo.setAlignment(Element.ALIGN_CENTER);
-            document.add(titulo);
-            document.add(new Paragraph(" "));  // Espacio en blanco
-
-            // Crear tabla
-            PdfPTable table = new PdfPTable(6);  // 6 columnas
-            table.setWidthPercentage(100);
-            
-            // Encabezados
-            String[] headers = {"ID Venta", "Precio Total", "Número de Cuotas", "Intereses", "Cédula Cliente", "ID Apartamento"};
-            for (String header : headers) {
-                PdfPCell cell = new PdfPCell(new Paragraph(header));
-                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                table.addCell(cell);
-            }
-
-            // Obtener ventas y llenar la tabla
-            List<Venta> ventas = obtenerVentas();
-            for (Venta venta : ventas) {
-                table.addCell(String.valueOf(venta.getIdVenta()));
-                table.addCell(String.valueOf(venta.getPrecioTotal()));
-                table.addCell(String.valueOf(venta.getNumeroCuotas()));
-                table.addCell(String.valueOf(venta.getIntereses()));
-                table.addCell(String.valueOf(venta.getIdCliente()));
-                table.addCell(String.valueOf(venta.getIdApartamento()));
-            }
-
-            document.add(table);
-
-        } catch (DocumentException | IOException e) {
-            System.out.println("Error al generar reporte en PDF: " + e.getMessage());
-        } finally {
-            document.close();
         }
     }
 }

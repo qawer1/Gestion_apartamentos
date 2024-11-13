@@ -22,29 +22,30 @@ public class ApartamentoDAO {
         return conn;
     }
 
-    // Método para crear un apartamento
+    // Método para crear un apartamento (ahora incluye estadoVenta)
     public void crearApartamento(Apartamento apartamento) {
-        String sql = "INSERT INTO Apartamento (ID_apartamento, ID_torre, Numero_apartamento, valorApartamento, tipoUnidad, area, matricula) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Apartamento (ID_apartamento, ID_torre, Numero_apartamento, valorApartamento, tipoUnidad, area, matricula, estadoVenta) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         try (Connection conn = this.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, apartamento.getID_apartamento()); // Ahora incluye el ID del apartamento
+            pstmt.setInt(1, apartamento.getID_apartamento());
             pstmt.setInt(2, apartamento.getID_torre());
             pstmt.setInt(3, apartamento.getNumero_apartamento());
             pstmt.setDouble(4, apartamento.getValorApartamento());
             pstmt.setString(5, apartamento.getTipoUnidad());
             pstmt.setDouble(6, apartamento.getArea());
             pstmt.setString(7, apartamento.getMatricula());
+            pstmt.setString(8, apartamento.getEstadoVenta());  // Se incluye estadoVenta
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al crear apartamento: " + e.getMessage());
         }
     }
 
-    // Método para obtener todos los apartamentos
+    // Método para obtener todos los apartamentos (incluye estadoVenta)
     public List<Apartamento> obtenerApartamentos() {
         List<Apartamento> apartamentos = new ArrayList<>();
-        String sql = "SELECT ID_apartamento, ID_torre, Numero_apartamento, valorApartamento, tipoUnidad, area, matricula FROM Apartamento";
+        String sql = "SELECT ID_apartamento, ID_torre, Numero_apartamento, valorApartamento, tipoUnidad, area, matricula, estadoVenta FROM Apartamento";
         
         try (Connection conn = this.conectar();
              Statement stmt = conn.createStatement();
@@ -59,6 +60,7 @@ public class ApartamentoDAO {
                 apartamento.setTipoUnidad(rs.getString("tipoUnidad"));
                 apartamento.setArea(rs.getDouble("area"));
                 apartamento.setMatricula(rs.getString("matricula"));
+                apartamento.setEstadoVenta(rs.getString("estadoVenta"));  // Obtener estadoVenta
                 apartamentos.add(apartamento);
             }
         } catch (SQLException e) {
@@ -67,9 +69,9 @@ public class ApartamentoDAO {
         return apartamentos;
     }
 
-    // Método para actualizar un apartamento
+    // Método para actualizar un apartamento (incluye estadoVenta)
     public void actualizarApartamento(Apartamento apartamento) {
-        String sql = "UPDATE Apartamento SET ID_torre = ?, Numero_apartamento = ?, valorApartamento = ?, tipoUnidad = ?, area = ?, matricula = ? WHERE ID_apartamento = ?";
+        String sql = "UPDATE Apartamento SET ID_torre = ?, Numero_apartamento = ?, valorApartamento = ?, tipoUnidad = ?, area = ?, matricula = ?, estadoVenta = ? WHERE ID_apartamento = ?";
         
         try (Connection conn = this.conectar();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -79,7 +81,8 @@ public class ApartamentoDAO {
             pstmt.setString(4, apartamento.getTipoUnidad());
             pstmt.setDouble(5, apartamento.getArea());
             pstmt.setString(6, apartamento.getMatricula());
-            pstmt.setInt(7, apartamento.getID_apartamento()); // Aquí se incluye el ID del apartamento para la actualización
+            pstmt.setString(7, apartamento.getEstadoVenta());  // Actualizar estadoVenta
+            pstmt.setInt(8, apartamento.getID_apartamento());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al actualizar apartamento con ID: " + apartamento.getID_apartamento());

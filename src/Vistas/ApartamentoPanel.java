@@ -16,6 +16,7 @@ public class ApartamentoPanel extends JPanel {
     private JTextField txtTipoUnidad;
     private JTextField txtArea;
     private JTextField txtMatricula;
+    private JTextField txtEstadoVenta; // Nuevo campo para estadoVenta
     private JTextArea txtApartamentos;
     private ApartamentoController apartamentoController;
 
@@ -23,7 +24,7 @@ public class ApartamentoPanel extends JPanel {
         apartamentoController = new ApartamentoController();
         setLayout(new BorderLayout(10, 10));
 
-        JPanel inputPanel = new JPanel(new GridLayout(9, 2, 5, 5));
+        JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5)); // Cambié a 10 filas para agregar el nuevo campo
 
         inputPanel.add(new JLabel("ID del Apartamento:"));
         txtID = new JTextField();
@@ -53,6 +54,10 @@ public class ApartamentoPanel extends JPanel {
         txtMatricula = new JTextField();
         inputPanel.add(txtMatricula);
 
+        inputPanel.add(new JLabel("Estado de Venta:")); // Etiqueta para el nuevo campo
+        txtEstadoVenta = new JTextField(); // Campo de texto para estadoVenta
+        inputPanel.add(txtEstadoVenta);
+
         // Panel de botones
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
@@ -79,15 +84,16 @@ public class ApartamentoPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int idApartamento = Integer.parseInt(txtID.getText()); // Obtener ID del apartamento
+                    int idApartamento = Integer.parseInt(txtID.getText());
                     int idTorre = Integer.parseInt(txtIDTorre.getText());
                     int numero = Integer.parseInt(txtNumeroApartamento.getText());
                     double valor = Double.parseDouble(txtValorApartamento.getText());
                     String tipoUnidad = txtTipoUnidad.getText();
                     double area = Double.parseDouble(txtArea.getText());
                     String matricula = txtMatricula.getText();
+                    String estadoVenta = txtEstadoVenta.getText(); // Obtener estado de venta
 
-                    apartamentoController.crearApartamento(idApartamento, idTorre, numero, valor, tipoUnidad, area, matricula);
+                    apartamentoController.crearApartamento(idApartamento, idTorre, numero, valor, tipoUnidad, area, matricula, estadoVenta);
                     JOptionPane.showMessageDialog(null, "Apartamento creado exitosamente");
                     limpiarCampos();
                 } catch (NumberFormatException ex) {
@@ -109,7 +115,8 @@ public class ApartamentoPanel extends JPanel {
                                             ", Valor: " + apartamento.getValorApartamento() +
                                             ", Tipo: " + apartamento.getTipoUnidad() +
                                             ", Área: " + apartamento.getArea() +
-                                            ", Matrícula: " + apartamento.getMatricula() + "\n");
+                                            ", Matrícula: " + apartamento.getMatricula() +
+                                            ", Estado de Venta: " + apartamento.getEstadoVenta() + "\n");
                 }
             }
         });
@@ -141,8 +148,9 @@ public class ApartamentoPanel extends JPanel {
                     String tipoUnidad = txtTipoUnidad.getText();
                     double area = Double.parseDouble(txtArea.getText());
                     String matricula = txtMatricula.getText();
+                    String estadoVenta = txtEstadoVenta.getText(); // Obtener estado de venta
 
-                    apartamentoController.actualizarApartamento(idApartamento, idTorre, numero, valor, tipoUnidad, area, matricula);
+                    apartamentoController.actualizarApartamento(idApartamento, idTorre, numero, valor, tipoUnidad, area, matricula, estadoVenta);
                     JOptionPane.showMessageDialog(null, "Apartamento actualizado exitosamente");
                     limpiarCampos();
                 } catch (NumberFormatException ex) {
@@ -160,5 +168,6 @@ public class ApartamentoPanel extends JPanel {
         txtTipoUnidad.setText("");
         txtArea.setText("");
         txtMatricula.setText("");
+        txtEstadoVenta.setText(""); // Limpiar campo de estadoVenta
     }
 }

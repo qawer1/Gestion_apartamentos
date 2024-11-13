@@ -1,11 +1,10 @@
 package vistas;
 
 import controlador.ReporteController;
+import controlador.ClienteController;
 import modelo.Venta;
 import modelo.Pago;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 import javax.swing.*;
 import java.awt.*;
@@ -15,72 +14,121 @@ import java.util.List;
 
 public class ReportesPanel extends JPanel {
     private JTextArea txtReporte;
+    private JComboBox<String> comboClientes;
     private ReporteController reporteController;
+    private ClienteController clienteController;
 
     public ReportesPanel() {
         reporteController = new ReporteController();
+        clienteController = new ClienteController();
         setLayout(new BorderLayout());
 
-        JButton btnVentas = new JButton("Generar Reporte de Ventas");
-        JButton btnPagos = new JButton("Generar Reporte de Pagos");
+        // Botones para generar reportes
+        JButton btnGenerarReporte = new JButton("Generar Reporte");
         JButton btnExportarPDF = new JButton("Exportar a PDF");
+
+        // Área de texto para mostrar los reportes
         txtReporte = new JTextArea(20, 50);
         txtReporte.setEditable(false);
 
+        // ComboBox para seleccionar cliente
+        comboClientes = new JComboBox<>();
+        cargarClientes();
+
+        // Panel de botones
         JPanel buttonPanel = new JPanel();
-        buttonPanel.add(btnVentas);
-        buttonPanel.add(btnPagos);
+        buttonPanel.add(new JLabel("Seleccionar Cliente:"));
+        buttonPanel.add(comboClientes);
+        buttonPanel.add(btnGenerarReporte);
         buttonPanel.add(btnExportarPDF);
 
         add(buttonPanel, BorderLayout.NORTH);
         add(new JScrollPane(txtReporte), BorderLayout.CENTER);
 
-        btnVentas.addActionListener(e -> mostrarReporteVentas());
-        btnPagos.addActionListener(e -> mostrarReportePagos());
+        // Acciones de los botones
+        btnGenerarReporte.addActionListener(e -> mostrarReporte());
         btnExportarPDF.addActionListener(e -> exportarReportePDF());
     }
 
-    private void mostrarReporteVentas() {
-        List<Venta> ventas = reporteController.obtenerReporteVentas();
-        txtReporte.setText("");
+    // Cargar la lista de clientes en el ComboBox
+    private void cargarClientes() {
+        List<modelo.Cliente> clientes = clienteController.obtenerClientes();
+        comboClientes.removeAllItems();  // Limpiar el combo antes de agregar nuevos elementos
+        for (modelo.Cliente cliente : clientes) {
+            // Añadimos el nombre del cliente junto con su cédula en el ComboBox
+            comboClientes.addItem(cliente.getNombre() + " - Cédula: " + cliente.getCedula());
+        }
+    }
+
+    // Mostrar reporte con la información de ventas y pagos de un cliente seleccionado
+    private void mostrarReporte() {
+        // Obtener la cédula del cliente seleccionado
+        String clienteSeleccionado = (String) comboClientes.getSelectedItem();
+        int cedulaCliente = Integer.parseInt(clienteSeleccionado.split(" - ")[1].replace("Cédula: ", ""));
+
+        // Obtener las ventas y pagos del cliente
+        List<Venta> ventas = reporteController.obtenerVentasPorCliente(cedulaCliente);
+        List<Pago> pagos = reporteController.obtenerPagosPorCliente(cedulaCliente);
+
+        // Mostrar las ventas
+        double totalPagado = 0.0;
+        double precioTotal = 0.0;
+        txtReporte.setText("Reporte de Ventas y Pagos para el Cliente: " + clienteSeleccionado + "\n\n");
+
+        // Mostrar información de ventas
         for (Venta venta : ventas) {
-            txtReporte.append("ID Venta: " + venta.getIdVenta() + 
+            precioTotal = venta.getPrecioTotal();
+            txtReporte.append("Venta ID: " + venta.getIdVenta() + 
                               ", Precio Total: " + venta.getPrecioTotal() + 
                               ", Cuotas: " + venta.getNumeroCuotas() + 
                               ", Intereses: " + venta.getIntereses() + 
-                              ", Cliente: " + venta.getIdCliente() + 
-                              ", Apartamento: " + venta.getIdApartamento() + "\n");
+                              ", Apartamento ID: " + venta.getIdApartamento() +
+                              ", Estado de la Venta: " + venta.getEstadoVenta() + "\n");  // Aquí se agrega el estado
         }
-    }
 
-    private void mostrarReportePagos() {
-        List<Pago> pagos = reporteController.obtenerReportePagos();
-        txtReporte.setText("");
+        // Mostrar información de pagos
+        txtReporte.append("\nPagos realizados:\n");
         for (Pago pago : pagos) {
-            txtReporte.append("ID Pago: " + pago.getID_Pago() + 
+            totalPagado += pago.getValorPago();
+            txtReporte.append("Pago ID: " + pago.getID_Pago() + 
                               ", Valor: " + pago.getValorPago() + 
-                              ", Fecha: " + pago.getFecha() + 
-                              ", Cliente: " + pago.getCedula_cliente() + 
-                              ", Asesor: " + pago.getCedula_asesor() + "\n");
+                              ", Fecha: " + pago.getFecha() + "\n");
         }
+
+        // Mostrar cuánto le falta por pagar
+        double saldoRestante = precioTotal - totalPagado;
+        txtReporte.append("\nTotal Pagado: " + totalPagado + "\n");
+        txtReporte.append("Saldo Restante por Pagar: " + saldoRestante + "\n");
     }
 
+    // Exportar reporte a PDF
     private void exportarReportePDF() {
-        Document documento = new Document();
+        // Obtener el texto del reporte generado
+        String reporteTexto = txtReporte.getText();
+        if (reporteTexto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay reporte para exportar.");
+            return;
+        }
+
+        // Definir la ruta donde se guardará el PDF
+        String filePath = "C:\\Users\\Sebastian\\OneDrive\\Documentos\\Reportes\\reporte_cliente.pdf";
+
+        // Crear el documento PDF
+        Document document = new Document();
         try {
-            // Crear el archivo PDF y asociarlo con un FileOutputStream
-            PdfWriter.getInstance(documento, new FileOutputStream("reporte.pdf"));
-            documento.open();
+            PdfWriter.getInstance(document, new FileOutputStream(filePath));
+            document.open();
 
-            // Agregar el contenido del JTextArea al PDF como párrafo
-            documento.add(new Paragraph(txtReporte.getText()));
+            // Añadir el contenido del reporte al PDF
+            document.add(new Paragraph("Reporte de Ventas y Pagos\n\n"));
+            document.add(new Paragraph(reporteTexto));
 
-            JOptionPane.showMessageDialog(this, "Reporte exportado a PDF exitosamente.");
+            // Cerrar el documento
+            document.close();
+
+            JOptionPane.showMessageDialog(this, "Reporte exportado a PDF exitosamente en: " + filePath);
         } catch (DocumentException | IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al exportar el reporte a PDF.", "Error", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            documento.close();
+            JOptionPane.showMessageDialog(this, "Error al exportar el reporte a PDF: " + e.getMessage());
         }
     }
 }

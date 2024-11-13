@@ -1,4 +1,3 @@
-// Apartamento.java
 package modelo;
 
 public class Apartamento {
@@ -9,7 +8,7 @@ public class Apartamento {
     private String tipoUnidad;
     private double area;
     private String matricula;
-   
+    private String estadoVenta;  // Nueva propiedad para almacenar el estado de la venta
 
     // Getters y Setters
     public int getID_apartamento() {
@@ -68,4 +67,12 @@ public class Apartamento {
         this.matricula = matricula;
     }
 
+    // Getter y Setter para el nuevo campo estadoVenta
+    public String getEstadoVenta() {
+        return estadoVenta;
+    }
+
+    public void setEstadoVenta(String estadoVenta) {
+        this.estadoVenta = estadoVenta;
+    }
 }

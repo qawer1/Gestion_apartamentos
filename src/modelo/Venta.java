@@ -1,4 +1,3 @@
-// Venta.java
 package modelo;
 
 public class Venta {
@@ -8,18 +7,20 @@ public class Venta {
     private double intereses;
     private int idCliente;  
     private int idApartamento;
+    private String estadoVenta;  // Nuevo atributo
 
     // Constructor vacío
     public Venta() {}
 
     // Constructor con todos los atributos
-    public Venta(int idVenta, double precioTotal, int numeroCuotas, double intereses, int idCliente, int idApartamento) {
+    public Venta(int idVenta, double precioTotal, int numeroCuotas, double intereses, int idCliente, int idApartamento, String estadoVenta) {
         this.idVenta = idVenta;
         this.precioTotal = precioTotal;
         this.numeroCuotas = numeroCuotas;
         this.intereses = intereses;
         this.idCliente = idCliente;
         this.idApartamento = idApartamento;
+        this.estadoVenta = estadoVenta;  // Inicializar el estado de la venta
     }
 
     // Getters y Setters
@@ -71,6 +72,14 @@ public class Venta {
         this.idApartamento = idApartamento;
     }
 
+    public String getEstadoVenta() {
+        return estadoVenta;  // Getter para el estado de la venta
+    }
+
+    public void setEstadoVenta(String estadoVenta) {
+        this.estadoVenta = estadoVenta;  // Setter para el estado de la venta
+    }
+
     @Override
     public String toString() {
         return "Venta{" +
@@ -80,6 +89,7 @@ public class Venta {
                 ", intereses=" + intereses +
                 ", idCliente=" + idCliente +
                 ", idApartamento=" + idApartamento +
+                ", estadoVenta='" + estadoVenta + '\'' +  // Incluir el estado en la representación de la venta
                 '}';
     }
 }

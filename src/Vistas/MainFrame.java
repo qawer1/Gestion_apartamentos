@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import vistas.ReportesPanel;
 
-
 public class MainFrame extends JFrame {
     public MainFrame() {
         setTitle("Gestión de Apartamentos");
@@ -14,19 +13,38 @@ public class MainFrame extends JFrame {
         // Crear la barra de menú
         JMenuBar menuBar = new JMenuBar();
 
-        // Crear los menús y agregar opciones
+        // Crear los menús y agregar opciones con íconos usando rutas relativas
         JMenu menuProyectos = new JMenu("Proyectos");
-        JMenu menuTorres = new JMenu("Torres");
-        JMenu menuApartamentos = new JMenu("Apartamentos");
-        JMenu menuAsesores = new JMenu("Asesores");
-        JMenu menuClientes = new JMenu("Clientes");
-        JMenu menuPagos = new JMenu("Pagos");
-        JMenu menuVentas = new JMenu("Ventas");
-        JMenu menuUsuarios = new JMenu("Usuarios");
-        JMenu menuReportes = new JMenu("Reportes");  // Menú nuevo para reportes
-        JMenu menuCuenta = new JMenu("Cuenta");
+        menuProyectos.setIcon(new ImageIcon(getClass().getResource("/imagenes/proyectos.png")));
 
-        // Crear los elementos de menú para cada sección
+        JMenu menuTorres = new JMenu("Torres");
+        menuTorres.setIcon(new ImageIcon(getClass().getResource("/imagenes/torres.png")));
+
+        JMenu menuApartamentos = new JMenu("Apartamentos");
+        menuApartamentos.setIcon(new ImageIcon(getClass().getResource("/imagenes/apartamento.png")));
+
+        JMenu menuAsesores = new JMenu("Asesores");
+        menuAsesores.setIcon(new ImageIcon(getClass().getResource("/imagenes/asesores.png")));
+
+        JMenu menuClientes = new JMenu("Clientes");
+        menuClientes.setIcon(new ImageIcon(getClass().getResource("/imagenes/clientes.png")));
+
+        JMenu menuPagos = new JMenu("Pagos");
+        menuPagos.setIcon(new ImageIcon(getClass().getResource("/imagenes/pagos.png")));
+
+        JMenu menuVentas = new JMenu("Ventas");
+        menuVentas.setIcon(new ImageIcon(getClass().getResource("/imagenes/ventas.png")));
+
+        JMenu menuUsuarios = new JMenu("Usuarios");
+        menuUsuarios.setIcon(new ImageIcon(getClass().getResource("/imagenes/usuarios.png")));
+
+        JMenu menuReportes = new JMenu("Reportes");
+        menuReportes.setIcon(new ImageIcon(getClass().getResource("/imagenes/reportes.png")));
+
+        JMenu menuCuenta = new JMenu("Cuenta");
+        menuCuenta.setIcon(new ImageIcon(getClass().getResource("/imagenes/cuenta.png")));
+
+        // Agregar los elementos de menú
         JMenuItem itemProyectos = new JMenuItem("Gestionar Proyectos");
         JMenuItem itemTorres = new JMenuItem("Gestionar Torres");
         JMenuItem itemApartamentos = new JMenuItem("Gestionar Apartamentos");
@@ -35,7 +53,7 @@ public class MainFrame extends JFrame {
         JMenuItem itemPagos = new JMenuItem("Gestionar Pagos");
         JMenuItem itemVentas = new JMenuItem("Gestionar Ventas");
         JMenuItem itemUsuarios = new JMenuItem("Gestionar Usuarios");
-        JMenuItem itemReportes = new JMenuItem("Generar Reportes"); // Nuevo item para reportes
+        JMenuItem itemReportes = new JMenuItem("Generar Reportes");
         JMenuItem itemCerrarSesion = new JMenuItem("Cerrar sesión");
 
         // Agregar los elementos de menú a cada menú correspondiente
@@ -47,7 +65,7 @@ public class MainFrame extends JFrame {
         menuPagos.add(itemPagos);
         menuVentas.add(itemVentas);
         menuUsuarios.add(itemUsuarios);
-        menuReportes.add(itemReportes);  // Agregar el menú de reportes
+        menuReportes.add(itemReportes);
         menuCuenta.add(itemCerrarSesion);
 
         // Agregar los menús a la barra de menú
@@ -59,7 +77,7 @@ public class MainFrame extends JFrame {
         menuBar.add(menuPagos);
         menuBar.add(menuVentas);
         menuBar.add(menuUsuarios);
-        menuBar.add(menuReportes);  // Añadir el menú de reportes a la barra de menú
+        menuBar.add(menuReportes);
         menuBar.add(menuCuenta);
 
         // Asignar la barra de menú a la ventana
@@ -85,8 +103,6 @@ public class MainFrame extends JFrame {
         mainPanel.add(new PagosPanel(), "Pagos");
         mainPanel.add(new VentasPanel(), "Ventas");
         mainPanel.add(new UsuarioPanel(), "Usuarios");
-
-        // Agregar el nuevo panel de reportes
         mainPanel.add(new ReportesPanel(), "Reportes");
 
         // Mostrar el panel de bienvenida al iniciar la aplicación
@@ -101,8 +117,6 @@ public class MainFrame extends JFrame {
         itemPagos.addActionListener(e -> showPanel(mainPanel, "Pagos"));
         itemVentas.addActionListener(e -> showPanel(mainPanel, "Ventas"));
         itemUsuarios.addActionListener(e -> showPanel(mainPanel, "Usuarios"));
-
-        // Acción para mostrar el panel de reportes
         itemReportes.addActionListener(e -> showPanel(mainPanel, "Reportes"));
 
         // Acción para cerrar sesión y salir del programa

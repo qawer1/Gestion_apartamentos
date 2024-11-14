@@ -36,7 +36,7 @@ public class VentasPanel extends JPanel {
 
         inputPanel.add(new JLabel("ID Venta:"));
         txtIdVenta = new JTextField();
-        txtIdVenta.setEditable(false); // El ID de venta ya no se edita desde la vista, lo asigna la base de datos
+        // txtIdVenta.setEditable(false); // El ID de venta ya no se edita desde la vista, lo asigna la base de datos
         inputPanel.add(txtIdVenta);
 
         inputPanel.add(new JLabel("Precio Total:"));
@@ -189,7 +189,7 @@ public class VentasPanel extends JPanel {
 
     // Método para limpiar los campos después de una operación
     private void limpiarCampos() {
-        txtIdVenta.setText("");  // Limpiar el campo de ID Venta (ya no se edita)
+        txtIdVenta.setText("");  // Limpiar el campo de ID Venta (ahora editable)
         txtPrecioTotal.setText("");
         txtNumeroCuotas.setText("");
         txtIntereses.setText("");

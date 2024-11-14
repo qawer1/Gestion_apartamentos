@@ -25,44 +25,4 @@ public class conexion {
         return conn;
     }
 
-    // Método para desconectar
-    public static void desconectar() {
-        try {
-            if (conn != null && !conn.isClosed()) {
-                conn.close();
-                System.out.println("Conexión cerrada");
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al desconectar: " + e.getMessage());
-        }
-    }
-
-    // Método de prueba para realizar una consulta
-    public static void pruebaConsulta() {
-        Connection con = conectar();
-        if (con != null) {
-            String consulta = "SELECT NOMBRE, CONTRASENA, ROL, ID FROM Usuario"; // Asegúrate de que "Usuario" esté en mayúsculas, igual que en tu BD
-            try (Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery(consulta)) {
-                while (rs.next()) {
-                    String nombre = rs.getString("NOMBRE");
-                    String contrasena = rs.getString("CONTRASENA");
-                    String rol = rs.getString("ROL");
-                    int id = rs.getInt("ID");
-
-                    System.out.println("ID: " + id + ", Nombre: " + nombre + ", Contraseña: " + contrasena + ", Rol: " + rol);
-                }
-            } catch (SQLException e) {
-                System.err.println("Error al realizar la consulta: " + e.getMessage());
-            } finally {
-                desconectar();
-            }
-        } else {
-            System.out.println("No se pudo establecer la conexión.");
-        }
-    }
-
-    public static void main(String[] args) {
-        // Llamada de prueba para verificar la conexión y la consulta
-        pruebaConsulta();
-    }
 }

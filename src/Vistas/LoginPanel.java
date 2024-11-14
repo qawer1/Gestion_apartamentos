@@ -4,66 +4,103 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import controlador.UsuarioController;  // Asegúrate de tener un controlador que valide las credenciales.
+import controlador.UsuarioController;
 
 public class LoginPanel extends JFrame {
     private JTextField txtUsername;
     private JPasswordField txtPassword;
     private JButton btnLogin;
     private JLabel lblMessage;
-    private UsuarioController usuarioController;  // Controlador para manejar la validación de usuario.
+    private UsuarioController usuarioController;
 
     public LoginPanel() {
         usuarioController = new UsuarioController();
 
-        setTitle("Inicio de Sesión");
-        setSize(400, 250);
+        setTitle("Login - GESTION DE APARTAMENTOS");
+        setSize(500, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        
-        // Panel principal
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout(10, 10));
-        panel.setBackground(new Color(245, 245, 245));
-        add(panel);
+        setLayout(new BorderLayout());
 
-        // Panel superior con título
-        JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(new Color(70, 130, 180));
-        JLabel title = new JLabel("Bienvenido", JLabel.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 22));
-        title.setForeground(Color.WHITE);
-        titlePanel.add(title);
-        panel.add(titlePanel, BorderLayout.NORTH);
+        // Panel izquierdo con imagen y título
+        JPanel leftPanel = new JPanel();
+        leftPanel.setLayout(new BorderLayout());
+        leftPanel.setBackground(new Color(100, 149, 237)); // Azul para el fondo izquierdo
+        leftPanel.setPreferredSize(new Dimension(200, 350));
 
-        // Panel central para campos de usuario y contraseña
-        JPanel inputPanel = new JPanel(new GridLayout(3, 2, 10, 10));
-        inputPanel.setBackground(Color.WHITE);
-        inputPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        JLabel lblTitle = new JLabel("LOGIN", JLabel.CENTER);
+        lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        lblTitle.setForeground(Color.WHITE);
+        leftPanel.add(lblTitle, BorderLayout.NORTH);
 
-        inputPanel.add(new JLabel("Usuario:"));
-        txtUsername = new JTextField(20);
-        inputPanel.add(txtUsername);
+        JLabel buildingIcon = new JLabel(new ImageIcon("C:\\Users\\Sebastian\\OneDrive\\Pictures\\img\\apartamentos.png")); // Icono de edificio
+        buildingIcon.setHorizontalAlignment(JLabel.CENTER);
+        leftPanel.add(buildingIcon, BorderLayout.CENTER);
 
-        inputPanel.add(new JLabel("Contraseña:"));
-        txtPassword = new JPasswordField(20);
-        inputPanel.add(txtPassword);
+        add(leftPanel, BorderLayout.WEST);
 
+        // Panel derecho para el formulario de inicio de sesión
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BorderLayout());
+        rightPanel.setBackground(new Color(245, 245, 245));
+
+        JPanel inputPanel = new JPanel(new GridBagLayout());
+        inputPanel.setBackground(new Color(245, 245, 245));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Icono de usuario en la parte superior
+        JLabel userIcon = new JLabel(new ImageIcon("C:\\Users\\Sebastian\\OneDrive\\Pictures\\img\\perfil.png")); // Icono de usuario
+
+        userIcon.setHorizontalAlignment(JLabel.CENTER);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        inputPanel.add(userIcon, gbc);
+
+        // Campo de usuario
+        gbc.gridy++;
+        gbc.gridwidth = 1;
+        JLabel lblUserIcon = new JLabel(new ImageIcon("C:\\Users\\Sebastian\\OneDrive\\Pictures\\img\\usuario.png"));
+ // Icono del campo usuario
+        inputPanel.add(lblUserIcon, gbc);
+        gbc.gridx++;
+        txtUsername = new JTextField(15);
+        inputPanel.add(txtUsername, gbc);
+
+        // Campo de contraseña
+        gbc.gridy++;
+        gbc.gridx = 0;
+        JLabel lblPassIcon = new JLabel(new ImageIcon("C:\\Users\\Sebastian\\OneDrive\\Pictures\\img\\candado.png"));
+
+
+
+        inputPanel.add(lblPassIcon, gbc);
+        gbc.gridx++;
+        txtPassword = new JPasswordField(15);
+        inputPanel.add(txtPassword, gbc);
+
+        // Mensaje de error
+        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.gridwidth = 2;
         lblMessage = new JLabel("", JLabel.CENTER);
         lblMessage.setForeground(Color.RED);
-        inputPanel.add(lblMessage);
+        inputPanel.add(lblMessage, gbc);
 
-        panel.add(inputPanel, BorderLayout.CENTER);
+        rightPanel.add(inputPanel, BorderLayout.CENTER);
 
-        // Panel de botones
+        // Botón de iniciar sesión
         JPanel buttonPanel = new JPanel();
-        btnLogin = new JButton("Iniciar Sesión");
+        btnLogin = new JButton("Iniciar sesión");
         btnLogin.setBackground(new Color(70, 130, 180));
         btnLogin.setForeground(Color.WHITE);
-        btnLogin.setFocusPainted(false);
         btnLogin.setFont(new Font("Arial", Font.BOLD, 14));
         buttonPanel.add(btnLogin);
-        panel.add(buttonPanel, BorderLayout.SOUTH);
+        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        add(rightPanel, BorderLayout.CENTER);
 
         // Acción del botón de inicio de sesión
         btnLogin.addActionListener(new ActionListener() {
@@ -71,20 +108,20 @@ public class LoginPanel extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String username = txtUsername.getText();
                 String password = new String(txtPassword.getPassword());
-                
+
                 if (usuarioController.validarUsuario(username, password)) {
-                    String rol = usuarioController.obtenerRolUsuario(username); // Obtiene el rol del usuario
-                    
+                    String rol = usuarioController.obtenerRolUsuario(username);
+
                     if ("admin".equalsIgnoreCase(rol)) {
                         JOptionPane.showMessageDialog(null, "Bienvenido Administrador " + username);
-                        dispose();  // Cierra la ventana de login.
-                        MainFrame mainFrame = new MainFrame();  // Crear la instancia del MainFrame.
-                        mainFrame.setVisible(true);  // Hacer visible el MainFrame.
+                        dispose();
+                        MainFrame mainFrame = new MainFrame();
+                        mainFrame.setVisible(true);
                     } else if ("asesor".equalsIgnoreCase(rol)) {
                         JOptionPane.showMessageDialog(null, "Bienvenido Asesor " + username);
-                        dispose();  // Cierra la ventana de login.
-                        MainFrameAsesor mainFrameAsesor = new MainFrameAsesor();  // Crear la instancia del MainFrameAsesor.
-                        mainFrameAsesor.setVisible(true);  // Hacer visible el MainFrameAsesor.
+                        dispose();
+                        MainFrameAsesor mainFrameAsesor = new MainFrameAsesor();
+                        mainFrameAsesor.setVisible(true);
                     } else {
                         lblMessage.setText("Rol no reconocido.");
                     }
@@ -98,7 +135,7 @@ public class LoginPanel extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             LoginPanel login = new LoginPanel();
-            login.setVisible(true);  // Hacer visible la ventana de Login.
+            login.setVisible(true);
         });
     }
 }

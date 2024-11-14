@@ -2,9 +2,14 @@ package Vistas;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.*;
 import vistas.ReportesPanel;
 
 public class MainFrame extends JFrame {
+    private JLabel clientesActivosLabel;
+    private JLabel ventasRealizadasLabel;
+    private JLabel asesoresActivosLabel;
+
     public MainFrame() {
         setTitle("Gestión de Apartamentos");
         setSize(800, 600);
@@ -13,7 +18,7 @@ public class MainFrame extends JFrame {
         // Crear la barra de menú
         JMenuBar menuBar = new JMenuBar();
 
-        // Crear los menús y agregar opciones con íconos usando rutas relativas
+        // Crear los menús con íconos
         JMenu menuProyectos = new JMenu("Proyectos");
         menuProyectos.setIcon(new ImageIcon(getClass().getResource("/imagenes/proyectos.png")));
 
@@ -44,7 +49,7 @@ public class MainFrame extends JFrame {
         JMenu menuCuenta = new JMenu("Cuenta");
         menuCuenta.setIcon(new ImageIcon(getClass().getResource("/imagenes/cuenta.png")));
 
-        // Agregar los elementos de menú
+        // Crear y agregar elementos a cada menú
         JMenuItem itemProyectos = new JMenuItem("Gestionar Proyectos");
         JMenuItem itemTorres = new JMenuItem("Gestionar Torres");
         JMenuItem itemApartamentos = new JMenuItem("Gestionar Apartamentos");
@@ -56,7 +61,7 @@ public class MainFrame extends JFrame {
         JMenuItem itemReportes = new JMenuItem("Generar Reportes");
         JMenuItem itemCerrarSesion = new JMenuItem("Cerrar sesión");
 
-        // Agregar los elementos de menú a cada menú correspondiente
+        // Añadir los elementos de menú a sus respectivos menús
         menuProyectos.add(itemProyectos);
         menuTorres.add(itemTorres);
         menuApartamentos.add(itemApartamentos);
@@ -68,7 +73,7 @@ public class MainFrame extends JFrame {
         menuReportes.add(itemReportes);
         menuCuenta.add(itemCerrarSesion);
 
-        // Agregar los menús a la barra de menú
+        // Añadir los menús a la barra de menú
         menuBar.add(menuProyectos);
         menuBar.add(menuTorres);
         menuBar.add(menuApartamentos);
@@ -86,12 +91,19 @@ public class MainFrame extends JFrame {
         // Crear el panel de CardLayout para cambiar entre los diferentes paneles
         JPanel mainPanel = new JPanel(new CardLayout());
 
-        // Panel de bienvenida
-        JPanel welcomePanel = new JPanel();
-        welcomePanel.setLayout(new BorderLayout());
-        JLabel welcomeLabel = new JLabel("Bienvenido a la Gestión de Apartamentos", SwingConstants.CENTER);
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        welcomePanel.add(welcomeLabel, BorderLayout.CENTER);
+        // Panel de bienvenida con estadísticas
+        JPanel welcomePanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        clientesActivosLabel = new JLabel("Clientes activos: ");
+        ventasRealizadasLabel = new JLabel("Ventas realizadas: ");
+        asesoresActivosLabel = new JLabel("Asesores activos: ");
+
+        clientesActivosLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        ventasRealizadasLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        asesoresActivosLabel.setFont(new Font("Arial", Font.BOLD, 20));
+
+        welcomePanel.add(clientesActivosLabel);
+        welcomePanel.add(ventasRealizadasLabel);
+        welcomePanel.add(asesoresActivosLabel);
 
         // Agregar el panel de bienvenida y otros paneles CRUD individuales
         mainPanel.add(welcomePanel, "Bienvenida");
@@ -105,10 +117,10 @@ public class MainFrame extends JFrame {
         mainPanel.add(new UsuarioPanel(), "Usuarios");
         mainPanel.add(new ReportesPanel(), "Reportes");
 
-        // Mostrar el panel de bienvenida al iniciar la aplicación
         showPanel(mainPanel, "Bienvenida");
+        actualizarEstadisticas(); // Llama a la actualización de estadísticas al iniciar
 
-        // Acción para cambiar el panel central según la selección del menú
+        // Asignar acciones a cada elemento de menú
         itemProyectos.addActionListener(e -> showPanel(mainPanel, "Proyectos"));
         itemTorres.addActionListener(e -> showPanel(mainPanel, "Torres"));
         itemApartamentos.addActionListener(e -> showPanel(mainPanel, "Apartamentos"));
@@ -131,10 +143,33 @@ public class MainFrame extends JFrame {
         add(mainPanel);
     }
 
-    // Método para mostrar el panel seleccionado
     private void showPanel(JPanel mainPanel, String panelName) {
         CardLayout layout = (CardLayout) mainPanel.getLayout();
         layout.show(mainPanel, panelName);
+    }
+
+    private void actualizarEstadisticas() {
+        int totalClientes = contarRegistros("cliente");
+        int totalVentas = contarRegistros("venta");
+        int totalAsesores = contarRegistros("asesor");
+
+        clientesActivosLabel.setText("Clientes activos: " + totalClientes);
+        ventasRealizadasLabel.setText("Ventas realizadas: " + totalVentas);
+        asesoresActivosLabel.setText("Asesores activos: " + totalAsesores);
+    }
+
+    private int contarRegistros(String tabla) {
+        int total = 0;
+        try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "Case18283022");
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM " + tabla)) {
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
     }
 
     public static void main(String[] args) {

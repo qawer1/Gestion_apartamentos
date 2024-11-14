@@ -2,9 +2,13 @@ package Vistas;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.*;
 import vistas.ReportesPanel;
 
 public class MainFrameAsesor extends JFrame {
+    private JLabel clientesActivosLabel;
+    private JLabel ventasRealizadasLabel;
+
     public MainFrameAsesor() {
         setTitle("Gestión de Apartamentos - Asesor");
         setSize(800, 600);
@@ -13,68 +17,75 @@ public class MainFrameAsesor extends JFrame {
         // Crear la barra de menú
         JMenuBar menuBar = new JMenuBar();
 
-        // Crear los menús y agregar opciones
+        // Menú de Clientes
         JMenu menuClientes = new JMenu("Clientes");
-        JMenu menuPagos = new JMenu("Pagos");
-        JMenu menuVentas = new JMenu("Ventas");
-        JMenu menuReportes = new JMenu("Reportes");  // Menú para reportes
-        JMenu menuCuenta = new JMenu("Cuenta");
-
-        // Crear los elementos de menú para cada sección
+        menuClientes.setIcon(new ImageIcon(getClass().getResource("/imagenes/clientes.png")));
         JMenuItem itemClientes = new JMenuItem("Gestionar Clientes");
-        JMenuItem itemPagos = new JMenuItem("Gestionar Pagos");
-        JMenuItem itemVentas = new JMenuItem("Gestionar Ventas");
-        JMenuItem itemReportes = new JMenuItem("Generar Reportes"); // Item para reportes
-        JMenuItem itemCerrarSesion = new JMenuItem("Cerrar sesión");
-
-        // Agregar los elementos de menú a cada menú correspondiente
         menuClientes.add(itemClientes);
-        menuPagos.add(itemPagos);
+
+        // Menú de Ventas
+        JMenu menuVentas = new JMenu("Ventas");
+        menuVentas.setIcon(new ImageIcon(getClass().getResource("/imagenes/ventas.png")));
+        JMenuItem itemVentas = new JMenuItem("Gestionar Ventas");
         menuVentas.add(itemVentas);
-        menuReportes.add(itemReportes);  // Agregar el menú de reportes
+
+        // Menú de Pagos
+        JMenu menuPagos = new JMenu("Pagos");
+        menuPagos.setIcon(new ImageIcon(getClass().getResource("/imagenes/pagos.png")));
+        JMenuItem itemPagos = new JMenuItem("Gestionar Pagos");
+        menuPagos.add(itemPagos);
+
+        // Menú de Reportes
+        JMenu menuReportes = new JMenu("Reportes");
+        menuReportes.setIcon(new ImageIcon(getClass().getResource("/imagenes/reportes.png")));
+        JMenuItem itemReportes = new JMenuItem("Generar Reportes");
+        menuReportes.add(itemReportes);
+
+        // Menú de Cuenta
+        JMenu menuCuenta = new JMenu("Cuenta");
+        menuCuenta.setIcon(new ImageIcon(getClass().getResource("/imagenes/cuenta.png")));
+        JMenuItem itemCerrarSesion = new JMenuItem("Cerrar sesión");
         menuCuenta.add(itemCerrarSesion);
 
         // Agregar los menús a la barra de menú
         menuBar.add(menuClientes);
-        menuBar.add(menuPagos);
         menuBar.add(menuVentas);
-        menuBar.add(menuReportes);  // Añadir el menú de reportes a la barra de menú
+        menuBar.add(menuPagos);
+        menuBar.add(menuReportes);
         menuBar.add(menuCuenta);
-
-        // Asignar la barra de menú a la ventana
         setJMenuBar(menuBar);
 
         // Crear el panel de CardLayout para cambiar entre los diferentes paneles
         JPanel mainPanel = new JPanel(new CardLayout());
 
-        // Panel de bienvenida
-        JPanel welcomePanel = new JPanel();
-        welcomePanel.setLayout(new BorderLayout());
-        JLabel welcomeLabel = new JLabel("Bienvenido a la Gestión de Apartamentos - Asesor", SwingConstants.CENTER);
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        welcomePanel.add(welcomeLabel, BorderLayout.CENTER);
+        // Panel de bienvenida con estadísticas
+        JPanel welcomePanel = new JPanel(new GridLayout(2, 1, 10, 10));
+        clientesActivosLabel = new JLabel("Clientes activos: ");
+        ventasRealizadasLabel = new JLabel("Ventas realizadas: ");
 
-        // Agregar el panel de bienvenida y otros paneles CRUD individuales
+        clientesActivosLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        ventasRealizadasLabel.setFont(new Font("Arial", Font.BOLD, 20));
+
+        welcomePanel.add(clientesActivosLabel);
+        welcomePanel.add(ventasRealizadasLabel);
+
         mainPanel.add(welcomePanel, "Bienvenida");
         mainPanel.add(new ClientesPanel(), "Clientes");
-        mainPanel.add(new PagosPanel(), "Pagos");
         mainPanel.add(new VentasPanel(), "Ventas");
-
-        // Agregar el nuevo panel de reportes
+        mainPanel.add(new PagosPanel(), "Pagos");
         mainPanel.add(new ReportesPanel(), "Reportes");
 
         // Mostrar el panel de bienvenida al iniciar la aplicación
         showPanel(mainPanel, "Bienvenida");
+        actualizarEstadisticas(); // Llama a la actualización de estadísticas al iniciar
 
-        // Acción para cambiar el panel central según la selección del menú
+        // Acciones para cambiar el panel según la selección del menú
         itemClientes.addActionListener(e -> showPanel(mainPanel, "Clientes"));
-        itemPagos.addActionListener(e -> showPanel(mainPanel, "Pagos"));
         itemVentas.addActionListener(e -> showPanel(mainPanel, "Ventas"));
-
-        // Acción para mostrar el panel de reportes
+        itemPagos.addActionListener(e -> showPanel(mainPanel, "Pagos"));
         itemReportes.addActionListener(e -> showPanel(mainPanel, "Reportes"));
 
-        // Acción para cerrar sesión y salir del programa
+        // Acción para cerrar sesión
         itemCerrarSesion.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(this, "¿Seguro que desea cerrar sesión?", "Confirmar Cerrar Sesión", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
@@ -82,14 +93,34 @@ public class MainFrameAsesor extends JFrame {
             }
         });
 
-        // Agregar el panel principal al frame
         add(mainPanel);
     }
 
-    // Método para mostrar el panel seleccionado
     private void showPanel(JPanel mainPanel, String panelName) {
         CardLayout layout = (CardLayout) mainPanel.getLayout();
         layout.show(mainPanel, panelName);
+    }
+
+    private void actualizarEstadisticas() {
+        int totalClientes = contarRegistros("cliente");
+        int totalVentas = contarRegistros("venta");
+
+        clientesActivosLabel.setText("Clientes activos: " + totalClientes);
+        ventasRealizadasLabel.setText("Ventas realizadas: " + totalVentas);
+    }
+
+    private int contarRegistros(String tabla) {
+        int total = 0;
+        try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "Case18283022");
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM " + tabla)) {
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
     }
 
     public static void main(String[] args) {

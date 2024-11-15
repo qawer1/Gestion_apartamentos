@@ -24,12 +24,12 @@ public class ApartamentoPanel extends JPanel {
         apartamentoController = new ApartamentoController();
         setLayout(new BorderLayout(10, 10));
 
-        // Establecer color de fondo gris
+        // Establecer color de fondo gris para el panel principal
         setBackground(Color.GRAY);
 
         // Crear el panel de entrada
         JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5));
-        inputPanel.setBackground(Color.GRAY); // Fondo gris para el panel de entrada
+        inputPanel.setBackground(Color.GRAY);  // Fondo gris para el panel de entrada
         inputPanel.add(crearEtiqueta("ID del Apartamento:"));
         txtID = new JTextField();
         inputPanel.add(txtID);
@@ -65,7 +65,7 @@ public class ApartamentoPanel extends JPanel {
 
         // Crear el panel de botones
         JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
-        buttonPanel.setBackground(Color.GRAY); // Fondo gris para el panel de botones
+        buttonPanel.setBackground(Color.GRAY);  // Fondo gris para el panel de botones
         JButton btnCrear = new JButton("Crear");
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
@@ -86,9 +86,10 @@ public class ApartamentoPanel extends JPanel {
 
         txtApartamentos = new JTextArea(10, 30);
         txtApartamentos.setEditable(false);
-        txtApartamentos.setBackground(Color.LIGHT_GRAY); // Fondo gris claro para el área de texto
+        txtApartamentos.setBackground(Color.LIGHT_GRAY);  // Fondo gris claro para el área de texto
         add(new JScrollPane(txtApartamentos), BorderLayout.SOUTH);
 
+        // Agregar acciones a los botones
         btnCrear.addActionListener(e -> {
             try {
                 int idApartamento = Integer.parseInt(txtID.getText());
@@ -97,7 +98,7 @@ public class ApartamentoPanel extends JPanel {
                 double valor = Double.parseDouble(txtValorApartamento.getText());
                 String tipoUnidad = txtTipoUnidad.getText();
                 String area = txtArea.getText();
-                String matricula = txtMatricula.getText();
+                String matricula = txtMatricula();
                 String estadoVenta = txtEstadoVenta.getText();
 
                 apartamentoController.crearApartamento(idApartamento, idTorre, numero, valor, tipoUnidad, area, matricula, estadoVenta);
@@ -156,7 +157,7 @@ public class ApartamentoPanel extends JPanel {
 
     private JLabel crearEtiqueta(String texto) {
         JLabel etiqueta = new JLabel(texto, SwingConstants.RIGHT);
-        etiqueta.setForeground(Color.WHITE); // Texto blanco para mayor contraste
+        etiqueta.setForeground(Color.WHITE); // Texto blanco para mejor contraste
         return etiqueta;
     }
 

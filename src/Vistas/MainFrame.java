@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import vistas.ReportesPanel;
 
+
 public class MainFrame extends JFrame {
     private JPanel mainPanel;
     private CardLayout cardLayout;
@@ -19,7 +20,12 @@ public class MainFrame extends JFrame {
         cardLayout = new CardLayout();
         mainPanel.setLayout(cardLayout);
 
-        // Agregar todos los paneles al CardLayout
+        // ** Crear un panel gris de inicio **
+        JPanel inicioPanel = new JPanel();
+        inicioPanel.setBackground(new Color(169, 169, 169));  // Gris claro
+        mainPanel.add(inicioPanel, "Inicio");  // Añadir el panel gris al CardLayout
+
+        // Agregar todos los otros paneles al CardLayout
         mainPanel.add(new ProyectoPanel(), "Proyectos");
         mainPanel.add(new TorresPanel(), "Torres");
         mainPanel.add(new ApartamentoPanel(), "Apartamentos");
@@ -29,6 +35,9 @@ public class MainFrame extends JFrame {
         mainPanel.add(new VentasPanel(), "Ventas");
         mainPanel.add(new UsuarioPanel(), "Usuarios");
         mainPanel.add(new ReportesPanel(), "Reportes");
+
+        // Mostrar el panel gris de inicio cuando se ejecute
+        cardLayout.show(mainPanel, "Inicio");
 
         // Crear el menú lateral
         JPanel menuPanel = new JPanel();

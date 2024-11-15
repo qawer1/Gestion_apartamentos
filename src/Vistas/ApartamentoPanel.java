@@ -10,72 +10,104 @@ import java.util.List;
 
 public class ApartamentoPanel extends JPanel {
     private JTextField txtID;
-    private JComboBox<Integer> cbIDTorre;  // Cambio: JComboBox para seleccionar el ID de la torre
+    private JComboBox<Integer> cbIDTorre;
     private JTextField txtNumeroApartamento;
     private JTextField txtValorApartamento;
     private JTextField txtTipoUnidad;
     private JTextField txtArea;
     private JTextField txtMatricula;
-    private JTextField txtEstadoVenta; // Campo para estadoVenta
+    private JTextField txtEstadoVenta;
     private JTextArea txtApartamentos;
     private ApartamentoController apartamentoController;
 
     public ApartamentoPanel() {
         apartamentoController = new ApartamentoController();
         setLayout(new BorderLayout(10, 10));
+        setBackground(Color.GRAY);
 
-        JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5)); // Mantener 10 filas para los campos
+        // Panel para la entrada de datos
+        JPanel inputPanel = new JPanel(new GridBagLayout());
+        inputPanel.setBackground(Color.GRAY);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        inputPanel.add(new JLabel("ID del Apartamento:"));
-        txtID = new JTextField();
-        inputPanel.add(txtID);
+        // Crear etiquetas y campos de entrada
+        gbc.gridx = 0; gbc.gridy = 0;
+        inputPanel.add(new JLabel("ID del Apartamento:"), gbc);
+        gbc.gridx = 1;
+        txtID = new JTextField(10);
+        inputPanel.add(txtID, gbc);
 
-        inputPanel.add(new JLabel("ID Torre:"));
-        cbIDTorre = new JComboBox<>(); // Usamos JComboBox para las torres
-        cargarTorres(); // Cargar los IDs de torres
-        inputPanel.add(cbIDTorre);
+        gbc.gridx = 0; gbc.gridy = 1;
+        inputPanel.add(new JLabel("ID Torre:"), gbc);
+        gbc.gridx = 1;
+        cbIDTorre = new JComboBox<>();
+        cargarTorres();
+        inputPanel.add(cbIDTorre, gbc);
 
-        inputPanel.add(new JLabel("Número del Apartamento:"));
-        txtNumeroApartamento = new JTextField();
-        inputPanel.add(txtNumeroApartamento);
+        gbc.gridx = 0; gbc.gridy = 2;
+        inputPanel.add(new JLabel("Número del Apartamento:"), gbc);
+        gbc.gridx = 1;
+        txtNumeroApartamento = new JTextField(10);
+        inputPanel.add(txtNumeroApartamento, gbc);
 
-        inputPanel.add(new JLabel("Valor del Apartamento:"));
-        txtValorApartamento = new JTextField();
-        inputPanel.add(txtValorApartamento);
+        gbc.gridx = 0; gbc.gridy = 3;
+        inputPanel.add(new JLabel("Valor del Apartamento:"), gbc);
+        gbc.gridx = 1;
+        txtValorApartamento = new JTextField(10);
+        inputPanel.add(txtValorApartamento, gbc);
 
-        inputPanel.add(new JLabel("Tipo de Unidad:"));
-        txtTipoUnidad = new JTextField();
-        inputPanel.add(txtTipoUnidad);
+        gbc.gridx = 0; gbc.gridy = 4;
+        inputPanel.add(new JLabel("Tipo de Unidad:"), gbc);
+        gbc.gridx = 1;
+        txtTipoUnidad = new JTextField(10);
+        inputPanel.add(txtTipoUnidad, gbc);
 
-        inputPanel.add(new JLabel("Área:"));
-        txtArea = new JTextField();
-        inputPanel.add(txtArea);
+        gbc.gridx = 0; gbc.gridy = 5;
+        inputPanel.add(new JLabel("Área:"), gbc);
+        gbc.gridx = 1;
+        txtArea = new JTextField(10);
+        inputPanel.add(txtArea, gbc);
 
-        inputPanel.add(new JLabel("Matrícula:"));
-        txtMatricula = new JTextField();
-        inputPanel.add(txtMatricula);
+        gbc.gridx = 0; gbc.gridy = 6;
+        inputPanel.add(new JLabel("Matrícula:"), gbc);
+        gbc.gridx = 1;
+        txtMatricula = new JTextField(10);
+        inputPanel.add(txtMatricula, gbc);
 
-        inputPanel.add(new JLabel("Estado de Venta:"));
-        txtEstadoVenta = new JTextField();
-        inputPanel.add(txtEstadoVenta);
+        gbc.gridx = 0; gbc.gridy = 7;
+        inputPanel.add(new JLabel("Estado de Venta:"), gbc);
+        gbc.gridx = 1;
+        txtEstadoVenta = new JTextField(10);
+        inputPanel.add(txtEstadoVenta, gbc);
 
-        // Panel de botones
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        // Panel para los botones
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 5, 5));
+        buttonPanel.setBackground(Color.GRAY);
 
-        JButton btnCrear = new JButton("Crear Apartamento");
-        JButton btnLeer = new JButton("Leer Apartamentos");
-        JButton btnEliminar = new JButton("Eliminar Apartamento");
-        JButton btnEditar = new JButton("Editar Apartamento");
+        
+        JButton btnCrear = new JButton("Crear");
+        JButton btnLeer = new JButton("Leer");
+        JButton btnEliminar = new JButton("Eliminar");
+        JButton btnEditar = new JButton("Editar");
+
+        Dimension buttonSize = new Dimension(2, 5); // Tamaño más pequeño para los botones
+        btnCrear.setPreferredSize(buttonSize);
+        btnLeer.setPreferredSize(buttonSize);
+        btnEliminar.setPreferredSize(buttonSize);
+        btnEditar.setPreferredSize(buttonSize);
 
         buttonPanel.add(btnCrear);
         buttonPanel.add(btnLeer);
         buttonPanel.add(btnEliminar);
         buttonPanel.add(btnEditar);
 
+        // Agregar paneles a la interfaz principal
         add(inputPanel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.CENTER);
 
+        // Área de texto para mostrar apartamentos
         txtApartamentos = new JTextArea(10, 30);
         txtApartamentos.setEditable(false);
         add(new JScrollPane(txtApartamentos), BorderLayout.SOUTH);
@@ -86,11 +118,11 @@ public class ApartamentoPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int idApartamento = Integer.parseInt(txtID.getText());
-                    int idTorre = (Integer) cbIDTorre.getSelectedItem();  // Obtener ID de torre desde JComboBox
+                    int idTorre = (Integer) cbIDTorre.getSelectedItem();
                     int numero = Integer.parseInt(txtNumeroApartamento.getText());
                     double valor = Double.parseDouble(txtValorApartamento.getText());
                     String tipoUnidad = txtTipoUnidad.getText();
-                    String area = (txtArea.getText());
+                    String area = txtArea.getText();
                     String matricula = txtMatricula.getText();
                     String estadoVenta = txtEstadoVenta.getText();
 
@@ -108,16 +140,16 @@ public class ApartamentoPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<Apartamento> apartamentos = apartamentoController.obtenerApartamentos();
-                txtApartamentos.setText(""); // Limpiar antes de listar
+                txtApartamentos.setText("");
                 for (Apartamento apartamento : apartamentos) {
-                    txtApartamentos.append("ID: " + apartamento.getID_apartamento() + 
-                                            ", Torre ID: " + apartamento.getID_torre() + 
-                                            ", Número: " + apartamento.getNumero_apartamento() +
-                                            ", Valor: " + apartamento.getValorApartamento() +
-                                            ", Tipo: " + apartamento.getTipoUnidad() +
-                                            ", Área: " + apartamento.getArea() +
-                                            ", Matrícula: " + apartamento.getMatricula() +
-                                            ", Estado de Venta: " + apartamento.getEstadoVenta() + "\n");
+                    txtApartamentos.append("ID: " + apartamento.getID_apartamento() +
+                                           ", Torre ID: " + apartamento.getID_torre() +
+                                           ", Número: " + apartamento.getNumero_apartamento() +
+                                           ", Valor: " + apartamento.getValorApartamento() +
+                                           ", Tipo: " + apartamento.getTipoUnidad() +
+                                           ", Área: " + apartamento.getArea() +
+                                           ", Matrícula: " + apartamento.getMatricula() +
+                                           ", Estado de Venta: " + apartamento.getEstadoVenta() + "\n");
                 }
             }
         });
@@ -143,11 +175,11 @@ public class ApartamentoPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int idApartamento = Integer.parseInt(txtID.getText());
-                    int idTorre = (Integer) cbIDTorre.getSelectedItem();  // Obtener ID de torre desde JComboBox
+                    int idTorre = (Integer) cbIDTorre.getSelectedItem();
                     int numero = Integer.parseInt(txtNumeroApartamento.getText());
                     double valor = Double.parseDouble(txtValorApartamento.getText());
                     String tipoUnidad = txtTipoUnidad.getText();
-                    String area = (txtArea.getText());
+                    String area = txtArea.getText();
                     String matricula = txtMatricula.getText();
                     String estadoVenta = txtEstadoVenta.getText();
 
@@ -162,7 +194,6 @@ public class ApartamentoPanel extends JPanel {
     }
 
     private void cargarTorres() {
-        // Obtener los IDs de las torres y cargarlos en el JComboBox
         List<Integer> idsTorres = apartamentoController.obtenerIdsTorres();
         for (Integer id : idsTorres) {
             cbIDTorre.addItem(id);
@@ -171,12 +202,12 @@ public class ApartamentoPanel extends JPanel {
 
     private void limpiarCampos() {
         txtID.setText("");
-        cbIDTorre.setSelectedIndex(0); // Limpiar JComboBox (seleccionar el primer valor)
+        cbIDTorre.setSelectedIndex(0);
         txtNumeroApartamento.setText("");
         txtValorApartamento.setText("");
         txtTipoUnidad.setText("");
         txtArea.setText("");
         txtMatricula.setText("");
-        txtEstadoVenta.setText(""); // Limpiar campo de estadoVenta
+        txtEstadoVenta.setText("");
     }
 }

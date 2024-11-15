@@ -3,18 +3,15 @@ package Vistas;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.sql.*;
 import vistas.ReportesPanel;
 
 public class MainFrameAsesor extends JFrame {
     private JPanel mainPanel;
-    private JLabel clientesActivosLabel;
-    private JLabel ventasRealizadasLabel;
     private CardLayout cardLayout;
 
     public MainFrameAsesor() {
         setTitle("Gestión de Apartamentos - Asesor");
-        setSize(800, 600);
+        setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Crear el panel principal con CardLayout
@@ -22,26 +19,19 @@ public class MainFrameAsesor extends JFrame {
         cardLayout = new CardLayout();
         mainPanel.setLayout(cardLayout);
 
-        // Agregar todos los paneles al CardLayout
-        JPanel welcomePanel = new JPanel(new GridLayout(2, 1, 10, 10));
-        clientesActivosLabel = new JLabel("Clientes activos: ");
-        ventasRealizadasLabel = new JLabel("Ventas realizadas: ");
-        
-        clientesActivosLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        ventasRealizadasLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        
-        welcomePanel.add(clientesActivosLabel);
-        welcomePanel.add(ventasRealizadasLabel);
-        
-        mainPanel.add(welcomePanel, "Bienvenida");
+        // ** Crear un panel gris de inicio **
+        JPanel inicioPanel = new JPanel();
+        inicioPanel.setBackground(new Color(169, 169, 169));  // Gris claro
+        mainPanel.add(inicioPanel, "Inicio");  // Añadir el panel gris al CardLayout
+
+        // Agregar todos los otros paneles al CardLayout
         mainPanel.add(new ClientesPanel(), "Clientes");
         mainPanel.add(new VentasPanel(), "Ventas");
         mainPanel.add(new PagosPanel(), "Pagos");
         mainPanel.add(new ReportesPanel(), "Reportes");
 
-        // Actualizar estadísticas al iniciar
-        actualizarEstadisticas();
-        showPanel("Bienvenida");
+        // Mostrar el panel gris de inicio cuando se ejecute
+        cardLayout.show(mainPanel, "Inicio");
 
         // Crear el menú lateral
         JPanel menuPanel = new JPanel();
@@ -88,41 +78,16 @@ public class MainFrameAsesor extends JFrame {
 
         if (iconPath != null) {
             ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
-            // Redimensionar el icono a un tamaño uniforme
             Image img = icon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
             button.setIcon(new ImageIcon(img));
         }
 
-        // Acción para mostrar el panel correspondiente
         button.addActionListener((ActionEvent e) -> showPanel(panelName));
-
         return button;
     }
 
     private void showPanel(String panelName) {
         cardLayout.show(mainPanel, panelName);
-    }
-
-    private void actualizarEstadisticas() {
-        int totalClientes = contarRegistros("cliente");
-        int totalVentas = contarRegistros("venta");
-
-        clientesActivosLabel.setText("Clientes activos: " + totalClientes);
-        ventasRealizadasLabel.setText("Ventas realizadas: " + totalVentas);
-    }
-
-    private int contarRegistros(String tabla) {
-        int total = 0;
-        try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "Case18283022");
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM " + tabla)) {
-            if (rs.next()) {
-                total = rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return total;
     }
 
     public static void main(String[] args) {

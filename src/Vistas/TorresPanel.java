@@ -1,55 +1,56 @@
 package Vistas;
 
+import controlador.AsesorController;
+import modelo.Asesor;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import controlador.TorreController;
-import controlador.ProyectoController;
-import modelo.Torre;
-import modelo.Proyecto;
 import java.util.List;
 
-public class TorresPanel extends JPanel {
-    private JTextField txtId; // Campo para ID de la torre
-    private JTextField txtNumeroTorre; // Campo para el número de la torre
-    private JTextField txtNumeroApartamentos; // Campo para el número de apartamentos
-    private JTextArea txtTorres;
-    private JComboBox<String> cmbProyectos; // JComboBox para seleccionar proyecto
-    private TorreController torreController;
-    private ProyectoController proyectoController;
+public class AsesoresPanel extends JPanel {
+    private JTextField txtCedula;
+    private JTextField txtNombre;
+    private JTextField txtDireccion;
+    private JTextField txtTelefono;
+    private JTextField txtCorreo;
+    private JTextArea txtAsesores;
+    private AsesorController asesorController;
 
-    public TorresPanel() {
-        torreController = new TorreController();
-        proyectoController = new ProyectoController();
+    public AsesoresPanel() {
+        asesorController = new AsesorController();
         setLayout(new BorderLayout(10, 10));
 
+        // Crear panel de entrada con GridLayout
         JPanel inputPanel = new JPanel(new GridLayout(5, 2, 5, 5));
-        inputPanel.add(new JLabel("ID de la Torre:"));
-        txtId = new JTextField();
-        inputPanel.add(txtId);
+        inputPanel.add(new JLabel("Cédula:"));
+        txtCedula = new JTextField();
+        inputPanel.add(txtCedula);
 
-        // JComboBox para seleccionar el proyecto
-        inputPanel.add(new JLabel("Seleccionar Proyecto:"));
-        cmbProyectos = new JComboBox<>();
-        cargarProyectos();
-        inputPanel.add(cmbProyectos);
+        inputPanel.add(new JLabel("Nombre:"));
+        txtNombre = new JTextField();
+        inputPanel.add(txtNombre);
 
-        inputPanel.add(new JLabel("Número de Torre:"));
-        txtNumeroTorre = new JTextField();
-        inputPanel.add(txtNumeroTorre);
+        inputPanel.add(new JLabel("Dirección:"));
+        txtDireccion = new JTextField();
+        inputPanel.add(txtDireccion);
 
-        inputPanel.add(new JLabel("Número de Apartamentos:"));
-        txtNumeroApartamentos = new JTextField();
-        inputPanel.add(txtNumeroApartamentos);
+        inputPanel.add(new JLabel("Teléfono:"));
+        txtTelefono = new JTextField();
+        inputPanel.add(txtTelefono);
 
-        // Panel de botones
+        inputPanel.add(new JLabel("Correo Electrónico:"));
+        txtCorreo = new JTextField();
+        inputPanel.add(txtCorreo);
+
+        // Panel de botones con disposición vertical
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS)); // Disposición vertical
-        JButton btnCrear = new JButton("Crear Torre");
-        JButton btnLeer = new JButton("Leer Torres");
-        JButton btnEliminar = new JButton("Eliminar Torre");
-        JButton btnEditar = new JButton("Editar Torre");
+        JButton btnCrear = new JButton("Crear Asesor");
+        JButton btnLeer = new JButton("Leer Asesores");
+        JButton btnEliminar = new JButton("Eliminar Asesor");
+        JButton btnEditar = new JButton("Editar Asesor");
 
         // Añadir botones al panel
         buttonPanel.add(btnCrear);
@@ -61,89 +62,94 @@ public class TorresPanel extends JPanel {
         add(inputPanel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.CENTER); // Añadir el panel de botones al centro
 
-        txtTorres = new JTextArea(10, 30);
-        txtTorres.setEditable(false);
-        add(new JScrollPane(txtTorres), BorderLayout.SOUTH); // Cambiar a la parte inferior
+        // Crear área de texto para mostrar los asesores
+        txtAsesores = new JTextArea(10, 30);
+        txtAsesores.setEditable(false);
+        add(new JScrollPane(txtAsesores), BorderLayout.SOUTH); // Cambiar a la parte inferior
 
-        // ActionListener para el botón "Crear Torre"
+        // Acción para el botón "Crear Asesor"
         btnCrear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int idTorre = Integer.parseInt(txtId.getText());
-                int idProyecto = obtenerIdProyectoSeleccionado();
-                int numeroTorre = Integer.parseInt(txtNumeroTorre.getText());
-                int numeroApartamentos = Integer.parseInt(txtNumeroApartamentos.getText());
-                torreController.crearTorre(idTorre, idProyecto, numeroTorre, numeroApartamentos);
-                JOptionPane.showMessageDialog(null, "Torre creada exitosamente");
-                limpiarCampos();
+                try {
+                    int cedula = Integer.parseInt(txtCedula.getText());
+                    String nombre = txtNombre.getText();
+                    String direccion = txtDireccion.getText();
+                    String telefono = txtTelefono.getText();
+                    String correo = txtCorreo.getText();
+
+                    asesorController.crearAsesor(cedula, nombre, direccion, telefono, correo);
+                    JOptionPane.showMessageDialog(null, "Asesor creado exitosamente");
+                    limpiarCampos();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Error: Por favor, ingresa valores válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
-        // ActionListener para el botón "Leer Torres"
+        // Acción para el botón "Leer Asesores"
         btnLeer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                List<Torre> torres = torreController.obtenerTorres();
-                txtTorres.setText("");  // Limpiar el área de texto antes de listar
-                if (torres.isEmpty()) {
-                    txtTorres.append("No hay torres registradas.\n");
+                List<Asesor> asesores = asesorController.obtenerAsesores();
+                txtAsesores.setText("");  // Limpiar el área de texto antes de listar
+                if (asesores.isEmpty()) {
+                    txtAsesores.append("No hay asesores registrados.\n");
                 } else {
-                    for (Torre torre : torres) {
-                        txtTorres.append(String.format("ID Torre: %d\n", torre.getIdTorre()));
-                        txtTorres.append(String.format("ID Proyecto: %d\n", torre.getIdProyecto()));
-                        txtTorres.append(String.format("Número Torre: %d\n", torre.getNumero_torre()));
-                        txtTorres.append(String.format("Número Apartamentos: %d\n", torre.getNumeroApartamentos()));
-                        txtTorres.append("----------------------------\n");
+                    for (Asesor asesor : asesores) {
+                        txtAsesores.append(String.format("Cédula: %d\n", asesor.getCedula()));
+                        txtAsesores.append(String.format("Nombre: %s\n", asesor.getNombre()));
+                        txtAsesores.append(String.format("Dirección: %s\n", asesor.getDireccion()));
+                        txtAsesores.append(String.format("Teléfono: %s\n", asesor.getTelefono()));
+                        txtAsesores.append(String.format("Correo: %s\n", asesor.getCorreo_electronico()));
+                        txtAsesores.append("-------------------------------\n");  // Separación entre asesores
                     }
                 }
             }
         });
 
-        // ActionListener para el botón "Eliminar Torre"
+        // Acción para el botón "Eliminar Asesor"
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int idTorre = Integer.parseInt(txtId.getText());
-                torreController.eliminarTorre(idTorre);
-                JOptionPane.showMessageDialog(null, "Torre eliminada exitosamente");
-                limpiarCampos();
+                try {
+                    int cedula = Integer.parseInt(txtCedula.getText());
+                    asesorController.eliminarAsesor(cedula);
+                    JOptionPane.showMessageDialog(null, "Asesor eliminado exitosamente");
+                    limpiarCampos();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Error: Por favor, ingresa una cédula válida.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
-        // ActionListener para el botón "Editar Torre"
+        // Acción para el botón "Editar Asesor"
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int idTorre = Integer.parseInt(txtId.getText());
-                int idProyecto = obtenerIdProyectoSeleccionado();
-                int numeroTorre = Integer.parseInt(txtNumeroTorre.getText());
-                int numeroApartamentos = Integer.parseInt(txtNumeroApartamentos.getText());
-                torreController.actualizarTorre(idTorre, idProyecto, numeroTorre, numeroApartamentos);
-                JOptionPane.showMessageDialog(null, "Torre actualizada exitosamente");
-                limpiarCampos();
+                try {
+                    int cedula = Integer.parseInt(txtCedula.getText());
+                    String nombre = txtNombre.getText();
+                    String direccion = txtDireccion.getText();
+                    String telefono = txtTelefono.getText();
+                    String correo = txtCorreo.getText();
+
+                    asesorController.actualizarAsesor(cedula, nombre, direccion, telefono, correo);
+                    JOptionPane.showMessageDialog(null, "Asesor actualizado exitosamente");
+                    limpiarCampos();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Error: Por favor, ingresa valores válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
 
-    // Método para cargar los proyectos en el JComboBox
-    private void cargarProyectos() {
-        List<Proyecto> proyectos = proyectoController.obtenerProyectos();
-        cmbProyectos.removeAllItems();
-        for (Proyecto proyecto : proyectos) {
-            cmbProyectos.addItem(proyecto.getIdProyecto() + " - " + proyecto.getNombre());
-        }
-    }
-
-    // Método para obtener el ID del proyecto seleccionado
-    private int obtenerIdProyectoSeleccionado() {
-        String proyectoSeleccionado = (String) cmbProyectos.getSelectedItem();
-        return Integer.parseInt(proyectoSeleccionado.split(" - ")[0]); // Extraer el ID del proyecto
-    }
-
+    // Método para limpiar los campos de entrada
     private void limpiarCampos() {
-        txtId.setText(""); // Limpiar el campo de ID
-        cmbProyectos.setSelectedIndex(0); // Restablecer la selección de proyecto
-        txtNumeroTorre.setText(""); // Limpiar el campo de número de torre
-        txtNumeroApartamentos.setText(""); // Limpiar el campo de número de apartamentos
+        txtCedula.setText(""); // Limpiar el campo de cédula
+        txtNombre.setText(""); // Limpiar el campo de nombre
+        txtDireccion.setText(""); // Limpiar el campo de dirección
+        txtTelefono.setText(""); // Limpiar el campo de teléfono
+        txtCorreo.setText(""); // Limpiar el campo de correo
     }
 }

@@ -118,24 +118,25 @@ public class AsesoresPanel extends JPanel {
         });
 
         // Acción para leer asesores
-        btnLeer.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                List<Asesor> asesores = asesorController.obtenerAsesores();
-                txtAsesores.setText(""); // Limpiar el área de texto antes de listar
-                if (asesores.isEmpty()) {
-                    txtAsesores.append("No hay asesores registrados.\n");
-                } else {
-                    for (Asesor asesor : asesores) {
-                        txtAsesores.append("Cédula: " + asesor.getCedula() +
-                                           ", Nombre: " + asesor.getNombre() +
-                                           ", Dirección: " + asesor.getDireccion() +
-                                           ", Teléfono: " + asesor.getTelefono() +
-                                           ", Correo: " + asesor.getCorreo_electronico() + "\n");
-                    }
-                }
+btnLeer.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        List<Asesor> asesores = asesorController.obtenerAsesores();
+        txtAsesores.setText(""); // Limpiar el área de texto antes de listar
+        if (asesores.isEmpty()) {
+            txtAsesores.append("No hay asesores registrados.\n");
+        } else {
+            for (Asesor asesor : asesores) {
+                txtAsesores.append(String.format("Cédula: %s\n", asesor.getCedula()));
+                txtAsesores.append(String.format("Nombre: %s\n", asesor.getNombre()));
+                txtAsesores.append(String.format("Dirección: %s\n", asesor.getDireccion()));
+                txtAsesores.append(String.format("Teléfono: %s\n", asesor.getTelefono()));
+                txtAsesores.append(String.format("Correo: %s\n", asesor.getCorreo_electronico()));
+                txtAsesores.append("----------------------------\n");
             }
-        });
+        }
+    }
+});
 
         // Acción para eliminar asesor
         btnEliminar.addActionListener(new ActionListener() {

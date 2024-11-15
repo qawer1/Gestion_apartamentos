@@ -19,7 +19,12 @@ public class MainFrame extends JFrame {
         cardLayout = new CardLayout();
         mainPanel.setLayout(cardLayout);
 
-        // Agregar todos los paneles al CardLayout
+        // ** Crear un panel gris de inicio **
+        JPanel inicioPanel = new JPanel();
+        inicioPanel.setBackground(new Color(169, 169, 169));  // Gris claro
+        mainPanel.add(inicioPanel, "Inicio");  // Añadir el panel gris al CardLayout
+
+        // Agregar todos los otros paneles al CardLayout
         mainPanel.add(new ProyectoPanel(), "Proyectos");
         mainPanel.add(new TorresPanel(), "Torres");
         mainPanel.add(new ApartamentoPanel(), "Apartamentos");
@@ -29,6 +34,9 @@ public class MainFrame extends JFrame {
         mainPanel.add(new VentasPanel(), "Ventas");
         mainPanel.add(new UsuarioPanel(), "Usuarios");
         mainPanel.add(new ReportesPanel(), "Reportes");
+
+        // Mostrar el panel gris de inicio cuando se ejecute
+        cardLayout.show(mainPanel, "Inicio");
 
         // Crear el menú lateral
         JPanel menuPanel = new JPanel();
@@ -45,6 +53,20 @@ public class MainFrame extends JFrame {
         menuPanel.add(createMenuButton("Ventas", "/imagenes/ventas.png", "Ventas"));
         menuPanel.add(createMenuButton("Usuarios", "/imagenes/usuarios.png", "Usuarios"));
         menuPanel.add(createMenuButton("Reportes", "/imagenes/reportes.png", "Reportes"));
+
+        // Botón de "Refrescar"
+        JButton btnRefrescar = new JButton("Refrescar");
+        btnRefrescar.setFont(new Font("Arial", Font.PLAIN, 16));
+        btnRefrescar.setBackground(new Color(43, 43, 43));
+        btnRefrescar.setForeground(Color.WHITE);
+        btnRefrescar.setFocusPainted(false);
+        btnRefrescar.setHorizontalAlignment(SwingConstants.LEFT);
+        btnRefrescar.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
+        btnRefrescar.addActionListener(e -> {
+            // Aquí actualizas o recargas el contenido del panel activo
+            refreshCurrentPanel();
+        });
+        menuPanel.add(btnRefrescar);
 
         // Botón de Cerrar Sesión
         JButton cerrarSesionButton = new JButton("Cerrar sesión");
@@ -93,6 +115,33 @@ public class MainFrame extends JFrame {
 
     private void showPanel(String panelName) {
         cardLayout.show(mainPanel, panelName);
+    }
+
+    private void refreshCurrentPanel() {
+        // Aquí obtienes el nombre del panel visible y actualizas los datos
+        String currentPanelName = getCurrentPanelName();
+
+        switch (currentPanelName) {
+            case "Apartamentos":
+                // Llama al método de actualización para el panel de Apartamentos
+                ApartamentoPanel apartamentoPanel = (ApartamentoPanel) ((CardLayout) mainPanel.getLayout()).getLayoutComponent(mainPanel, "Apartamentos");
+                apartamentoPanel.actualizarDatos();  // Debes implementar este método en ApartamentoPanel
+                break;
+            case "Proyectos":
+                // Similar para otros paneles
+                break;
+            // Agregar más casos según sea necesario
+        }
+    }
+
+    private String getCurrentPanelName() {
+        // Lógica para obtener el nombre del panel activo
+        for (Component component : mainPanel.getComponents()) {
+            if (component.isVisible()) {
+                return ((JPanel) component).getName();
+            }
+        }
+        return "";
     }
 
     public static void main(String[] args) {

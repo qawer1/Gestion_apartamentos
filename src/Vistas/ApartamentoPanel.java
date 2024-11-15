@@ -26,47 +26,46 @@ public class ApartamentoPanel extends JPanel {
 
         // Crear el panel de entrada
         JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5));
-        inputPanel.add(new JLabel("ID del Apartamento:", SwingConstants.CENTER));
+        inputPanel.add(new JLabel("ID del Apartamento:", SwingConstants.RIGHT));
         txtID = new JTextField();
         inputPanel.add(txtID);
 
-        inputPanel.add(new JLabel("ID Torre:", SwingConstants.CENTER));
+        inputPanel.add(new JLabel("ID Torre:", SwingConstants.RIGHT));
         cbIDTorre = new JComboBox<>();
         cargarTorres();
         inputPanel.add(cbIDTorre);
 
-        inputPanel.add(new JLabel("Número del Apartamento:", SwingConstants.CENTER));
+        inputPanel.add(new JLabel("Número del Apartamento:", SwingConstants.RIGHT));
         txtNumeroApartamento = new JTextField();
         inputPanel.add(txtNumeroApartamento);
 
-        inputPanel.add(new JLabel("Valor del Apartamento:", SwingConstants.CENTER));
+        inputPanel.add(new JLabel("Valor del Apartamento:", SwingConstants.RIGHT));
         txtValorApartamento = new JTextField();
         inputPanel.add(txtValorApartamento);
 
-        inputPanel.add(new JLabel("Tipo de Unidad:", SwingConstants.CENTER));
+        inputPanel.add(new JLabel("Tipo de Unidad:", SwingConstants.RIGHT));
         txtTipoUnidad = new JTextField();
         inputPanel.add(txtTipoUnidad);
 
-        inputPanel.add(new JLabel("Área:", SwingConstants.CENTER));
+        inputPanel.add(new JLabel("Área:", SwingConstants.RIGHT));
         txtArea = new JTextField();
         inputPanel.add(txtArea);
 
-        inputPanel.add(new JLabel("Matrícula:", SwingConstants.CENTER));
+        inputPanel.add(new JLabel("Matrícula:", SwingConstants.RIGHT));
         txtMatricula = new JTextField();
         inputPanel.add(txtMatricula);
 
-        inputPanel.add(new JLabel("Estado de Venta:", SwingConstants.CENTER));
+        inputPanel.add(new JLabel("Estado de Venta:", SwingConstants.RIGHT));
         txtEstadoVenta = new JTextField();
         inputPanel.add(txtEstadoVenta);
 
         // Crear el panel de botones
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10)); // Ajustar el layout a 2x2 para los botones
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
         JButton btnCrear = new JButton("Crear");
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnEditar = new JButton("Editar");
 
-        // Ajustar tamaño y diseño de los botones
         ajustarBoton(btnCrear);
         ajustarBoton(btnLeer);
         ajustarBoton(btnEliminar);
@@ -84,7 +83,6 @@ public class ApartamentoPanel extends JPanel {
         txtApartamentos.setEditable(false);
         add(new JScrollPane(txtApartamentos), BorderLayout.SOUTH);
 
-        // Acción para crear apartamento
         btnCrear.addActionListener(e -> {
             try {
                 int idApartamento = Integer.parseInt(txtID.getText());
@@ -104,7 +102,6 @@ public class ApartamentoPanel extends JPanel {
             }
         });
 
-        // Acción para leer apartamentos
         btnLeer.addActionListener(e -> {
             List<Apartamento> apartamentos = apartamentoController.obtenerApartamentos();
             txtApartamentos.setText("");
@@ -120,7 +117,6 @@ public class ApartamentoPanel extends JPanel {
             }
         });
 
-        // Acción para eliminar apartamento
         btnEliminar.addActionListener(e -> {
             try {
                 int idApartamento = Integer.parseInt(txtID.getText());
@@ -132,7 +128,6 @@ public class ApartamentoPanel extends JPanel {
             }
         });
 
-        // Acción para editar apartamento
         btnEditar.addActionListener(e -> {
             try {
                 int idApartamento = Integer.parseInt(txtID.getText());
@@ -173,8 +168,8 @@ public class ApartamentoPanel extends JPanel {
 
     private void ajustarBoton(JButton boton) {
         boton.setFont(new Font("Arial", Font.PLAIN, 14));
-        boton.setPreferredSize(new Dimension(100, 30)); // Ajustar tamaño para que sean más pequeños
-        boton.setHorizontalAlignment(SwingConstants.CENTER);  // Centrar texto horizontalmente
-        boton.setVerticalAlignment(SwingConstants.CENTER);    // Centrar texto verticalmente
+        boton.setPreferredSize(new Dimension(100, 30));
+        boton.setHorizontalAlignment(SwingConstants.CENTER);
+        boton.setVerticalAlignment(SwingConstants.CENTER);
     }
 }

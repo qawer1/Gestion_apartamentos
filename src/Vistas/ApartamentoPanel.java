@@ -23,13 +23,13 @@ public class ApartamentoPanel extends JPanel {
     public ApartamentoPanel() {
         apartamentoController = new ApartamentoController();
         setLayout(new BorderLayout(10, 10));
-        setBackground(Color.GRAY); 
+        setBackground(Color.GRAY);
 
         // Crear el panel de entrada
         JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5));
         inputPanel.setBackground(Color.GRAY); // Mantener el color de fondo igual
-
-        // Crear y configurar las etiquetas con color de letra
+        
+        // Cambiar color de las letras a blanco para las etiquetas y campos
         JLabel labelID = new JLabel("ID del Apartamento:");
         labelID.setForeground(Color.WHITE);
         inputPanel.add(labelID);
@@ -89,18 +89,16 @@ public class ApartamentoPanel extends JPanel {
         // Crear el panel de botones
         JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 5, 5)); 
         buttonPanel.setBackground(Color.GRAY); 
-
-        // Crear y ajustar los botones
         JButton btnCrear = new JButton("Crear");
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnEditar = new JButton("Editar");
 
-        // Cambiar color de letra de los botones
-        btnCrear.setForeground(Color.BLACK);
-        btnLeer.setForeground(Color.BLACK);
-        btnEliminar.setForeground(Color.BLACK);
-        btnEditar.setForeground(Color.BLACK);
+        // Cambiar color de las letras de los botones a blanco
+        btnCrear.setForeground(Color.WHITE);
+        btnLeer.setForeground(Color.WHITE);
+        btnEliminar.setForeground(Color.WHITE);
+        btnEditar.setForeground(Color.WHITE);
 
         // Ajustar tamaño de los botones
         ajustarBoton(btnCrear);
@@ -116,10 +114,9 @@ public class ApartamentoPanel extends JPanel {
         add(inputPanel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.CENTER);
 
-        // Crear el área de texto para mostrar apartamentos
         txtApartamentos = new JTextArea(10, 30);
         txtApartamentos.setEditable(false);
-        txtApartamentos.setForeground(Color.WHITE); // Cambiar color de letra a blanco
+        txtApartamentos.setForeground(Color.WHITE); // Cambiar color de las letras a blanco
         add(new JScrollPane(txtApartamentos), BorderLayout.SOUTH);
 
         // Acción para crear apartamento

@@ -23,9 +23,11 @@ public class ApartamentoPanel extends JPanel {
     public ApartamentoPanel() {
         apartamentoController = new ApartamentoController();
         setLayout(new BorderLayout(10, 10));
+        setBackground(Color.GRAY); // Mantener el color de fondo igual
 
         // Crear el panel de entrada
         JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5));
+        inputPanel.setBackground(Color.GRAY); // Mantener el color de fondo igual
         inputPanel.add(new JLabel("ID del Apartamento:"));
         txtID = new JTextField();
         inputPanel.add(txtID);
@@ -60,13 +62,14 @@ public class ApartamentoPanel extends JPanel {
         inputPanel.add(txtEstadoVenta);
 
         // Crear el panel de botones
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10)); // Ajustar el layout a 2x2 para los botones
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 5, 5)); // Tamaño más pequeño de botones
+        buttonPanel.setBackground(Color.GRAY); // Mantener el color de fondo igual
         JButton btnCrear = new JButton("Crear");
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnEditar = new JButton("Editar");
 
-        // Ajustar tamaño y diseño de los botones
+        // Ajustar tamaño de los botones
         ajustarBoton(btnCrear);
         ajustarBoton(btnLeer);
         ajustarBoton(btnEliminar);
@@ -172,7 +175,7 @@ public class ApartamentoPanel extends JPanel {
     }
 
     private void ajustarBoton(JButton boton) {
-        boton.setFont(new Font("Arial", Font.PLAIN, 14)); // Mantener la fuente sin modificar
-        boton.setPreferredSize(new Dimension(100, 30)); // Ajustar solo el tamaño de los botones
+        boton.setFont(new Font("Arial", Font.PLAIN, 14));
+        boton.setPreferredSize(new Dimension(100, 30)); // Ajuste de tamaño más pequeño
     }
 }

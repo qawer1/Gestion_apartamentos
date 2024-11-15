@@ -21,7 +21,7 @@ public class ApartamentoPanel extends JPanel {
     public ApartamentoPanel() {
         apartamentoController = new ApartamentoController();
         setLayout(new BorderLayout(10, 10));
-        setBackground(Color.GRAY); // Fondo gris
+        setBackground(Color.GRAY); // Fondo gris para el panel principal
 
         // Crear el panel de entrada
         JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5));
@@ -85,7 +85,7 @@ public class ApartamentoPanel extends JPanel {
         txtApartamentos.setBackground(Color.LIGHT_GRAY); // Fondo gris claro para la sección de texto
         add(new JScrollPane(txtApartamentos), BorderLayout.SOUTH);
 
-        // Acciones a botones (no se modifican)
+        // Acciones a botones
         btnCrear.addActionListener(e -> crearApartamento());
         btnLeer.addActionListener(e -> leerApartamentos());
         btnEliminar.addActionListener(e -> eliminarApartamento());
@@ -123,7 +123,6 @@ public class ApartamentoPanel extends JPanel {
         boton.setVerticalAlignment(SwingConstants.CENTER);
     }
 
-    // Métodos de acción simplificados
     private void crearApartamento() { /* código para crear */ }
     private void leerApartamentos() { /* código para leer */ }
     private void eliminarApartamento() { /* código para eliminar */ }

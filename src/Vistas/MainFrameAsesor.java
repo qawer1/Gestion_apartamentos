@@ -1,10 +1,10 @@
 package Vistas;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.*;
-import vistas.ReportesPanel;
 
 public class MainFrameAsesor extends JFrame {
     private JPanel mainPanel;
@@ -13,55 +13,56 @@ public class MainFrameAsesor extends JFrame {
     private CardLayout cardLayout;
 
     public MainFrameAsesor() {
+        // Aplicar FlatLaf para un estilo moderno
+        FlatDarkLaf.setup();
+
         setTitle("Gestión de Apartamentos - Asesor");
-        setSize(800, 600);
+        setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); // Centrar ventana en la pantalla
 
         // Crear el panel principal con CardLayout
         mainPanel = new JPanel();
         cardLayout = new CardLayout();
         mainPanel.setLayout(cardLayout);
 
-        // Agregar todos los paneles al CardLayout
+        // Panel de bienvenida
         JPanel welcomePanel = new JPanel(new GridLayout(2, 1, 10, 10));
         clientesActivosLabel = new JLabel("Clientes activos: ");
         ventasRealizadasLabel = new JLabel("Ventas realizadas: ");
-        
+
         clientesActivosLabel.setFont(new Font("Arial", Font.BOLD, 20));
         ventasRealizadasLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        
         welcomePanel.add(clientesActivosLabel);
         welcomePanel.add(ventasRealizadasLabel);
-        
+
         mainPanel.add(welcomePanel, "Bienvenida");
         mainPanel.add(new ClientesPanel(), "Clientes");
         mainPanel.add(new VentasPanel(), "Ventas");
         mainPanel.add(new PagosPanel(), "Pagos");
         mainPanel.add(new ReportesPanel(), "Reportes");
 
-        // Actualizar estadísticas al iniciar
         actualizarEstadisticas();
         showPanel("Bienvenida");
 
-        // Crear el menú lateral
+        // Crear el menú lateral estilizado
         JPanel menuPanel = new JPanel();
-        menuPanel.setBackground(new Color(43, 43, 43));
+        menuPanel.setBackground(new Color(60, 63, 65));
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
 
-        // Crear y agregar botones de menú
-        menuPanel.add(createMenuButton("Clientes", "/imagenes/clientes.png", "Clientes"));
-        menuPanel.add(createMenuButton("Ventas", "/imagenes/ventas.png", "Ventas"));
-        menuPanel.add(createMenuButton("Pagos", "/imagenes/pagos.png", "Pagos"));
-        menuPanel.add(createMenuButton("Reportes", "/imagenes/reportes.png", "Reportes"));
+        // Crear botones de menú con FlatLaf
+        menuPanel.add(createMenuButton("Clientes", "Clientes"));
+        menuPanel.add(createMenuButton("Ventas", "Ventas"));
+        menuPanel.add(createMenuButton("Pagos", "Pagos"));
+        menuPanel.add(createMenuButton("Reportes", "Reportes"));
 
-        // Botón de Cerrar Sesión
+        // Botón de Cerrar Sesión con estilo
         JButton cerrarSesionButton = new JButton("Cerrar sesión");
         cerrarSesionButton.setFont(new Font("Arial", Font.PLAIN, 16));
-        cerrarSesionButton.setBackground(new Color(43, 43, 43));
+        cerrarSesionButton.setBackground(new Color(220, 53, 69));
         cerrarSesionButton.setForeground(Color.WHITE);
         cerrarSesionButton.setFocusPainted(false);
-        cerrarSesionButton.setHorizontalAlignment(SwingConstants.LEFT);
-        cerrarSesionButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
+        cerrarSesionButton.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 10));
         cerrarSesionButton.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(this, "¿Seguro que desea cerrar sesión?", "Confirmar Cerrar Sesión", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
@@ -77,25 +78,25 @@ public class MainFrameAsesor extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
     }
 
-    private JButton createMenuButton(String text, String iconPath, String panelName) {
+    private JButton createMenuButton(String text, String panelName) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.PLAIN, 16));
-        button.setBackground(new Color(43, 43, 43));
+        button.setBackground(new Color(69, 73, 74));
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 10));
         button.setHorizontalAlignment(SwingConstants.LEFT);
-        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
-
-        if (iconPath != null) {
-            ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
-            // Redimensionar el icono a un tamaño uniforme
-            Image img = icon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
-            button.setIcon(new ImageIcon(img));
-        }
-
-        // Acción para mostrar el panel correspondiente
         button.addActionListener((ActionEvent e) -> showPanel(panelName));
 
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(new Color(96, 125, 139)); // Hover color
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(new Color(69, 73, 74)); // Original color
+            }
+        });
         return button;
     }
 
@@ -106,7 +107,6 @@ public class MainFrameAsesor extends JFrame {
     private void actualizarEstadisticas() {
         int totalClientes = contarRegistros("cliente");
         int totalVentas = contarRegistros("venta");
-
         clientesActivosLabel.setText("Clientes activos: " + totalClientes);
         ventasRealizadasLabel.setText("Ventas realizadas: " + totalVentas);
     }

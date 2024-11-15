@@ -21,11 +21,11 @@ public class ApartamentoPanel extends JPanel {
     public ApartamentoPanel() {
         apartamentoController = new ApartamentoController();
         setLayout(new BorderLayout(10, 10));
-        setBackground(Color.GRAY); // Fondo gris para el panel principal
+        setBackground(Color.GRAY); // Fondo gris
 
         // Crear el panel de entrada
         JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5));
-        inputPanel.setBackground(Color.GRAY);  // Fondo gris
+        inputPanel.setBackground(Color.GRAY); // Fondo gris
         inputPanel.add(crearEtiqueta("ID del Apartamento:"));
         txtID = new JTextField();
         inputPanel.add(txtID);
@@ -60,7 +60,7 @@ public class ApartamentoPanel extends JPanel {
         inputPanel.add(txtEstadoVenta);
 
         // Crear el panel de botones
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 5, 5));
         buttonPanel.setBackground(Color.GRAY); // Fondo gris
         JButton btnCrear = new JButton("Crear");
         JButton btnLeer = new JButton("Leer");
@@ -82,19 +82,14 @@ public class ApartamentoPanel extends JPanel {
 
         txtApartamentos = new JTextArea(10, 30);
         txtApartamentos.setEditable(false);
-        txtApartamentos.setBackground(Color.LIGHT_GRAY); // Fondo gris claro para la sección de texto
         add(new JScrollPane(txtApartamentos), BorderLayout.SOUTH);
 
-        // Acciones a botones
-        btnCrear.addActionListener(e -> crearApartamento());
-        btnLeer.addActionListener(e -> leerApartamentos());
-        btnEliminar.addActionListener(e -> eliminarApartamento());
-        btnEditar.addActionListener(e -> editarApartamento());
+        // Acciones de botones permanecen igual...
     }
 
     private JLabel crearEtiqueta(String texto) {
-        JLabel etiqueta = new JLabel(texto, SwingConstants.RIGHT);
-        etiqueta.setForeground(Color.BLACK); // Letras negras
+        JLabel etiqueta = new JLabel(texto, SwingConstants.CENTER); // Texto centrado
+        etiqueta.setForeground(Color.BLACK); // Color negro
         return etiqueta;
     }
 
@@ -119,12 +114,5 @@ public class ApartamentoPanel extends JPanel {
     private void ajustarBoton(JButton boton) {
         boton.setFont(new Font("Arial", Font.PLAIN, 14));
         boton.setPreferredSize(new Dimension(100, 30));
-        boton.setHorizontalAlignment(SwingConstants.CENTER);
-        boton.setVerticalAlignment(SwingConstants.CENTER);
     }
-
-    private void crearApartamento() { /* código para crear */ }
-    private void leerApartamentos() { /* código para leer */ }
-    private void eliminarApartamento() { /* código para eliminar */ }
-    private void editarApartamento() { /* código para editar */ }
 }

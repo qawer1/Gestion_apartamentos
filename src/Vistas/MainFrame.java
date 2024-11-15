@@ -22,8 +22,8 @@ public class MainFrame extends JFrame {
 
         // ** Crear un panel gris de inicio **
         JPanel inicioPanel = new JPanel();
-        inicioPanel.setBackground(new Color(169, 169, 169));  // Gris claro
-        mainPanel.add(inicioPanel, "Inicio");  // Añadir el panel gris al CardLayout
+        inicioPanel.setBackground(new Color(169, 169, 169));  
+        mainPanel.add(inicioPanel, "Inicio");  
 
         // Agregar todos los otros paneles al CardLayout
         mainPanel.add(new ProyectoPanel(), "Proyectos");

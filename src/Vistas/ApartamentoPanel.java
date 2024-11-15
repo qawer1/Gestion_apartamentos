@@ -1,40 +1,42 @@
 package Vistas;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import controlador.ApartamentoController;
 import modelo.Apartamento;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 public class ApartamentoPanel extends JPanel {
     private JTextField txtID;
-    private JComboBox<Integer> cbIDTorre;
     private JTextField txtNumeroApartamento;
     private JTextField txtValorApartamento;
     private JTextField txtTipoUnidad;
     private JTextField txtArea;
     private JTextField txtMatricula;
     private JTextField txtEstadoVenta;
+    private JComboBox<Integer> cbIDTorre;
     private JTextArea txtApartamentos;
     private ApartamentoController apartamentoController;
 
     public ApartamentoPanel() {
+        // Inicializar el controlador
         apartamentoController = new ApartamentoController();
+
+        // Configuración del panel principal
         setLayout(new BorderLayout(10, 10));
         setBackground(Color.GRAY);
+        setPreferredSize(new Dimension(400, 300)); // Limitar tamaño del panel
 
-        // Crear el panel de entrada
-        JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5));
-        inputPanel.setBackground(Color.GRAY); // Mantener el color de fondo igual
-        
-        // Cambiar color de las letras a blanco para las etiquetas y campos
-        JLabel labelID = new JLabel("ID del Apartamento:");
+        // Panel de entrada de datos
+        JPanel inputPanel = new JPanel(new GridLayout(8, 2, 5, 5));
+        inputPanel.setBackground(Color.GRAY);
+
+        // Configurar campos de entrada y etiquetas
+        JLabel labelID = new JLabel("ID Apartamento:");
         labelID.setForeground(Color.WHITE);
         inputPanel.add(labelID);
         txtID = new JTextField();
-        txtID.setForeground(Color.BLACK);
         inputPanel.add(txtID);
 
         JLabel labelIDTorre = new JLabel("ID Torre:");
@@ -44,79 +46,70 @@ public class ApartamentoPanel extends JPanel {
         cargarTorres();
         inputPanel.add(cbIDTorre);
 
-        JLabel labelNumero = new JLabel("Número del Apartamento:");
+        JLabel labelNumero = new JLabel("Número Apartamento:");
         labelNumero.setForeground(Color.WHITE);
         inputPanel.add(labelNumero);
         txtNumeroApartamento = new JTextField();
-        txtNumeroApartamento.setForeground(Color.BLACK);
         inputPanel.add(txtNumeroApartamento);
 
-        JLabel labelValor = new JLabel("Valor del Apartamento:");
+        JLabel labelValor = new JLabel("Valor Apartamento:");
         labelValor.setForeground(Color.WHITE);
         inputPanel.add(labelValor);
         txtValorApartamento = new JTextField();
-        txtValorApartamento.setForeground(Color.BLACK);
         inputPanel.add(txtValorApartamento);
 
-        JLabel labelTipoUnidad = new JLabel("Tipo de Unidad:");
+        JLabel labelTipoUnidad = new JLabel("Tipo Unidad:");
         labelTipoUnidad.setForeground(Color.WHITE);
         inputPanel.add(labelTipoUnidad);
         txtTipoUnidad = new JTextField();
-        txtTipoUnidad.setForeground(Color.BLACK);
         inputPanel.add(txtTipoUnidad);
 
         JLabel labelArea = new JLabel("Área:");
         labelArea.setForeground(Color.WHITE);
         inputPanel.add(labelArea);
         txtArea = new JTextField();
-        txtArea.setForeground(Color.BLACK);
         inputPanel.add(txtArea);
 
         JLabel labelMatricula = new JLabel("Matrícula:");
         labelMatricula.setForeground(Color.WHITE);
         inputPanel.add(labelMatricula);
         txtMatricula = new JTextField();
-        txtMatricula.setForeground(Color.BLACK);
         inputPanel.add(txtMatricula);
 
-        JLabel labelEstadoVenta = new JLabel("Estado de Venta:");
+        JLabel labelEstadoVenta = new JLabel("Estado Venta:");
         labelEstadoVenta.setForeground(Color.WHITE);
         inputPanel.add(labelEstadoVenta);
         txtEstadoVenta = new JTextField();
-        txtEstadoVenta.setForeground(Color.BLACK);
         inputPanel.add(txtEstadoVenta);
 
-        // Crear el panel de botones
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 5, 5)); 
-        buttonPanel.setBackground(Color.GRAY); 
+        // Panel de botones con FlowLayout
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(Color.GRAY);
+
+        // Crear botones y agregarles configuración de tamaño
         JButton btnCrear = new JButton("Crear");
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnEditar = new JButton("Editar");
 
-        // Cambiar color de las letras de los botones a blanco
-        btnCrear.setForeground(Color.BLACK);
-        btnLeer.setForeground(Color.BLACK);
-        btnEliminar.setForeground(Color.BLACK);
-        btnEditar.setForeground(Color.BLACK);
-
-        // Ajustar tamaño de los botones
         ajustarBoton(btnCrear);
         ajustarBoton(btnLeer);
         ajustarBoton(btnEliminar);
         ajustarBoton(btnEditar);
 
+        // Agregar botones al panel de botones
         buttonPanel.add(btnCrear);
         buttonPanel.add(btnLeer);
         buttonPanel.add(btnEliminar);
         buttonPanel.add(btnEditar);
 
+        // Agregar paneles al panel principal
         add(inputPanel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.CENTER);
 
+        // Configuración del área de texto para mostrar resultados
         txtApartamentos = new JTextArea(10, 30);
         txtApartamentos.setEditable(false);
-        txtApartamentos.setForeground(Color.BLACK); // Cambiar color de las letras a blanco
         add(new JScrollPane(txtApartamentos), BorderLayout.SOUTH);
 
         // Acción para crear apartamento
@@ -142,7 +135,7 @@ public class ApartamentoPanel extends JPanel {
         // Acción para leer apartamentos
         btnLeer.addActionListener(e -> {
             List<Apartamento> apartamentos = apartamentoController.obtenerApartamentos();
-            txtApartamentos.setText("");  // Limpiar el área de texto antes de listar
+            txtApartamentos.setText("");
             if (apartamentos.isEmpty()) {
                 txtApartamentos.append("No hay apartamentos registrados.\n");
             } else {
@@ -154,7 +147,7 @@ public class ApartamentoPanel extends JPanel {
                     txtApartamentos.append(String.format("Tipo Unidad: %s\n", apartamento.getTipoUnidad()));
                     txtApartamentos.append(String.format("Área: %s\n", apartamento.getArea()));
                     txtApartamentos.append(String.format("Matrícula: %s\n", apartamento.getMatricula()));
-                    txtApartamentos.append(String.format("Estado de Venta: %s\n", apartamento.getEstadoVenta()));
+                    txtApartamentos.append(String.format("Estado Venta: %s\n", apartamento.getEstadoVenta()));
                     txtApartamentos.append("----------------------------\n");
                 }
             }
@@ -193,6 +186,7 @@ public class ApartamentoPanel extends JPanel {
         });
     }
 
+    // Método para cargar las torres en el combo box
     private void cargarTorres() {
         List<Integer> idsTorres = apartamentoController.obtenerIdsTorres();
         for (Integer id : idsTorres) {
@@ -200,6 +194,7 @@ public class ApartamentoPanel extends JPanel {
         }
     }
 
+    // Método para limpiar los campos de entrada
     private void limpiarCampos() {
         txtID.setText("");
         cbIDTorre.setSelectedIndex(0);
@@ -211,8 +206,11 @@ public class ApartamentoPanel extends JPanel {
         txtEstadoVenta.setText("");
     }
 
+    // Método para ajustar el tamaño de los botones
     private void ajustarBoton(JButton boton) {
-        boton.setFont(new Font("Arial", Font.PLAIN, 14));
-        boton.setPreferredSize(new Dimension(100, 30)); // Ajuste de tamaño más pequeño
+        boton.setFont(new Font("Arial", Font.PLAIN, 12));
+        boton.setPreferredSize(new Dimension(100, 25)); // Tamaño compacto
+        boton.setMinimumSize(new Dimension(100, 25));
+        boton.setMaximumSize(new Dimension(100, 25));
     }
 }

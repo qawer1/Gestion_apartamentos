@@ -23,7 +23,7 @@ public class ApartamentoPanel extends JPanel {
     public ApartamentoPanel() {
         apartamentoController = new ApartamentoController();
         setLayout(new BorderLayout(10, 10));
-        setBackground(Color.GRAY); // Mantener el color de fondo igual
+        setBackground(Color.GRAY); 
 
         // Crear el panel de entrada
         JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5));
@@ -62,8 +62,8 @@ public class ApartamentoPanel extends JPanel {
         inputPanel.add(txtEstadoVenta);
 
         // Crear el panel de botones
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 5, 5)); // Tamaño más pequeño de botones
-        buttonPanel.setBackground(Color.GRAY); // Mantener el color de fondo igual
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 5, 5)); 
+        buttonPanel.setBackground(Color.GRAY); 
         JButton btnCrear = new JButton("Crear");
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
@@ -109,19 +109,25 @@ public class ApartamentoPanel extends JPanel {
 
         // Acción para leer apartamentos
         btnLeer.addActionListener(e -> {
-            List<Apartamento> apartamentos = apartamentoController.obtenerApartamentos();
-            txtApartamentos.setText("");
-            for (Apartamento apartamento : apartamentos) {
-                txtApartamentos.append("ID: " + apartamento.getID_apartamento() +
-                        ", Torre ID: " + apartamento.getID_torre() +
-                        ", Número: " + apartamento.getNumero_apartamento() +
-                        ", Valor: " + apartamento.getValorApartamento() +
-                        ", Tipo: " + apartamento.getTipoUnidad() +
-                        ", Área: " + apartamento.getArea() +
-                        ", Matrícula: " + apartamento.getMatricula() +
-                        ", Estado de Venta: " + apartamento.getEstadoVenta() + "\n");
-            }
-        });
+    List<Apartamento> apartamentos = apartamentoController.obtenerApartamentos();
+    txtApartamentos.setText("");  // Limpiar el área de texto antes de listar
+    if (apartamentos.isEmpty()) {
+        txtApartamentos.append("No hay apartamentos registrados.\n");
+    } else {
+        for (Apartamento apartamento : apartamentos) {
+            txtApartamentos.append(String.format("ID Apartamento: %d\n", apartamento.getID_apartamento()));
+            txtApartamentos.append(String.format("ID Torre: %d\n", apartamento.getID_torre()));
+            txtApartamentos.append(String.format("Número Apartamento: %d\n", apartamento.getNumero_apartamento()));
+            txtApartamentos.append(String.format("Valor: %.2f\n", apartamento.getValorApartamento()));
+            txtApartamentos.append(String.format("Tipo Unidad: %s\n", apartamento.getTipoUnidad()));
+            txtApartamentos.append(String.format("Área: %s\n", apartamento.getArea()));
+            txtApartamentos.append(String.format("Matrícula: %s\n", apartamento.getMatricula()));
+            txtApartamentos.append(String.format("Estado de Venta: %s\n", apartamento.getEstadoVenta()));
+            txtApartamentos.append("----------------------------\n");
+        }
+    }
+});
+
 
         // Acción para eliminar apartamento
         btnEliminar.addActionListener(e -> {

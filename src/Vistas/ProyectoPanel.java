@@ -1,11 +1,12 @@
 package Vistas;
 
+import controlador.ProyectoController;
+import modelo.Proyecto;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import controlador.ProyectoController;
-import modelo.Proyecto;
 import java.util.List;
 
 public class ProyectoPanel extends JPanel {
@@ -18,40 +19,64 @@ public class ProyectoPanel extends JPanel {
     public ProyectoPanel() {
         proyectoController = new ProyectoController();
         setLayout(new BorderLayout(10, 10));
+        setBackground(Color.GRAY); // Fondo gris para el panel
 
+        // Crear panel de entrada con GridLayout
         JPanel inputPanel = new JPanel(new GridLayout(4, 2, 5, 5));
-        
-        inputPanel.add(new JLabel("ID del Proyecto:"));
+        inputPanel.setBackground(Color.GRAY); // Fondo gris para panel de entrada
+
+        // ID del Proyecto
+        JLabel labelIdProyecto = new JLabel("ID del Proyecto:");
+        labelIdProyecto.setForeground(Color.WHITE);
+        inputPanel.add(labelIdProyecto);
         txtIdProyecto = new JTextField();
+        txtIdProyecto.setForeground(Color.BLACK);
         inputPanel.add(txtIdProyecto);
 
-        inputPanel.add(new JLabel("Nombre del Proyecto:"));
+        // Nombre del Proyecto
+        JLabel labelNombre = new JLabel("Nombre del Proyecto:");
+        labelNombre.setForeground(Color.WHITE);
+        inputPanel.add(labelNombre);
         txtNombre = new JTextField();
+        txtNombre.setForeground(Color.BLACK);
         inputPanel.add(txtNombre);
 
-        inputPanel.add(new JLabel("Número de Torre:"));
+        // Número de Torre
+        JLabel labelNumeroTorre = new JLabel("Número de Torre:");
+        labelNumeroTorre.setForeground(Color.WHITE);
+        inputPanel.add(labelNumeroTorre);
         txtNumeroTorre = new JTextField();
+        txtNumeroTorre.setForeground(Color.BLACK);
         inputPanel.add(txtNumeroTorre);
 
-        // Panel de botones
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        // Crear panel de botones con FlowLayout
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(Color.GRAY); // Fondo gris para el panel de botones
 
-        JButton btnCrear = new JButton("Crear Proyecto");
-        JButton btnLeer = new JButton("Leer Proyectos");
-        JButton btnEliminar = new JButton("Eliminar Proyecto");
-        JButton btnEditar = new JButton("Editar Proyecto");
+        JButton btnCrear = new JButton("Crear");
+        JButton btnLeer = new JButton("Leer");
+        JButton btnEliminar = new JButton("Eliminar");
+        JButton btnEditar = new JButton("Editar");
+
+        // Ajustar tamaño de los botones para hacerlos más compactos
+        ajustarBoton(btnCrear);
+        ajustarBoton(btnLeer);
+        ajustarBoton(btnEliminar);
+        ajustarBoton(btnEditar);
 
         buttonPanel.add(btnCrear);
         buttonPanel.add(btnLeer);
         buttonPanel.add(btnEliminar);
         buttonPanel.add(btnEditar);
 
+        // Agregar los paneles de entrada y botones al panel principal
         add(inputPanel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.CENTER);
 
+        // Crear área de texto para mostrar los proyectos
         txtProyectos = new JTextArea(10, 30);
         txtProyectos.setEditable(false);
+        txtProyectos.setForeground(Color.BLACK); // Cambiar color de letras a negro
         add(new JScrollPane(txtProyectos), BorderLayout.SOUTH);
 
         // Acción para crear proyecto
@@ -77,11 +102,15 @@ public class ProyectoPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<Proyecto> proyectos = proyectoController.obtenerProyectos();
-                txtProyectos.setText(""); // Limpiar antes de listar
-                for (Proyecto proyecto : proyectos) {
-                    txtProyectos.append("ID Proyecto: " + proyecto.getIdProyecto() + 
-                                         ", Nombre: " + proyecto.getNombre() + 
-                                         ", Torres: " + proyecto.getNumeroTorres() + "\n");
+                txtProyectos.setText(""); // Limpiar el área de texto antes de listar los proyectos
+                if (proyectos.isEmpty()) {
+                    txtProyectos.append("No hay proyectos registrados.\n");
+                } else {
+                    for (Proyecto proyecto : proyectos) {
+                        txtProyectos.append("ID Proyecto: " + proyecto.getIdProyecto() + 
+                                             ", Nombre: " + proyecto.getNombre() + 
+                                             ", Torres: " + proyecto.getNumeroTorres() + "\n");
+                    }
                 }
             }
         });
@@ -120,9 +149,18 @@ public class ProyectoPanel extends JPanel {
         });
     }
 
+    // Método para limpiar los campos de entrada
     private void limpiarCampos() {
         txtIdProyecto.setText("");
         txtNombre.setText("");
         txtNumeroTorre.setText("");
+    }
+
+    // Método para ajustar el tamaño de los botones
+    private void ajustarBoton(JButton boton) {
+        boton.setFont(new Font("Arial", Font.PLAIN, 12));
+        boton.setPreferredSize(new Dimension(100, 25)); // Tamaño compacto similar al primer código
+        boton.setMinimumSize(new Dimension(100, 25));
+        boton.setMaximumSize(new Dimension(100, 25));
     }
 }

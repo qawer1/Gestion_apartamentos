@@ -21,11 +21,11 @@ public class ApartamentoPanel extends JPanel {
     public ApartamentoPanel() {
         apartamentoController = new ApartamentoController();
         setLayout(new BorderLayout(10, 10));
-        setBackground(Color.GRAY); // Fondo gris para todo el panel principal
+        setBackground(Color.GRAY); // Fondo gris
 
         // Crear el panel de entrada
         JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5));
-        inputPanel.setBackground(Color.GRAY);  // Fondo gris para el panel de entrada
+        inputPanel.setBackground(Color.GRAY);  // Fondo gris
         inputPanel.add(crearEtiqueta("ID del Apartamento:"));
         txtID = new JTextField();
         inputPanel.add(txtID);
@@ -61,7 +61,7 @@ public class ApartamentoPanel extends JPanel {
 
         // Crear el panel de botones
         JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
-        buttonPanel.setBackground(Color.GRAY); // Fondo gris para el panel de botones
+        buttonPanel.setBackground(Color.GRAY); // Fondo gris
         JButton btnCrear = new JButton("Crear");
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
@@ -94,7 +94,7 @@ public class ApartamentoPanel extends JPanel {
 
     private JLabel crearEtiqueta(String texto) {
         JLabel etiqueta = new JLabel(texto, SwingConstants.RIGHT);
-        etiqueta.setForeground(Color.WHITE); // Texto blanco para contrastar con el fondo gris
+        etiqueta.setForeground(Color.BLACK); // Letras negras
         return etiqueta;
     }
 

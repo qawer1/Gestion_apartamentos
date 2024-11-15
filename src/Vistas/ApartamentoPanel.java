@@ -10,13 +10,13 @@ import java.util.List;
 
 public class ApartamentoPanel extends JPanel {
     private JTextField txtID;
-    private JComboBox<Integer> cbIDTorre;  // Cambio: JComboBox para seleccionar el ID de la torre
+    private JComboBox<Integer> cbIDTorre;
     private JTextField txtNumeroApartamento;
     private JTextField txtValorApartamento;
     private JTextField txtTipoUnidad;
     private JTextField txtArea;
     private JTextField txtMatricula;
-    private JTextField txtEstadoVenta; // Campo para estadoVenta
+    private JTextField txtEstadoVenta;
     private JTextArea txtApartamentos;
     private ApartamentoController apartamentoController;
 
@@ -24,15 +24,15 @@ public class ApartamentoPanel extends JPanel {
         apartamentoController = new ApartamentoController();
         setLayout(new BorderLayout(10, 10));
 
-        JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5)); // Mantener 10 filas para los campos
-
+        // Crear el panel de entrada
+        JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5));
         inputPanel.add(new JLabel("ID del Apartamento:"));
         txtID = new JTextField();
         inputPanel.add(txtID);
 
         inputPanel.add(new JLabel("ID Torre:"));
-        cbIDTorre = new JComboBox<>(); // Usamos JComboBox para las torres
-        cargarTorres(); // Cargar los IDs de torres
+        cbIDTorre = new JComboBox<>();
+        cargarTorres();
         inputPanel.add(cbIDTorre);
 
         inputPanel.add(new JLabel("Número del Apartamento:"));
@@ -59,14 +59,18 @@ public class ApartamentoPanel extends JPanel {
         txtEstadoVenta = new JTextField();
         inputPanel.add(txtEstadoVenta);
 
-        // Panel de botones
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        // Crear el panel de botones
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10)); // Ajustar el layout a 2x2 para los botones
+        JButton btnCrear = new JButton("Crear");
+        JButton btnLeer = new JButton("Leer");
+        JButton btnEliminar = new JButton("Eliminar");
+        JButton btnEditar = new JButton("Editar");
 
-        JButton btnCrear = new JButton("Crear Apartamento");
-        JButton btnLeer = new JButton("Leer Apartamentos");
-        JButton btnEliminar = new JButton("Eliminar Apartamento");
-        JButton btnEditar = new JButton("Editar Apartamento");
+        // Ajustar tamaño y diseño de los botones
+        ajustarBoton(btnCrear);
+        ajustarBoton(btnLeer);
+        ajustarBoton(btnEliminar);
+        ajustarBoton(btnEditar);
 
         buttonPanel.add(btnCrear);
         buttonPanel.add(btnLeer);
@@ -81,88 +85,75 @@ public class ApartamentoPanel extends JPanel {
         add(new JScrollPane(txtApartamentos), BorderLayout.SOUTH);
 
         // Acción para crear apartamento
-        btnCrear.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    int idApartamento = Integer.parseInt(txtID.getText());
-                    int idTorre = (Integer) cbIDTorre.getSelectedItem();  // Obtener ID de torre desde JComboBox
-                    int numero = Integer.parseInt(txtNumeroApartamento.getText());
-                    double valor = Double.parseDouble(txtValorApartamento.getText());
-                    String tipoUnidad = txtTipoUnidad.getText();
-                    String area = (txtArea.getText());
-                    String matricula = txtMatricula.getText();
-                    String estadoVenta = txtEstadoVenta.getText();
+        btnCrear.addActionListener(e -> {
+            try {
+                int idApartamento = Integer.parseInt(txtID.getText());
+                int idTorre = (Integer) cbIDTorre.getSelectedItem();
+                int numero = Integer.parseInt(txtNumeroApartamento.getText());
+                double valor = Double.parseDouble(txtValorApartamento.getText());
+                String tipoUnidad = txtTipoUnidad.getText();
+                String area = txtArea.getText();
+                String matricula = txtMatricula.getText();
+                String estadoVenta = txtEstadoVenta.getText();
 
-                    apartamentoController.crearApartamento(idApartamento, idTorre, numero, valor, tipoUnidad, area, matricula, estadoVenta);
-                    JOptionPane.showMessageDialog(null, "Apartamento creado exitosamente");
-                    limpiarCampos();
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Error: Por favor, ingresa valores válidos.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                apartamentoController.crearApartamento(idApartamento, idTorre, numero, valor, tipoUnidad, area, matricula, estadoVenta);
+                JOptionPane.showMessageDialog(null, "Apartamento creado exitosamente");
+                limpiarCampos();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Error: Por favor, ingresa valores válidos.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
         // Acción para leer apartamentos
-        btnLeer.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                List<Apartamento> apartamentos = apartamentoController.obtenerApartamentos();
-                txtApartamentos.setText(""); // Limpiar antes de listar
-                for (Apartamento apartamento : apartamentos) {
-                    txtApartamentos.append("ID: " + apartamento.getID_apartamento() + 
-                                            ", Torre ID: " + apartamento.getID_torre() + 
-                                            ", Número: " + apartamento.getNumero_apartamento() +
-                                            ", Valor: " + apartamento.getValorApartamento() +
-                                            ", Tipo: " + apartamento.getTipoUnidad() +
-                                            ", Área: " + apartamento.getArea() +
-                                            ", Matrícula: " + apartamento.getMatricula() +
-                                            ", Estado de Venta: " + apartamento.getEstadoVenta() + "\n");
-                }
+        btnLeer.addActionListener(e -> {
+            List<Apartamento> apartamentos = apartamentoController.obtenerApartamentos();
+            txtApartamentos.setText("");
+            for (Apartamento apartamento : apartamentos) {
+                txtApartamentos.append("ID: " + apartamento.getID_apartamento() +
+                        ", Torre ID: " + apartamento.getID_torre() +
+                        ", Número: " + apartamento.getNumero_apartamento() +
+                        ", Valor: " + apartamento.getValorApartamento() +
+                        ", Tipo: " + apartamento.getTipoUnidad() +
+                        ", Área: " + apartamento.getArea() +
+                        ", Matrícula: " + apartamento.getMatricula() +
+                        ", Estado de Venta: " + apartamento.getEstadoVenta() + "\n");
             }
         });
 
         // Acción para eliminar apartamento
-        btnEliminar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    int idApartamento = Integer.parseInt(txtID.getText());
-                    apartamentoController.eliminarApartamento(idApartamento);
-                    JOptionPane.showMessageDialog(null, "Apartamento eliminado exitosamente");
-                    limpiarCampos();
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Error: Por favor, ingresa un ID de apartamento válido.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+        btnEliminar.addActionListener(e -> {
+            try {
+                int idApartamento = Integer.parseInt(txtID.getText());
+                apartamentoController.eliminarApartamento(idApartamento);
+                JOptionPane.showMessageDialog(null, "Apartamento eliminado exitosamente");
+                limpiarCampos();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Error: Por favor, ingresa un ID válido.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
         // Acción para editar apartamento
-        btnEditar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    int idApartamento = Integer.parseInt(txtID.getText());
-                    int idTorre = (Integer) cbIDTorre.getSelectedItem();  // Obtener ID de torre desde JComboBox
-                    int numero = Integer.parseInt(txtNumeroApartamento.getText());
-                    double valor = Double.parseDouble(txtValorApartamento.getText());
-                    String tipoUnidad = txtTipoUnidad.getText();
-                    String area = (txtArea.getText());
-                    String matricula = txtMatricula.getText();
-                    String estadoVenta = txtEstadoVenta.getText();
+        btnEditar.addActionListener(e -> {
+            try {
+                int idApartamento = Integer.parseInt(txtID.getText());
+                int idTorre = (Integer) cbIDTorre.getSelectedItem();
+                int numero = Integer.parseInt(txtNumeroApartamento.getText());
+                double valor = Double.parseDouble(txtValorApartamento.getText());
+                String tipoUnidad = txtTipoUnidad.getText();
+                String area = txtArea.getText();
+                String matricula = txtMatricula.getText();
+                String estadoVenta = txtEstadoVenta.getText();
 
-                    apartamentoController.actualizarApartamento(idApartamento, idTorre, numero, valor, tipoUnidad, area, matricula, estadoVenta);
-                    JOptionPane.showMessageDialog(null, "Apartamento actualizado exitosamente");
-                    limpiarCampos();
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Error: Por favor, ingresa valores válidos.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                apartamentoController.actualizarApartamento(idApartamento, idTorre, numero, valor, tipoUnidad, area, matricula, estadoVenta);
+                JOptionPane.showMessageDialog(null, "Apartamento actualizado exitosamente");
+                limpiarCampos();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Error: Por favor, ingresa valores válidos.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
 
     private void cargarTorres() {
-        // Obtener los IDs de las torres y cargarlos en el JComboBox
         List<Integer> idsTorres = apartamentoController.obtenerIdsTorres();
         for (Integer id : idsTorres) {
             cbIDTorre.addItem(id);
@@ -171,12 +162,17 @@ public class ApartamentoPanel extends JPanel {
 
     private void limpiarCampos() {
         txtID.setText("");
-        cbIDTorre.setSelectedIndex(0); // Limpiar JComboBox (seleccionar el primer valor)
+        cbIDTorre.setSelectedIndex(0);
         txtNumeroApartamento.setText("");
         txtValorApartamento.setText("");
         txtTipoUnidad.setText("");
         txtArea.setText("");
         txtMatricula.setText("");
-        txtEstadoVenta.setText(""); // Limpiar campo de estadoVenta
+        txtEstadoVenta.setText("");
+    }
+
+    private void ajustarBoton(JButton boton) {
+        boton.setFont(new Font("Arial", Font.PLAIN, 14));
+        boton.setPreferredSize(new Dimension(100, 30)); // Ajustar tamaño para que sean más pequeños
     }
 }

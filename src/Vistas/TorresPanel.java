@@ -5,19 +5,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import controlador.TorreController;
+import controlador.ProyectoController;
 import modelo.Torre;
+import modelo.Proyecto;
 import java.util.List;
 
 public class TorresPanel extends JPanel {
     private JTextField txtId; // Campo para ID de la torre
-    private JTextField txtIdProyecto; // Campo para ID del proyecto
     private JTextField txtNumeroTorre; // Campo para el número de la torre
     private JTextField txtNumeroApartamentos; // Campo para el número de apartamentos
     private JTextArea txtTorres;
+    private JComboBox<String> cmbProyectos; // JComboBox para seleccionar proyecto
     private TorreController torreController;
+    private ProyectoController proyectoController;
 
     public TorresPanel() {
         torreController = new TorreController();
+        proyectoController = new ProyectoController();
         setLayout(new BorderLayout(10, 10));
 
         JPanel inputPanel = new JPanel(new GridLayout(5, 2, 5, 5));
@@ -25,9 +29,11 @@ public class TorresPanel extends JPanel {
         txtId = new JTextField();
         inputPanel.add(txtId);
 
-        inputPanel.add(new JLabel("ID del Proyecto:"));
-        txtIdProyecto = new JTextField();
-        inputPanel.add(txtIdProyecto);
+        // JComboBox para seleccionar el proyecto
+        inputPanel.add(new JLabel("Seleccionar Proyecto:"));
+        cmbProyectos = new JComboBox<>();
+        cargarProyectos();
+        inputPanel.add(cmbProyectos);
 
         inputPanel.add(new JLabel("Número de Torre:"));
         txtNumeroTorre = new JTextField();
@@ -63,8 +69,8 @@ public class TorresPanel extends JPanel {
         btnCrear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int idTorre = Integer.parseInt(txtId.getText()); // Ahora incluye el ID de la Torre
-                int idProyecto = Integer.parseInt(txtIdProyecto.getText());
+                int idTorre = Integer.parseInt(txtId.getText());
+                int idProyecto = obtenerIdProyectoSeleccionado();
                 int numeroTorre = Integer.parseInt(txtNumeroTorre.getText());
                 int numeroApartamentos = Integer.parseInt(txtNumeroApartamentos.getText());
                 torreController.crearTorre(idTorre, idProyecto, numeroTorre, numeroApartamentos);
@@ -109,7 +115,7 @@ public class TorresPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int idTorre = Integer.parseInt(txtId.getText());
-                int idProyecto = Integer.parseInt(txtIdProyecto.getText());
+                int idProyecto = obtenerIdProyectoSeleccionado();
                 int numeroTorre = Integer.parseInt(txtNumeroTorre.getText());
                 int numeroApartamentos = Integer.parseInt(txtNumeroApartamentos.getText());
                 torreController.actualizarTorre(idTorre, idProyecto, numeroTorre, numeroApartamentos);
@@ -119,9 +125,24 @@ public class TorresPanel extends JPanel {
         });
     }
 
+    // Método para cargar los proyectos en el JComboBox
+    private void cargarProyectos() {
+        List<Proyecto> proyectos = proyectoController.obtenerProyectos();
+        cmbProyectos.removeAllItems();
+        for (Proyecto proyecto : proyectos) {
+            cmbProyectos.addItem(proyecto.getIdProyecto() + " - " + proyecto.getNombre());
+        }
+    }
+
+    // Método para obtener el ID del proyecto seleccionado
+    private int obtenerIdProyectoSeleccionado() {
+        String proyectoSeleccionado = (String) cmbProyectos.getSelectedItem();
+        return Integer.parseInt(proyectoSeleccionado.split(" - ")[0]); // Extraer el ID del proyecto
+    }
+
     private void limpiarCampos() {
         txtId.setText(""); // Limpiar el campo de ID
-        txtIdProyecto.setText(""); // Limpiar el campo de ID de proyecto
+        cmbProyectos.setSelectedIndex(0); // Restablecer la selección de proyecto
         txtNumeroTorre.setText(""); // Limpiar el campo de número de torre
         txtNumeroApartamentos.setText(""); // Limpiar el campo de número de apartamentos
     }

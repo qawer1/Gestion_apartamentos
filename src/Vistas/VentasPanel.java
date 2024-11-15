@@ -6,6 +6,7 @@ import controlador.ApartamentoController;
 import modelo.Venta;
 import modelo.Cliente;
 import modelo.Apartamento;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -30,13 +31,14 @@ public class VentasPanel extends JPanel {
         clienteController = new ClienteController();
         apartamentoController = new ApartamentoController();
         setLayout(new BorderLayout(10, 10));
+        setBackground(Color.GRAY); // Fondo gris para el panel
 
         // Panel de entrada de datos
-        JPanel inputPanel = new JPanel(new GridLayout(7, 2, 5, 5));  // Aumentamos las filas para agregar el estado de la venta
+        JPanel inputPanel = new JPanel(new GridLayout(8, 2, 5, 5));
+        inputPanel.setBackground(Color.GRAY); // Fondo gris para el panel de entrada
 
         inputPanel.add(new JLabel("ID Venta:"));
         txtIdVenta = new JTextField();
-        // txtIdVenta.setEditable(false); // El ID de venta ya no se edita desde la vista, lo asigna la base de datos
         inputPanel.add(txtIdVenta);
 
         inputPanel.add(new JLabel("Precio Total:"));
@@ -67,15 +69,23 @@ public class VentasPanel extends JPanel {
         cmbEstadoVenta = new JComboBox<>(new String[] { "Pendiente", "Pagado", "Cancelado" });
         inputPanel.add(cmbEstadoVenta);
 
-        // Panel de botones
+        // Panel de botones (disposición horizontal)
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Disposición horizontal con espacio entre botones
+        buttonPanel.setBackground(Color.GRAY); // Fondo gris para el panel de botones
 
-        JButton btnCrear = new JButton("Crear Venta");
-        JButton btnLeer = new JButton("Leer Ventas");
-        JButton btnEliminar = new JButton("Eliminar Venta");
-        JButton btnEditar = new JButton("Editar Venta");
+        JButton btnCrear = new JButton("Crear");
+        JButton btnLeer = new JButton("Leer");
+        JButton btnEliminar = new JButton("Eliminar");
+        JButton btnEditar = new JButton("Editar");
 
+        // Ajustar el tamaño de los botones para que sean pequeños
+        ajustarBoton(btnCrear);
+        ajustarBoton(btnLeer);
+        ajustarBoton(btnEliminar);
+        ajustarBoton(btnEditar);
+
+        // Añadir botones al panel
         buttonPanel.add(btnCrear);
         buttonPanel.add(btnLeer);
         buttonPanel.add(btnEliminar);
@@ -83,7 +93,7 @@ public class VentasPanel extends JPanel {
 
         // Agregar paneles al layout
         add(inputPanel, BorderLayout.NORTH);
-        add(buttonPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.CENTER); // Añadir panel de botones en el centro
 
         // Área de texto para mostrar ventas
         txtVentas = new JTextArea(10, 30);
@@ -196,5 +206,11 @@ public class VentasPanel extends JPanel {
         cmbClientes.setSelectedIndex(0);
         cmbApartamentos.setSelectedIndex(0);
         cmbEstadoVenta.setSelectedIndex(0);  // Limpiar el estado de la venta
+    }
+
+    // Método para ajustar el tamaño de los botones
+    private void ajustarBoton(JButton boton) {
+        boton.setFont(new Font("Arial", Font.PLAIN, 12));
+        boton.setPreferredSize(new Dimension(120, 30)); // Tamaño más pequeño
     }
 }

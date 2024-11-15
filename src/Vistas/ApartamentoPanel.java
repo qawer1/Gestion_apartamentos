@@ -24,43 +24,48 @@ public class ApartamentoPanel extends JPanel {
         apartamentoController = new ApartamentoController();
         setLayout(new BorderLayout(10, 10));
 
+        // Establecer color de fondo gris
+        setBackground(Color.GRAY);
+
         // Crear el panel de entrada
         JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5));
-        inputPanel.add(new JLabel("ID del Apartamento:", SwingConstants.RIGHT));
+        inputPanel.setBackground(Color.GRAY); // Fondo gris para el panel de entrada
+        inputPanel.add(crearEtiqueta("ID del Apartamento:"));
         txtID = new JTextField();
         inputPanel.add(txtID);
 
-        inputPanel.add(new JLabel("ID Torre:", SwingConstants.RIGHT));
+        inputPanel.add(crearEtiqueta("ID Torre:"));
         cbIDTorre = new JComboBox<>();
         cargarTorres();
         inputPanel.add(cbIDTorre);
 
-        inputPanel.add(new JLabel("Número del Apartamento:", SwingConstants.RIGHT));
+        inputPanel.add(crearEtiqueta("Número del Apartamento:"));
         txtNumeroApartamento = new JTextField();
         inputPanel.add(txtNumeroApartamento);
 
-        inputPanel.add(new JLabel("Valor del Apartamento:", SwingConstants.RIGHT));
+        inputPanel.add(crearEtiqueta("Valor del Apartamento:"));
         txtValorApartamento = new JTextField();
         inputPanel.add(txtValorApartamento);
 
-        inputPanel.add(new JLabel("Tipo de Unidad:", SwingConstants.RIGHT));
+        inputPanel.add(crearEtiqueta("Tipo de Unidad:"));
         txtTipoUnidad = new JTextField();
         inputPanel.add(txtTipoUnidad);
 
-        inputPanel.add(new JLabel("Área:", SwingConstants.RIGHT));
+        inputPanel.add(crearEtiqueta("Área:"));
         txtArea = new JTextField();
         inputPanel.add(txtArea);
 
-        inputPanel.add(new JLabel("Matrícula:", SwingConstants.RIGHT));
+        inputPanel.add(crearEtiqueta("Matrícula:"));
         txtMatricula = new JTextField();
         inputPanel.add(txtMatricula);
 
-        inputPanel.add(new JLabel("Estado de Venta:", SwingConstants.RIGHT));
+        inputPanel.add(crearEtiqueta("Estado de Venta:"));
         txtEstadoVenta = new JTextField();
         inputPanel.add(txtEstadoVenta);
 
         // Crear el panel de botones
         JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        buttonPanel.setBackground(Color.GRAY); // Fondo gris para el panel de botones
         JButton btnCrear = new JButton("Crear");
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
@@ -81,6 +86,7 @@ public class ApartamentoPanel extends JPanel {
 
         txtApartamentos = new JTextArea(10, 30);
         txtApartamentos.setEditable(false);
+        txtApartamentos.setBackground(Color.LIGHT_GRAY); // Fondo gris claro para el área de texto
         add(new JScrollPane(txtApartamentos), BorderLayout.SOUTH);
 
         btnCrear.addActionListener(e -> {
@@ -146,6 +152,12 @@ public class ApartamentoPanel extends JPanel {
                 JOptionPane.showMessageDialog(null, "Error: Por favor, ingresa valores válidos.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+    }
+
+    private JLabel crearEtiqueta(String texto) {
+        JLabel etiqueta = new JLabel(texto, SwingConstants.RIGHT);
+        etiqueta.setForeground(Color.WHITE); // Texto blanco para mayor contraste
+        return etiqueta;
     }
 
     private void cargarTorres() {

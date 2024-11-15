@@ -19,8 +19,10 @@ public class MainFrameAsesor extends JFrame {
         cardLayout = new CardLayout();
         mainPanel.setLayout(cardLayout);
 
-        // **Aplicar un color de fondo gris al panel derecho**
-        mainPanel.setBackground(new Color(80, 80, 80)); // Ajusta el tono de gris según tus preferencias
+        // **Panel vacío para el inicio**
+        JPanel panelVacio = new JPanel();
+        panelVacio.setBackground(new Color(80, 80, 80)); // Fondo gris para el panel vacío
+        mainPanel.add(panelVacio, "Vacio");
 
         // Agregar todos los paneles al CardLayout
         mainPanel.add(new ClientesPanel(), "Clientes");
@@ -60,6 +62,9 @@ public class MainFrameAsesor extends JFrame {
         setLayout(new BorderLayout());
         add(menuPanel, BorderLayout.WEST);
         add(mainPanel, BorderLayout.CENTER);
+
+        // Mostrar el panel vacío al iniciar
+        showPanel("Vacio");
     }
 
     private JButton createMenuButton(String text, String iconPath, String panelName) {

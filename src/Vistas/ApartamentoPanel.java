@@ -25,43 +25,39 @@ public class ApartamentoPanel extends JPanel {
         setLayout(new BorderLayout(10, 10));
 
         // Crear el panel de entrada
-        JPanel inputPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.anchor = GridBagConstraints.CENTER;  // Centrar los componentes
+        JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5));
+        inputPanel.add(new JLabel("ID del Apartamento:", SwingConstants.CENTER));
+        txtID = new JTextField();
+        inputPanel.add(txtID);
 
-        inputPanel.add(new JLabel("ID del Apartamento:"), getGBC(0, 0));
-        txtID = new JTextField(15);
-        inputPanel.add(txtID, getGBC(1, 0));
-
-        inputPanel.add(new JLabel("ID Torre:"), getGBC(0, 1));
+        inputPanel.add(new JLabel("ID Torre:", SwingConstants.CENTER));
         cbIDTorre = new JComboBox<>();
         cargarTorres();
-        inputPanel.add(cbIDTorre, getGBC(1, 1));
+        inputPanel.add(cbIDTorre);
 
-        inputPanel.add(new JLabel("Número del Apartamento:"), getGBC(0, 2));
-        txtNumeroApartamento = new JTextField(15);
-        inputPanel.add(txtNumeroApartamento, getGBC(1, 2));
+        inputPanel.add(new JLabel("Número del Apartamento:", SwingConstants.CENTER));
+        txtNumeroApartamento = new JTextField();
+        inputPanel.add(txtNumeroApartamento);
 
-        inputPanel.add(new JLabel("Valor del Apartamento:"), getGBC(0, 3));
-        txtValorApartamento = new JTextField(15);
-        inputPanel.add(txtValorApartamento, getGBC(1, 3));
+        inputPanel.add(new JLabel("Valor del Apartamento:", SwingConstants.CENTER));
+        txtValorApartamento = new JTextField();
+        inputPanel.add(txtValorApartamento);
 
-        inputPanel.add(new JLabel("Tipo de Unidad:"), getGBC(0, 4));
-        txtTipoUnidad = new JTextField(15);
-        inputPanel.add(txtTipoUnidad, getGBC(1, 4));
+        inputPanel.add(new JLabel("Tipo de Unidad:", SwingConstants.CENTER));
+        txtTipoUnidad = new JTextField();
+        inputPanel.add(txtTipoUnidad);
 
-        inputPanel.add(new JLabel("Área:"), getGBC(0, 5));
-        txtArea = new JTextField(15);
-        inputPanel.add(txtArea, getGBC(1, 5));
+        inputPanel.add(new JLabel("Área:", SwingConstants.CENTER));
+        txtArea = new JTextField();
+        inputPanel.add(txtArea);
 
-        inputPanel.add(new JLabel("Matrícula:"), getGBC(0, 6));
-        txtMatricula = new JTextField(15);
-        inputPanel.add(txtMatricula, getGBC(1, 6));
+        inputPanel.add(new JLabel("Matrícula:", SwingConstants.CENTER));
+        txtMatricula = new JTextField();
+        inputPanel.add(txtMatricula);
 
-        inputPanel.add(new JLabel("Estado de Venta:"), getGBC(0, 7));
-        txtEstadoVenta = new JTextField(15);
-        inputPanel.add(txtEstadoVenta, getGBC(1, 7));
+        inputPanel.add(new JLabel("Estado de Venta:", SwingConstants.CENTER));
+        txtEstadoVenta = new JTextField();
+        inputPanel.add(txtEstadoVenta);
 
         // Crear el panel de botones
         JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10)); // Ajustar el layout a 2x2 para los botones
@@ -180,14 +176,5 @@ public class ApartamentoPanel extends JPanel {
         boton.setPreferredSize(new Dimension(100, 30)); // Ajustar tamaño para que sean más pequeños
         boton.setHorizontalAlignment(SwingConstants.CENTER);  // Centrar texto horizontalmente
         boton.setVerticalAlignment(SwingConstants.CENTER);    // Centrar texto verticalmente
-    }
-
-    private GridBagConstraints getGBC(int x, int y) {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = x;
-        gbc.gridy = y;
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.anchor = GridBagConstraints.CENTER;
-        return gbc;
     }
 }

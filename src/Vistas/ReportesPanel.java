@@ -22,6 +22,7 @@ public class ReportesPanel extends JPanel {
         reporteController = new ReporteController();
         clienteController = new ClienteController();
         setLayout(new BorderLayout());
+        setBackground(Color.GRAY);  // Fondo gris para el panel principal
 
         // Botones para generar reportes
         JButton btnGenerarReporte = new JButton("Generar Reporte");
@@ -30,6 +31,8 @@ public class ReportesPanel extends JPanel {
         // Área de texto para mostrar los reportes
         txtReporte = new JTextArea(20, 50);
         txtReporte.setEditable(false);
+        txtReporte.setBackground(Color.LIGHT_GRAY);  // Fondo gris claro para el área de texto
+        txtReporte.setForeground(Color.BLACK);  // Texto en color negro para mejor contraste
 
         // ComboBox para seleccionar cliente
         comboClientes = new JComboBox<>();
@@ -37,6 +40,7 @@ public class ReportesPanel extends JPanel {
 
         // Panel de botones
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.GRAY); // Fondo gris para el panel de botones
         buttonPanel.add(new JLabel("Seleccionar Cliente:"));
         buttonPanel.add(comboClientes);
         buttonPanel.add(btnGenerarReporte);

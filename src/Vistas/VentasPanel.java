@@ -128,22 +128,28 @@ public class VentasPanel extends JPanel {
         });
 
         // Acción para leer todas las ventas
-        btnLeer.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                List<Venta> ventas = ventaController.obtenerVentas();
-                txtVentas.setText("");
-                for (Venta venta : ventas) {
-                    txtVentas.append("ID Venta: " + venta.getIdVenta() +
-                            ", Precio Total: " + venta.getPrecioTotal() +
-                            ", Número de Cuotas: " + venta.getNumeroCuotas() +
-                            ", Intereses: " + venta.getIntereses() +
-                            ", ID Cliente: " + venta.getIdCliente() +
-                            ", ID Apartamento: " + venta.getIdApartamento() +
-                            ", Estado: " + venta.getEstadoVenta() + "\n");
-                }
+btnLeer.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        List<Venta> ventas = ventaController.obtenerVentas();
+        txtVentas.setText(""); // Limpiar el área de texto antes de listar las ventas
+        if (ventas.isEmpty()) {
+            txtVentas.append("No hay ventas registradas.\n");
+        } else {
+            for (Venta venta : ventas) {
+                txtVentas.append(String.format("ID Venta: %d\n", venta.getIdVenta()));
+                txtVentas.append(String.format("Precio Total: %.2f\n", venta.getPrecioTotal()));
+                txtVentas.append(String.format("Número de Cuotas: %d\n", venta.getNumeroCuotas()));
+                txtVentas.append(String.format("Intereses: %.2f\n", venta.getIntereses()));
+                txtVentas.append(String.format("ID Cliente: %d\n", venta.getIdCliente()));
+                txtVentas.append(String.format("ID Apartamento: %d\n", venta.getIdApartamento()));
+                txtVentas.append(String.format("Estado: %s\n", venta.getEstadoVenta()));
+                txtVentas.append("----------------------------\n");
             }
-        });
+        }
+    }
+});
+
 
         // Acción para eliminar venta
         btnEliminar.addActionListener(new ActionListener() {

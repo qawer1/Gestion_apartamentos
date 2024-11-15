@@ -123,22 +123,24 @@ public class PagosPanel extends JPanel {
         });
 
         // Acción para leer pagos
-        btnLeer.addActionListener(e -> {
-            List<Pago> pagos = pagoController.obtenerPagos();
-            txtPagos.setText("");
-            if (pagos.isEmpty()) {
-                txtPagos.append("No hay pagos registrados.\n");
-            } else {
-                for (Pago pago : pagos) {
-                    txtPagos.append(String.format("ID Pago: %d\n", pago.getID_Pago()));
-                    txtPagos.append(String.format("Valor: %.2f\n", pago.getValorPago()));
-                    txtPagos.append(String.format("Fecha: %s\n", pago.getFecha()));
-                    txtPagos.append(String.format("Cédula Cliente: %d\n", pago.getCedula_cliente()));
-                    txtPagos.append(String.format("Cédula Asesor: %d\n", pago.getCedula_asesor()));
-                    txtPagos.append("----------------------------\n");
-                }
-            }
-        });
+btnLeer.addActionListener(e -> {
+    List<Pago> pagos = pagoController.obtenerPagos();
+    txtPagos.setText("");  // Limpiar el área de texto antes de listar los pagos
+
+    if (pagos.isEmpty()) {
+        txtPagos.append("No hay pagos registrados.\n");
+    } else {
+        for (Pago pago : pagos) {
+            // Agregar información de cada pago
+            txtPagos.append(String.format("ID Pago: %d\n", pago.getID_Pago()));
+            txtPagos.append(String.format("Valor: %.2f\n", pago.getValorPago()));
+            txtPagos.append(String.format("Fecha: %s\n", pago.getFecha()));
+            txtPagos.append(String.format("Cédula Cliente: %d\n", pago.getCedula_cliente()));
+            txtPagos.append(String.format("Cédula Asesor: %d\n", pago.getCedula_asesor()));
+            txtPagos.append("----------------------------\n");
+        }
+    }
+});
 
         // Acción para eliminar pago
         btnEliminar.addActionListener(e -> {

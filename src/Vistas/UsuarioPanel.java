@@ -13,15 +13,17 @@ public class UsuarioPanel extends JPanel {
     private JTextField txtNombre;
     private JTextField txtContrasena;
     private JTextField txtRol;
-    private JTextArea txtAreaUsuarios; // Area de texto para mostrar los usuarios
+    private JTextArea txtAreaUsuarios; // Área de texto para mostrar los usuarios
     private UsuarioController usuarioController;
 
     public UsuarioPanel() {
         usuarioController = new UsuarioController();
         setLayout(new BorderLayout(10, 10));
+        setBackground(Color.GRAY); // Fondo gris para el panel
 
         // Panel para los campos de entrada
         JPanel inputPanel = new JPanel(new GridLayout(6, 2, 5, 5));
+        inputPanel.setBackground(Color.GRAY); // Fondo gris para el panel de entrada
 
         inputPanel.add(new JLabel("ID del Usuario:"));
         txtId = new JTextField();
@@ -47,12 +49,19 @@ public class UsuarioPanel extends JPanel {
 
         // Panel de botones
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Disposición horizontal de botones
+        buttonPanel.setBackground(Color.GRAY); // Fondo gris para el panel de botones
 
-        JButton btnCrear = new JButton("Crear Usuario");
-        JButton btnActualizar = new JButton("Actualizar Usuario");
-        JButton btnLeer = new JButton("Leer Usuarios");
-        JButton btnEliminar = new JButton("Eliminar Usuario");
+        JButton btnCrear = new JButton("Crear");
+        JButton btnActualizar = new JButton("Actualizar");
+        JButton btnLeer = new JButton("Leer");
+        JButton btnEliminar = new JButton("Eliminar");
+
+        // Ajustar tamaño de los botones
+        ajustarBoton(btnCrear);
+        ajustarBoton(btnActualizar);
+        ajustarBoton(btnLeer);
+        ajustarBoton(btnEliminar);
 
         buttonPanel.add(btnCrear);
         buttonPanel.add(btnActualizar);
@@ -129,5 +138,11 @@ public class UsuarioPanel extends JPanel {
         txtNombre.setText("");
         txtContrasena.setText("");
         txtRol.setText("");
+    }
+
+    // Método para ajustar el tamaño de los botones
+    private void ajustarBoton(JButton boton) {
+        boton.setFont(new Font("Arial", Font.PLAIN, 12));
+        boton.setPreferredSize(new Dimension(120, 30)); // Tamaño más pequeño
     }
 }

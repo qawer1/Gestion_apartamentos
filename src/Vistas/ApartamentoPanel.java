@@ -23,42 +23,67 @@ public class ApartamentoPanel extends JPanel {
     public ApartamentoPanel() {
         apartamentoController = new ApartamentoController();
         setLayout(new BorderLayout(10, 10));
-        setBackground(Color.GRAY); 
+        setBackground(Color.GRAY);
 
         // Crear el panel de entrada
         JPanel inputPanel = new JPanel(new GridLayout(10, 2, 5, 5));
         inputPanel.setBackground(Color.GRAY); // Mantener el color de fondo igual
-        inputPanel.add(new JLabel("ID del Apartamento:"));
+        
+        // Cambiar color de las letras a blanco para las etiquetas y campos
+        JLabel labelID = new JLabel("ID del Apartamento:");
+        labelID.setForeground(Color.WHITE);
+        inputPanel.add(labelID);
         txtID = new JTextField();
+        txtID.setForeground(Color.BLACK);
         inputPanel.add(txtID);
 
-        inputPanel.add(new JLabel("ID Torre:"));
+        JLabel labelIDTorre = new JLabel("ID Torre:");
+        labelIDTorre.setForeground(Color.WHITE);
+        inputPanel.add(labelIDTorre);
         cbIDTorre = new JComboBox<>();
         cargarTorres();
         inputPanel.add(cbIDTorre);
 
-        inputPanel.add(new JLabel("Número del Apartamento:"));
+        JLabel labelNumero = new JLabel("Número del Apartamento:");
+        labelNumero.setForeground(Color.WHITE);
+        inputPanel.add(labelNumero);
         txtNumeroApartamento = new JTextField();
+        txtNumeroApartamento.setForeground(Color.BLACK);
         inputPanel.add(txtNumeroApartamento);
 
-        inputPanel.add(new JLabel("Valor del Apartamento:"));
+        JLabel labelValor = new JLabel("Valor del Apartamento:");
+        labelValor.setForeground(Color.WHITE);
+        inputPanel.add(labelValor);
         txtValorApartamento = new JTextField();
+        txtValorApartamento.setForeground(Color.BLACK);
         inputPanel.add(txtValorApartamento);
 
-        inputPanel.add(new JLabel("Tipo de Unidad:"));
+        JLabel labelTipoUnidad = new JLabel("Tipo de Unidad:");
+        labelTipoUnidad.setForeground(Color.WHITE);
+        inputPanel.add(labelTipoUnidad);
         txtTipoUnidad = new JTextField();
+        txtTipoUnidad.setForeground(Color.BLACK);
         inputPanel.add(txtTipoUnidad);
 
-        inputPanel.add(new JLabel("Área:"));
+        JLabel labelArea = new JLabel("Área:");
+        labelArea.setForeground(Color.WHITE);
+        inputPanel.add(labelArea);
         txtArea = new JTextField();
+        txtArea.setForeground(Color.BLACK);
         inputPanel.add(txtArea);
 
-        inputPanel.add(new JLabel("Matrícula:"));
+        JLabel labelMatricula = new JLabel("Matrícula:");
+        labelMatricula.setForeground(Color.WHITE);
+        inputPanel.add(labelMatricula);
         txtMatricula = new JTextField();
+        txtMatricula.setForeground(Color.BLACK);
         inputPanel.add(txtMatricula);
 
-        inputPanel.add(new JLabel("Estado de Venta:"));
+        JLabel labelEstadoVenta = new JLabel("Estado de Venta:");
+        labelEstadoVenta.setForeground(Color.WHITE);
+        inputPanel.add(labelEstadoVenta);
         txtEstadoVenta = new JTextField();
+        txtEstadoVenta.setForeground(Color.BLACK);
         inputPanel.add(txtEstadoVenta);
 
         // Crear el panel de botones
@@ -68,6 +93,12 @@ public class ApartamentoPanel extends JPanel {
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnEditar = new JButton("Editar");
+
+        // Cambiar color de las letras de los botones a blanco
+        btnCrear.setForeground(Color.BLACK);
+        btnLeer.setForeground(Color.BLACK);
+        btnEliminar.setForeground(Color.BLACK);
+        btnEditar.setForeground(Color.BLACK);
 
         // Ajustar tamaño de los botones
         ajustarBoton(btnCrear);
@@ -85,6 +116,7 @@ public class ApartamentoPanel extends JPanel {
 
         txtApartamentos = new JTextArea(10, 30);
         txtApartamentos.setEditable(false);
+        txtApartamentos.setForeground(Color.BLACK); // Cambiar color de las letras a blanco
         add(new JScrollPane(txtApartamentos), BorderLayout.SOUTH);
 
         // Acción para crear apartamento
@@ -109,25 +141,24 @@ public class ApartamentoPanel extends JPanel {
 
         // Acción para leer apartamentos
         btnLeer.addActionListener(e -> {
-    List<Apartamento> apartamentos = apartamentoController.obtenerApartamentos();
-    txtApartamentos.setText("");  // Limpiar el área de texto antes de listar
-    if (apartamentos.isEmpty()) {
-        txtApartamentos.append("No hay apartamentos registrados.\n");
-    } else {
-        for (Apartamento apartamento : apartamentos) {
-            txtApartamentos.append(String.format("ID Apartamento: %d\n", apartamento.getID_apartamento()));
-            txtApartamentos.append(String.format("ID Torre: %d\n", apartamento.getID_torre()));
-            txtApartamentos.append(String.format("Número Apartamento: %d\n", apartamento.getNumero_apartamento()));
-            txtApartamentos.append(String.format("Valor: %.2f\n", apartamento.getValorApartamento()));
-            txtApartamentos.append(String.format("Tipo Unidad: %s\n", apartamento.getTipoUnidad()));
-            txtApartamentos.append(String.format("Área: %s\n", apartamento.getArea()));
-            txtApartamentos.append(String.format("Matrícula: %s\n", apartamento.getMatricula()));
-            txtApartamentos.append(String.format("Estado de Venta: %s\n", apartamento.getEstadoVenta()));
-            txtApartamentos.append("----------------------------\n");
-        }
-    }
-});
-
+            List<Apartamento> apartamentos = apartamentoController.obtenerApartamentos();
+            txtApartamentos.setText("");  // Limpiar el área de texto antes de listar
+            if (apartamentos.isEmpty()) {
+                txtApartamentos.append("No hay apartamentos registrados.\n");
+            } else {
+                for (Apartamento apartamento : apartamentos) {
+                    txtApartamentos.append(String.format("ID Apartamento: %d\n", apartamento.getID_apartamento()));
+                    txtApartamentos.append(String.format("ID Torre: %d\n", apartamento.getID_torre()));
+                    txtApartamentos.append(String.format("Número Apartamento: %d\n", apartamento.getNumero_apartamento()));
+                    txtApartamentos.append(String.format("Valor: %.2f\n", apartamento.getValorApartamento()));
+                    txtApartamentos.append(String.format("Tipo Unidad: %s\n", apartamento.getTipoUnidad()));
+                    txtApartamentos.append(String.format("Área: %s\n", apartamento.getArea()));
+                    txtApartamentos.append(String.format("Matrícula: %s\n", apartamento.getMatricula()));
+                    txtApartamentos.append(String.format("Estado de Venta: %s\n", apartamento.getEstadoVenta()));
+                    txtApartamentos.append("----------------------------\n");
+                }
+            }
+        });
 
         // Acción para eliminar apartamento
         btnEliminar.addActionListener(e -> {

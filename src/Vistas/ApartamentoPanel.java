@@ -172,7 +172,7 @@ public class ApartamentoPanel extends JPanel {
     }
 
     private void ajustarBoton(JButton boton) {
-        boton.setFont(new Font("Arial", Font.PLAIN, 14));
-        boton.setPreferredSize(new Dimension(100, 30)); // Ajustar tamaño para que sean más pequeños
+        boton.setFont(new Font("Arial", Font.PLAIN, 14)); // Mantener la fuente sin modificar
+        boton.setPreferredSize(new Dimension(100, 30)); // Ajustar solo el tamaño de los botones
     }
 }

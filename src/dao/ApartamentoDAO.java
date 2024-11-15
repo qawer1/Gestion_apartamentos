@@ -38,7 +38,7 @@ public class ApartamentoDAO {
                 apartamento.setNumero_apartamento(rs.getInt("Numero_apartamento"));
                 apartamento.setValorApartamento(rs.getDouble("valorApartamento"));
                 apartamento.setTipoUnidad(rs.getString("tipoUnidad"));
-                apartamento.setArea(rs.getDouble("area"));
+                apartamento.setArea(rs.getString("area"));
                 apartamento.setMatricula(rs.getString("matricula"));
                 apartamento.setEstadoVenta(rs.getString("estadoVenta"));  // Obtener estadoVenta
                 apartamentos.add(apartamento);
@@ -78,7 +78,7 @@ public class ApartamentoDAO {
             pstmt.setInt(3, apartamento.getNumero_apartamento());
             pstmt.setDouble(4, apartamento.getValorApartamento());
             pstmt.setString(5, apartamento.getTipoUnidad());
-            pstmt.setDouble(6, apartamento.getArea());
+            pstmt.setString(6, apartamento.getArea());
             pstmt.setString(7, apartamento.getMatricula());
             pstmt.setString(8, apartamento.getEstadoVenta());  // Se incluye estadoVenta
             pstmt.executeUpdate();
@@ -97,7 +97,7 @@ public class ApartamentoDAO {
             pstmt.setInt(2, apartamento.getNumero_apartamento());
             pstmt.setDouble(3, apartamento.getValorApartamento());
             pstmt.setString(4, apartamento.getTipoUnidad());
-            pstmt.setDouble(5, apartamento.getArea());
+            pstmt.setString(5, apartamento.getArea());
             pstmt.setString(6, apartamento.getMatricula());
             pstmt.setString(7, apartamento.getEstadoVenta());  // Actualizar estadoVenta
             pstmt.setInt(8, apartamento.getID_apartamento());

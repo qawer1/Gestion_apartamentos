@@ -6,9 +6,9 @@ public class Apartamento {
     private int numero_apartamento;
     private double valorApartamento;
     private String tipoUnidad;
-    private double area;
+    private String area;
     private String matricula;
-    private String estadoVenta;  // Nueva propiedad para almacenar el estado de la venta
+    private String estadoVenta; 
 
     // Getters y Setters
     public int getID_apartamento() {
@@ -51,11 +51,11 @@ public class Apartamento {
         this.tipoUnidad = tipoUnidad;
     }
 
-    public double getArea() {
+    public String getArea() {
         return area;
     }
 
-    public void setArea(double area) {
+    public void setArea(String area) {
         this.area = area;
     }
 

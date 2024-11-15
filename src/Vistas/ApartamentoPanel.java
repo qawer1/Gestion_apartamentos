@@ -90,7 +90,7 @@ public class ApartamentoPanel extends JPanel {
                     int numero = Integer.parseInt(txtNumeroApartamento.getText());
                     double valor = Double.parseDouble(txtValorApartamento.getText());
                     String tipoUnidad = txtTipoUnidad.getText();
-                    double area = Double.parseDouble(txtArea.getText());
+                    String area = (txtArea.getText());
                     String matricula = txtMatricula.getText();
                     String estadoVenta = txtEstadoVenta.getText();
 
@@ -147,7 +147,7 @@ public class ApartamentoPanel extends JPanel {
                     int numero = Integer.parseInt(txtNumeroApartamento.getText());
                     double valor = Double.parseDouble(txtValorApartamento.getText());
                     String tipoUnidad = txtTipoUnidad.getText();
-                    double area = Double.parseDouble(txtArea.getText());
+                    String area = (txtArea.getText());
                     String matricula = txtMatricula.getText();
                     String estadoVenta = txtEstadoVenta.getText();
 

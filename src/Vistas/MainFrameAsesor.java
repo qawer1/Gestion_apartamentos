@@ -2,103 +2,105 @@ package Vistas;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.sql.*;
 import vistas.ReportesPanel;
 
 public class MainFrameAsesor extends JFrame {
+    private JPanel mainPanel;
     private JLabel clientesActivosLabel;
     private JLabel ventasRealizadasLabel;
+    private CardLayout cardLayout;
 
     public MainFrameAsesor() {
         setTitle("Gestión de Apartamentos - Asesor");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Crear la barra de menú
-        JMenuBar menuBar = new JMenuBar();
+        // Crear el panel principal con CardLayout
+        mainPanel = new JPanel();
+        cardLayout = new CardLayout();
+        mainPanel.setLayout(cardLayout);
 
-        // Menú de Clientes
-        JMenu menuClientes = new JMenu("Clientes");
-        menuClientes.setIcon(new ImageIcon(getClass().getResource("/imagenes/clientes.png")));
-        JMenuItem itemClientes = new JMenuItem("Gestionar Clientes");
-        menuClientes.add(itemClientes);
-
-        // Menú de Ventas
-        JMenu menuVentas = new JMenu("Ventas");
-        menuVentas.setIcon(new ImageIcon(getClass().getResource("/imagenes/ventas.png")));
-        JMenuItem itemVentas = new JMenuItem("Gestionar Ventas");
-        menuVentas.add(itemVentas);
-
-        // Menú de Pagos
-        JMenu menuPagos = new JMenu("Pagos");
-        menuPagos.setIcon(new ImageIcon(getClass().getResource("/imagenes/pagos.png")));
-        JMenuItem itemPagos = new JMenuItem("Gestionar Pagos");
-        menuPagos.add(itemPagos);
-
-        // Menú de Reportes
-        JMenu menuReportes = new JMenu("Reportes");
-        menuReportes.setIcon(new ImageIcon(getClass().getResource("/imagenes/reportes.png")));
-        JMenuItem itemReportes = new JMenuItem("Generar Reportes");
-        menuReportes.add(itemReportes);
-
-        // Menú de Cuenta
-        JMenu menuCuenta = new JMenu("Cuenta");
-        menuCuenta.setIcon(new ImageIcon(getClass().getResource("/imagenes/cuenta.png")));
-        JMenuItem itemCerrarSesion = new JMenuItem("Cerrar sesión");
-        menuCuenta.add(itemCerrarSesion);
-
-        // Agregar los menús a la barra de menú
-        menuBar.add(menuClientes);
-        menuBar.add(menuVentas);
-        menuBar.add(menuPagos);
-        menuBar.add(menuReportes);
-        menuBar.add(menuCuenta);
-        setJMenuBar(menuBar);
-
-        // Crear el panel de CardLayout para cambiar entre los diferentes paneles
-        JPanel mainPanel = new JPanel(new CardLayout());
-
-        // Panel de bienvenida con estadísticas
+        // Agregar todos los paneles al CardLayout
         JPanel welcomePanel = new JPanel(new GridLayout(2, 1, 10, 10));
         clientesActivosLabel = new JLabel("Clientes activos: ");
         ventasRealizadasLabel = new JLabel("Ventas realizadas: ");
-
+        
         clientesActivosLabel.setFont(new Font("Arial", Font.BOLD, 20));
         ventasRealizadasLabel.setFont(new Font("Arial", Font.BOLD, 20));
-
+        
         welcomePanel.add(clientesActivosLabel);
         welcomePanel.add(ventasRealizadasLabel);
-
+        
         mainPanel.add(welcomePanel, "Bienvenida");
         mainPanel.add(new ClientesPanel(), "Clientes");
         mainPanel.add(new VentasPanel(), "Ventas");
         mainPanel.add(new PagosPanel(), "Pagos");
         mainPanel.add(new ReportesPanel(), "Reportes");
 
-        // Mostrar el panel de bienvenida al iniciar la aplicación
-        showPanel(mainPanel, "Bienvenida");
-        actualizarEstadisticas(); // Llama a la actualización de estadísticas al iniciar
+        // Actualizar estadísticas al iniciar
+        actualizarEstadisticas();
+        showPanel("Bienvenida");
 
-        // Acciones para cambiar el panel según la selección del menú
-        itemClientes.addActionListener(e -> showPanel(mainPanel, "Clientes"));
-        itemVentas.addActionListener(e -> showPanel(mainPanel, "Ventas"));
-        itemPagos.addActionListener(e -> showPanel(mainPanel, "Pagos"));
-        itemReportes.addActionListener(e -> showPanel(mainPanel, "Reportes"));
+        // Crear el menú lateral
+        JPanel menuPanel = new JPanel();
+        menuPanel.setBackground(new Color(43, 43, 43));
+        menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
 
-        // Acción para cerrar sesión
-        itemCerrarSesion.addActionListener(e -> {
+        // Crear y agregar botones de menú
+        menuPanel.add(createMenuButton("Clientes", "/imagenes/clientes.png", "Clientes"));
+        menuPanel.add(createMenuButton("Ventas", "/imagenes/ventas.png", "Ventas"));
+        menuPanel.add(createMenuButton("Pagos", "/imagenes/pagos.png", "Pagos"));
+        menuPanel.add(createMenuButton("Reportes", "/imagenes/reportes.png", "Reportes"));
+
+        // Botón de Cerrar Sesión
+        JButton cerrarSesionButton = new JButton("Cerrar sesión");
+        cerrarSesionButton.setFont(new Font("Arial", Font.PLAIN, 16));
+        cerrarSesionButton.setBackground(new Color(43, 43, 43));
+        cerrarSesionButton.setForeground(Color.WHITE);
+        cerrarSesionButton.setFocusPainted(false);
+        cerrarSesionButton.setHorizontalAlignment(SwingConstants.LEFT);
+        cerrarSesionButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
+        cerrarSesionButton.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(this, "¿Seguro que desea cerrar sesión?", "Confirmar Cerrar Sesión", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                System.exit(0); // Cerrar el programa
+                System.exit(0);
             }
         });
+        menuPanel.add(Box.createVerticalGlue());
+        menuPanel.add(cerrarSesionButton);
 
-        add(mainPanel);
+        // Añadir el menú lateral y el panel principal al frame
+        setLayout(new BorderLayout());
+        add(menuPanel, BorderLayout.WEST);
+        add(mainPanel, BorderLayout.CENTER);
     }
 
-    private void showPanel(JPanel mainPanel, String panelName) {
-        CardLayout layout = (CardLayout) mainPanel.getLayout();
-        layout.show(mainPanel, panelName);
+    private JButton createMenuButton(String text, String iconPath, String panelName) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.PLAIN, 16));
+        button.setBackground(new Color(43, 43, 43));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setHorizontalAlignment(SwingConstants.LEFT);
+        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
+
+        if (iconPath != null) {
+            ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
+            // Redimensionar el icono a un tamaño uniforme
+            Image img = icon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+            button.setIcon(new ImageIcon(img));
+        }
+
+        // Acción para mostrar el panel correspondiente
+        button.addActionListener((ActionEvent e) -> showPanel(panelName));
+
+        return button;
+    }
+
+    private void showPanel(String panelName) {
+        cardLayout.show(mainPanel, panelName);
     }
 
     private void actualizarEstadisticas() {

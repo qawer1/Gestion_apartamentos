@@ -18,7 +18,7 @@ public class ApartamentoController {
     }
 
     // Método para crear un apartamento, ahora incluye estadoVenta como parámetro
-    public void crearApartamento(int id_apartamento, int id_torre, int numero_apartamento, double valorApartamento, String tipoUnidad, double area, String matricula, String estadoVenta) {
+    public void crearApartamento(int id_apartamento, int id_torre, int numero_apartamento, double valorApartamento, String tipoUnidad, String area, String matricula, String estadoVenta) {
         Apartamento apartamento = new Apartamento();
         apartamento.setID_apartamento(id_apartamento); // Asigna el ID manualmente
         apartamento.setID_torre(id_torre); // Asigna el ID de torre seleccionado
@@ -37,7 +37,7 @@ public class ApartamentoController {
     }
 
     // Método para actualizar un apartamento, ahora incluye estadoVenta como parámetro
-    public void actualizarApartamento(int id_apartamento, int id_torre, int numero_apartamento, double valorApartamento, String tipoUnidad, double area, String matricula, String estadoVenta) {
+    public void actualizarApartamento(int id_apartamento, int id_torre, int numero_apartamento, double valorApartamento, String tipoUnidad, String area, String matricula, String estadoVenta) {
         Apartamento apartamento = new Apartamento();
         apartamento.setID_apartamento(id_apartamento); // Asigna el ID para actualizar el registro correcto
         apartamento.setID_torre(id_torre); // Asigna el ID de torre seleccionado

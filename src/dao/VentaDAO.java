@@ -1,32 +1,22 @@
 package dao;
 
+import conexion.conexion;
+import modelo.Venta;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import modelo.Venta;
 
 public class VentaDAO {
-
-    private Connection conectar() {
-        Connection conn = null;
-        try {
-            // Configuración de conexión para Oracle
-            String url = "jdbc:oracle:thin:@localhost:1521:xe";
-            String username = "SYSTEM";
-            String password = "Case18283022";
-            conn = DriverManager.getConnection(url, username, password);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return conn;
-    }
 
     // Método para crear una venta
     public void crearVenta(Venta venta) {
         String sql = "INSERT INTO Venta (PRECIO_TOTAL, NUMERO_CUOTAS, INTERESES, CEDULA_CLIENTES, ID_APARTAMENTO, ESTADO_VENTA) VALUES (?, ?, ?, ?, ?, ?)";
+        Connection conn = null;
 
-        try (Connection conn = this.conectar();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try {
+            conn = conexion.conectar();  // Usar la conexión de la clase 'conexion'
+            PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pstmt.setDouble(1, venta.getPrecioTotal());
             pstmt.setInt(2, venta.getNumeroCuotas());
             pstmt.setDouble(3, venta.getIntereses());
@@ -42,20 +32,25 @@ public class VentaDAO {
                     venta.setIdVenta(rs.getInt(1));  // Asignar el ID generado
                 }
             }
+            pstmt.close();
         } catch (SQLException e) {
             System.out.println("Error al crear venta: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            conexion.desconectar(conn);  // Asegurar la desconexión
         }
     }
 
     // Método para obtener todas las ventas
     public List<Venta> obtenerVentas() {
         List<Venta> ventas = new ArrayList<>();
-        String sql = "SELECT ID_VENTA, PRECIO_TOTAL, NUMERO_CUOTAS, INTERESES, CEDULA_CLIENTES, ID_APARTAMENTO, ESTADO_VENTA FROM Venta";  // Agregar estado de la venta
+        String sql = "SELECT ID_VENTA, PRECIO_TOTAL, NUMERO_CUOTAS, INTERESES, CEDULA_CLIENTES, ID_APARTAMENTO, ESTADO_VENTA FROM Venta";
+        Connection conn = null;
 
-        try (Connection conn = this.conectar();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        try {
+            conn = conexion.conectar();  // Usar la conexión de la clase 'conexion'
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
                 Venta venta = new Venta();
@@ -68,9 +63,13 @@ public class VentaDAO {
                 venta.setEstadoVenta(rs.getString("ESTADO_VENTA"));  // Obtener el estado de la venta
                 ventas.add(venta);
             }
+            rs.close();
+            stmt.close();
         } catch (SQLException e) {
             System.out.println("Error al obtener ventas");
             e.printStackTrace();
+        } finally {
+            conexion.desconectar(conn);  // Asegurar la desconexión
         }
         return ventas;
     }
@@ -78,9 +77,11 @@ public class VentaDAO {
     // Método para actualizar una venta
     public void actualizarVenta(Venta venta) {
         String sql = "UPDATE Venta SET PRECIO_TOTAL = ?, NUMERO_CUOTAS = ?, INTERESES = ?, CEDULA_CLIENTES = ?, ID_APARTAMENTO = ?, ESTADO_VENTA = ? WHERE ID_VENTA = ?";
+        Connection conn = null;
 
-        try (Connection conn = this.conectar();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            conn = conexion.conectar();  // Usar la conexión de la clase 'conexion'
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDouble(1, venta.getPrecioTotal());
             pstmt.setInt(2, venta.getNumeroCuotas());
             pstmt.setDouble(3, venta.getIntereses());
@@ -89,23 +90,31 @@ public class VentaDAO {
             pstmt.setString(6, venta.getEstadoVenta());  // Actualizar el estado de la venta
             pstmt.setInt(7, venta.getIdVenta());
             pstmt.executeUpdate();
+            pstmt.close();
         } catch (SQLException e) {
             System.out.println("Error al actualizar venta con ID: " + venta.getIdVenta());
             e.printStackTrace();
+        } finally {
+            conexion.desconectar(conn);  // Asegurar la desconexión
         }
     }
 
     // Método para eliminar una venta
     public void eliminarVenta(int idVenta) {
         String sql = "DELETE FROM Venta WHERE ID_VENTA = ?";
+        Connection conn = null;
 
-        try (Connection conn = this.conectar();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            conn = conexion.conectar();  // Usar la conexión de la clase 'conexion'
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, idVenta);
             pstmt.executeUpdate();
+            pstmt.close();
         } catch (SQLException e) {
             System.out.println("Error al eliminar venta con ID: " + idVenta);
             e.printStackTrace();
+        } finally {
+            conexion.desconectar(conn);  // Asegurar la desconexión
         }
     }
 }

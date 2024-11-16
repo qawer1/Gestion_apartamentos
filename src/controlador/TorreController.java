@@ -1,15 +1,18 @@
 package controlador;
-
+import controlador.ProyectoController;
+import modelo.Proyecto;
 import dao.TorreDAO;
 import modelo.Torre;
 import java.util.List;
 
 public class TorreController {
     private TorreDAO torreDAO;
+    private ProyectoController proyectoController; // Controlador de Proyecto
 
-    // Constructor que inicializa el DAO de Torre
+    // Constructor que inicializa el DAO de Torre y ProyectoController
     public TorreController() {
         this.torreDAO = new TorreDAO();
+        this.proyectoController = new ProyectoController(); // Inicializar el controlador de proyectos
     }
 
     // Método para crear una torre, incluyendo ID_TORRE
@@ -63,5 +66,10 @@ public class TorreController {
     public void eliminarTorre(int idTorre) {
         torreDAO.eliminarTorre(idTorre);
         System.out.println("Torre eliminada exitosamente.");
+    }
+
+    // Método para obtener todos los proyectos (usado en la vista)
+    public List<Proyecto> obtenerProyectos() {
+        return proyectoController.obtenerProyectos(); // Delegar la obtención de proyectos al ProyectoController
     }
 }

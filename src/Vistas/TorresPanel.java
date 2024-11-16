@@ -42,7 +42,7 @@ public class TorresPanel extends JPanel {
         labelProyecto.setForeground(Color.WHITE);
         inputPanel.add(labelProyecto);
         cmbProyectos = new JComboBox<>();
-        cargarProyectos();
+        cargarProyectos(); // Llamar al método que carga los proyectos
         inputPanel.add(cmbProyectos);
 
         // Número de la Torre
@@ -68,18 +68,21 @@ public class TorresPanel extends JPanel {
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnEditar = new JButton("Editar");
+        JButton btnRefrescar = new JButton("Refrescar");
 
         // Ajustar tamaño de los botones para que sean compactos
         ajustarBoton(btnCrear);
         ajustarBoton(btnLeer);
         ajustarBoton(btnEliminar);
         ajustarBoton(btnEditar);
+        ajustarBoton(btnRefrescar); // Botón de refrescar
 
         // Añadir botones al panel
         buttonPanel.add(btnCrear);
         buttonPanel.add(btnLeer);
         buttonPanel.add(btnEliminar);
         buttonPanel.add(btnEditar);
+        buttonPanel.add(btnRefrescar); // Añadir el botón de refrescar
 
         // Añadir paneles al layout principal
         add(inputPanel, BorderLayout.NORTH);
@@ -97,12 +100,13 @@ public class TorresPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int idTorre = Integer.parseInt(txtId.getText());
-                    int idProyecto = obtenerIdProyectoSeleccionado();
+                    int idProyecto = obtenerIdProyectoSeleccionado(); // Obtener el ID del proyecto seleccionado
                     int numeroTorre = Integer.parseInt(txtNumeroTorre.getText());
                     int numeroApartamentos = Integer.parseInt(txtNumeroApartamentos.getText());
                     torreController.crearTorre(idTorre, idProyecto, numeroTorre, numeroApartamentos);
                     JOptionPane.showMessageDialog(null, "Torre creada exitosamente");
                     limpiarCampos();
+                    cargarProyectos();  // Recargar los proyectos para actualizar el JComboBox
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese valores válidos.");
                 }
@@ -138,6 +142,7 @@ public class TorresPanel extends JPanel {
                     torreController.eliminarTorre(idTorre);
                     JOptionPane.showMessageDialog(null, "Torre eliminada exitosamente");
                     limpiarCampos();
+                    cargarProyectos();  // Recargar los proyectos para actualizar el JComboBox
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese un ID válido.");
                 }
@@ -150,15 +155,24 @@ public class TorresPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int idTorre = Integer.parseInt(txtId.getText());
-                    int idProyecto = obtenerIdProyectoSeleccionado();
+                    int idProyecto = obtenerIdProyectoSeleccionado(); // Obtener el ID del proyecto seleccionado
                     int numeroTorre = Integer.parseInt(txtNumeroTorre.getText());
                     int numeroApartamentos = Integer.parseInt(txtNumeroApartamentos.getText());
                     torreController.actualizarTorre(idTorre, idProyecto, numeroTorre, numeroApartamentos);
                     JOptionPane.showMessageDialog(null, "Torre actualizada exitosamente");
                     limpiarCampos();
+                    cargarProyectos();  // Recargar los proyectos para actualizar el JComboBox
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese valores válidos.");
                 }
+            }
+        });
+
+        // ActionListener para el botón "Refrescar"
+        btnRefrescar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cargarProyectos();  // Recargar los proyectos para actualizar el JComboBox
             }
         });
     }
@@ -188,9 +202,6 @@ public class TorresPanel extends JPanel {
 
     // Método para ajustar el tamaño de los botones
     private void ajustarBoton(JButton boton) {
-        boton.setFont(new Font("Arial", Font.PLAIN, 12));
-        boton.setPreferredSize(new Dimension(120, 25)); // Tamaño de botón un poco más grande
-        boton.setMinimumSize(new Dimension(120, 25));
-        boton.setMaximumSize(new Dimension(120, 25));
+        boton.setPreferredSize(new Dimension(100, 30)); // Establecer el tamaño preferido del botón
     }
 }

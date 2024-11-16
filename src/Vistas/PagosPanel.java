@@ -34,7 +34,7 @@ public class PagosPanel extends JPanel {
         setPreferredSize(new Dimension(400, 300)); // Limitar tamaño del panel
 
         // Panel de entrada de datos
-        JPanel inputPanel = new JPanel(new GridLayout(5, 2, 5, 5));
+        JPanel inputPanel = new JPanel(new GridLayout(6, 2, 5, 5)); // Aumentar el número de filas
         inputPanel.setBackground(Color.GRAY);
 
         // Configurar campos de entrada y etiquetas
@@ -79,17 +79,20 @@ public class PagosPanel extends JPanel {
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnEditar = new JButton("Editar");
+        JButton btnRefrescar = new JButton("Refrescar"); // Botón de refresco
 
         ajustarBoton(btnCrear);
         ajustarBoton(btnLeer);
         ajustarBoton(btnEliminar);
         ajustarBoton(btnEditar);
+        ajustarBoton(btnRefrescar); // Ajustar el botón de refresco
 
         // Agregar botones al panel de botones
         buttonPanel.add(btnCrear);
         buttonPanel.add(btnLeer);
         buttonPanel.add(btnEliminar);
         buttonPanel.add(btnEditar);
+        buttonPanel.add(btnRefrescar); // Agregar el botón de refresco
 
         // Agregar paneles al panel principal
         add(inputPanel, BorderLayout.NORTH);
@@ -123,24 +126,24 @@ public class PagosPanel extends JPanel {
         });
 
         // Acción para leer pagos
-btnLeer.addActionListener(e -> {
-    List<Pago> pagos = pagoController.obtenerPagos();
-    txtPagos.setText("");  // Limpiar el área de texto antes de listar los pagos
+        btnLeer.addActionListener(e -> {
+            List<Pago> pagos = pagoController.obtenerPagos();
+            txtPagos.setText("");  // Limpiar el área de texto antes de listar los pagos
 
-    if (pagos.isEmpty()) {
-        txtPagos.append("No hay pagos registrados.\n");
-    } else {
-        for (Pago pago : pagos) {
-            // Agregar información de cada pago
-            txtPagos.append(String.format("ID Pago: %d\n", pago.getID_Pago()));
-            txtPagos.append(String.format("Valor: %.2f\n", pago.getValorPago()));
-            txtPagos.append(String.format("Fecha: %s\n", pago.getFecha()));
-            txtPagos.append(String.format("Cédula Cliente: %d\n", pago.getCedula_cliente()));
-            txtPagos.append(String.format("Cédula Asesor: %d\n", pago.getCedula_asesor()));
-            txtPagos.append("----------------------------\n");
-        }
-    }
-});
+            if (pagos.isEmpty()) {
+                txtPagos.append("No hay pagos registrados.\n");
+            } else {
+                for (Pago pago : pagos) {
+                    // Agregar información de cada pago
+                    txtPagos.append(String.format("ID Pago: %d\n", pago.getID_Pago()));
+                    txtPagos.append(String.format("Valor: %.2f\n", pago.getValorPago()));
+                    txtPagos.append(String.format("Fecha: %s\n", pago.getFecha()));
+                    txtPagos.append(String.format("Cédula Cliente: %d\n", pago.getCedula_cliente()));
+                    txtPagos.append(String.format("Cédula Asesor: %d\n", pago.getCedula_asesor()));
+                    txtPagos.append("----------------------------\n");
+                }
+            }
+        });
 
         // Acción para eliminar pago
         btnEliminar.addActionListener(e -> {
@@ -174,10 +177,17 @@ btnLeer.addActionListener(e -> {
                 JOptionPane.showMessageDialog(null, "Error: Por favor, ingresa valores válidos.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+
+        // Acción para refrescar los JComboBox
+        btnRefrescar.addActionListener(e -> {
+            cargarClientes(); // Refrescar la lista de clientes
+            cargarAsesores(); // Refrescar la lista de asesores
+        });
     }
 
     // Método para cargar la lista de clientes en el combo box
     private void cargarClientes() {
+        cmbClientes.removeAllItems(); // Limpiar el JComboBox antes de recargar
         List<Cliente> clientes = clienteController.obtenerClientes();
         for (Cliente cliente : clientes) {
             cmbClientes.addItem(cliente.getCedula() + " - " + cliente.getNombre());
@@ -186,6 +196,7 @@ btnLeer.addActionListener(e -> {
 
     // Método para cargar la lista de asesores en el combo box
     private void cargarAsesores() {
+        cmbAsesores.removeAllItems(); // Limpiar el JComboBox antes de recargar
         List<Asesor> asesores = asesorController.obtenerAsesores();
         for (Asesor asesor : asesores) {
             cmbAsesores.addItem(asesor.getCedula() + " - " + asesor.getNombre());
@@ -204,8 +215,6 @@ btnLeer.addActionListener(e -> {
     // Método para ajustar el tamaño de los botones
     private void ajustarBoton(JButton boton) {
         boton.setFont(new Font("Arial", Font.PLAIN, 12));
-        boton.setPreferredSize(new Dimension(100, 25)); // Tamaño compacto
-        boton.setMinimumSize(new Dimension(100, 25));
-        boton.setMaximumSize(new Dimension(100, 25));
+        boton.setPreferredSize(new Dimension(100, 30)); // Tamaño personalizado
     }
 }

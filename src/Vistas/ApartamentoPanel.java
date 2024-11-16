@@ -18,6 +18,7 @@ public class ApartamentoPanel extends JPanel {
     private JComboBox<Integer> cbIDTorre;
     private JTextArea txtApartamentos;
     private ApartamentoController apartamentoController;
+    private JButton btnRefrescar;  // Botón para refrescar
 
     public ApartamentoPanel() {
         // Inicializar el controlador
@@ -29,7 +30,7 @@ public class ApartamentoPanel extends JPanel {
         setPreferredSize(new Dimension(400, 300)); // Limitar tamaño del panel
 
         // Panel de entrada de datos
-        JPanel inputPanel = new JPanel(new GridLayout(8, 2, 5, 5));
+        JPanel inputPanel = new JPanel(new GridLayout(9, 2, 5, 5));  // Aumentado a 9 para incluir el botón "Refrescar"
         inputPanel.setBackground(Color.GRAY);
 
         // Configurar campos de entrada y etiquetas
@@ -91,17 +92,20 @@ public class ApartamentoPanel extends JPanel {
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnEditar = new JButton("Editar");
+        btnRefrescar = new JButton("Refrescar");  // Crear el botón Refrescar aquí
 
         ajustarBoton(btnCrear);
         ajustarBoton(btnLeer);
         ajustarBoton(btnEliminar);
         ajustarBoton(btnEditar);
+        ajustarBoton(btnRefrescar);
 
         // Agregar botones al panel de botones
         buttonPanel.add(btnCrear);
         buttonPanel.add(btnLeer);
         buttonPanel.add(btnEliminar);
         buttonPanel.add(btnEditar);
+        buttonPanel.add(btnRefrescar);
 
         // Agregar paneles al panel principal
         add(inputPanel, BorderLayout.NORTH);
@@ -184,6 +188,9 @@ public class ApartamentoPanel extends JPanel {
                 JOptionPane.showMessageDialog(null, "Error: Por favor, ingresa valores válidos.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+
+        // Acción para refrescar las torres
+        btnRefrescar.addActionListener(e -> refrescarTorres());  // Acción para refrescar el JComboBox
     }
 
     // Método para cargar las torres en el combo box
@@ -192,6 +199,12 @@ public class ApartamentoPanel extends JPanel {
         for (Integer id : idsTorres) {
             cbIDTorre.addItem(id);
         }
+    }
+
+    // Método para refrescar las torres en el combo box
+    private void refrescarTorres() {
+        cbIDTorre.removeAllItems();  // Limpiar elementos actuales
+        cargarTorres();  // Recargar las torres desde el controlador
     }
 
     // Método para limpiar los campos de entrada
@@ -209,8 +222,6 @@ public class ApartamentoPanel extends JPanel {
     // Método para ajustar el tamaño de los botones
     private void ajustarBoton(JButton boton) {
         boton.setFont(new Font("Arial", Font.PLAIN, 12));
-        boton.setPreferredSize(new Dimension(100, 25)); // Tamaño compacto
-        boton.setMinimumSize(new Dimension(100, 25));
-        boton.setMaximumSize(new Dimension(100, 25));
+        boton.setPreferredSize(new Dimension(100, 25)); // Tamaño compacto de los botones
     }
 }

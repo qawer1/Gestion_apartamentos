@@ -4,22 +4,13 @@ import modelo.Cliente;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import conexion.conexion;  // Importamos la clase de conexión
 
 public class ClienteDAO {
 
-    // Método de conexión
+    // Método para conectar a la base de datos
     private Connection conectar() {
-        Connection conn = null;
-        try {
-            // Configuración de conexión para Oracle
-            String url = "jdbc:oracle:thin:@localhost:1521:xe";
-            String username = "SYSTEM";
-            String password = "Case18283022";
-            conn = DriverManager.getConnection(url, username, password);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return conn;
+        return conexion.conectar();  // Usamos la clase conexion para la conexión
     }
 
     // Método para crear un nuevo cliente

@@ -1,33 +1,20 @@
-// AsesorDAO.java
 package dao;
 
 import modelo.Asesor;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import conexion.conexion;  // Importamos la clase de conexión
 
 public class AsesorDAO {
 
-    // Método de conexión
-    private Connection conectar() {
-        Connection conn = null;
-        try {
-            // Configuración de conexión para Oracle
-            String url = "jdbc:oracle:thin:@localhost:1521:xe";
-            String username = "SYSTEM";
-            String password = "Case18283022";
-            conn = DriverManager.getConnection(url, username, password);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return conn;
-    }
+    // Ahora la conexión se gestiona en la clase conexion
 
     // Método para crear un asesor
     public void crearAsesor(Asesor asesor) {
         String sql = "INSERT INTO Asesor (cedula, nombre, direccion, telefono, Correo_electronico) VALUES (?, ?, ?, ?, ?)";
-        
-        try (Connection conn = this.conectar();
+
+        try (Connection conn = conexion.conectar(); // Usamos la clase conexion para obtener la conexión
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, asesor.getCedula());
             pstmt.setString(2, asesor.getNombre());
@@ -45,8 +32,8 @@ public class AsesorDAO {
     public List<Asesor> obtenerAsesores() {
         List<Asesor> asesores = new ArrayList<>();
         String sql = "SELECT cedula, nombre, direccion, telefono, Correo_electronico FROM Asesor";
-        
-        try (Connection conn = this.conectar();
+
+        try (Connection conn = conexion.conectar(); // Usamos la clase conexion para obtener la conexión
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
@@ -68,8 +55,8 @@ public class AsesorDAO {
     // Método para actualizar un asesor
     public void actualizarAsesor(Asesor asesor) {
         String sql = "UPDATE Asesor SET nombre = ?, direccion = ?, telefono = ?, Correo_electronico = ? WHERE cedula = ?";
-        
-        try (Connection conn = this.conectar();
+
+        try (Connection conn = conexion.conectar(); // Usamos la clase conexion para obtener la conexión
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, asesor.getNombre());
             pstmt.setString(2, asesor.getDireccion());
@@ -87,8 +74,8 @@ public class AsesorDAO {
     // Método para eliminar un asesor
     public void eliminarAsesor(int cedula) {
         String sql = "DELETE FROM Asesor WHERE cedula = ?";
-        
-        try (Connection conn = this.conectar();
+
+        try (Connection conn = conexion.conectar(); // Usamos la clase conexion para obtener la conexión
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, cedula);
             pstmt.executeUpdate();

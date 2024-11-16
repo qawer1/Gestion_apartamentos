@@ -34,7 +34,7 @@ public class VentasPanel extends JPanel {
         setBackground(Color.GRAY); // Fondo gris para el panel
 
         // Panel de entrada de datos
-        JPanel inputPanel = new JPanel(new GridLayout(8, 2, 5, 5));
+        JPanel inputPanel = new JPanel(new GridLayout(9, 2, 5, 5)); // Hemos cambiado a 9 filas para el nuevo botón
         inputPanel.setBackground(Color.GRAY); // Fondo gris para el panel de entrada
 
         inputPanel.add(new JLabel("ID Venta:"));
@@ -78,18 +78,21 @@ public class VentasPanel extends JPanel {
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnEditar = new JButton("Editar");
+        JButton btnRefrescar = new JButton("Refrescar"); // Nuevo botón de refrescar
 
         // Ajustar el tamaño de los botones para que sean pequeños
         ajustarBoton(btnCrear);
         ajustarBoton(btnLeer);
         ajustarBoton(btnEliminar);
         ajustarBoton(btnEditar);
+        ajustarBoton(btnRefrescar); // Ajuste para el nuevo botón
 
         // Añadir botones al panel
         buttonPanel.add(btnCrear);
         buttonPanel.add(btnLeer);
         buttonPanel.add(btnEliminar);
         buttonPanel.add(btnEditar);
+        buttonPanel.add(btnRefrescar); // Añadir el botón "Refrescar"
 
         // Agregar paneles al layout
         add(inputPanel, BorderLayout.NORTH);
@@ -128,28 +131,27 @@ public class VentasPanel extends JPanel {
         });
 
         // Acción para leer todas las ventas
-btnLeer.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        List<Venta> ventas = ventaController.obtenerVentas();
-        txtVentas.setText(""); // Limpiar el área de texto antes de listar las ventas
-        if (ventas.isEmpty()) {
-            txtVentas.append("No hay ventas registradas.\n");
-        } else {
-            for (Venta venta : ventas) {
-                txtVentas.append(String.format("ID Venta: %d\n", venta.getIdVenta()));
-                txtVentas.append(String.format("Precio Total: %.2f\n", venta.getPrecioTotal()));
-                txtVentas.append(String.format("Número de Cuotas: %d\n", venta.getNumeroCuotas()));
-                txtVentas.append(String.format("Intereses: %.2f\n", venta.getIntereses()));
-                txtVentas.append(String.format("ID Cliente: %d\n", venta.getIdCliente()));
-                txtVentas.append(String.format("ID Apartamento: %d\n", venta.getIdApartamento()));
-                txtVentas.append(String.format("Estado: %s\n", venta.getEstadoVenta()));
-                txtVentas.append("----------------------------\n");
+        btnLeer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<Venta> ventas = ventaController.obtenerVentas();
+                txtVentas.setText(""); // Limpiar el área de texto antes de listar las ventas
+                if (ventas.isEmpty()) {
+                    txtVentas.append("No hay ventas registradas.\n");
+                } else {
+                    for (Venta venta : ventas) {
+                        txtVentas.append(String.format("ID Venta: %d\n", venta.getIdVenta()));
+                        txtVentas.append(String.format("Precio Total: %.2f\n", venta.getPrecioTotal()));
+                        txtVentas.append(String.format("Número de Cuotas: %d\n", venta.getNumeroCuotas()));
+                        txtVentas.append(String.format("Intereses: %.2f\n", venta.getIntereses()));
+                        txtVentas.append(String.format("ID Cliente: %d\n", venta.getIdCliente()));
+                        txtVentas.append(String.format("ID Apartamento: %d\n", venta.getIdApartamento()));
+                        txtVentas.append(String.format("Estado: %s\n", venta.getEstadoVenta()));
+                        txtVentas.append("----------------------------\n");
+                    }
+                }
             }
-        }
-    }
-});
-
+        });
 
         // Acción para eliminar venta
         btnEliminar.addActionListener(new ActionListener() {
@@ -185,6 +187,18 @@ btnLeer.addActionListener(new ActionListener() {
                 limpiarCampos();
             }
         });
+
+        // Acción para refrescar los JComboBox
+        btnRefrescar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Limpiar los JComboBox antes de recargarlos
+                cmbClientes.removeAllItems();
+                cmbApartamentos.removeAllItems();
+                cargarClientes();
+                cargarApartamentos();
+            }
+        });
     }
 
     // Método para cargar los clientes en el JComboBox
@@ -205,18 +219,17 @@ btnLeer.addActionListener(new ActionListener() {
 
     // Método para limpiar los campos después de una operación
     private void limpiarCampos() {
-        txtIdVenta.setText("");  // Limpiar el campo de ID Venta (ahora editable)
+        txtIdVenta.setText("");
         txtPrecioTotal.setText("");
         txtNumeroCuotas.setText("");
         txtIntereses.setText("");
         cmbClientes.setSelectedIndex(0);
         cmbApartamentos.setSelectedIndex(0);
-        cmbEstadoVenta.setSelectedIndex(0);  // Limpiar el estado de la venta
+        cmbEstadoVenta.setSelectedIndex(0);
     }
 
     // Método para ajustar el tamaño de los botones
     private void ajustarBoton(JButton boton) {
-        boton.setFont(new Font("Arial", Font.PLAIN, 12));
-        boton.setPreferredSize(new Dimension(120, 30)); // Tamaño más pequeño
+        boton.setPreferredSize(new Dimension(120, 30));
     }
 }

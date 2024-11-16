@@ -4,31 +4,17 @@ import modelo.Proyecto;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import conexion.conexion;  // Importamos la clase de conexión
 
 public class ProyectoDAO {
 
-    // Método de conexión
-    private Connection conectar() {
-        Connection conn = null;
-        try {
-            // Configuración de conexión para Oracle
-            String url = "jdbc:oracle:thin:@localhost:1521:xe";
-            String username = "SYSTEM";
-            String password = "Case18283022";
-            conn = DriverManager.getConnection(url, username, password);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return conn;
-    }
-
     // Método para crear un proyecto
     public void crearProyecto(Proyecto proyecto) {
-        String sql = "INSERT INTO Proyecto (ID_PROYECTO, nombre, numeroTorres) VALUES (?, ?, ?)"; // Agregado el campo ID_PROYECTO
+        String sql = "INSERT INTO Proyecto (ID_PROYECTO, nombre, numeroTorres) VALUES (?, ?, ?)"; 
         
-        try (Connection conn = this.conectar();
+        try (Connection conn = conexion.conectar(); // Usamos la clase conexion
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, proyecto.getIdProyecto()); // Ahora también insertamos el ID del proyecto
+            pstmt.setInt(1, proyecto.getIdProyecto());
             pstmt.setString(2, proyecto.getNombre());
             pstmt.setInt(3, proyecto.getNumeroTorres());
             pstmt.executeUpdate();
@@ -40,9 +26,9 @@ public class ProyectoDAO {
     // Método para obtener todos los proyectos
     public List<Proyecto> obtenerProyectos() {
         List<Proyecto> proyectos = new ArrayList<>();
-        String sql = "SELECT ID_PROYECTO, nombre, numeroTorres FROM Proyecto"; // Consultar solo los campos requeridos
+        String sql = "SELECT ID_PROYECTO, nombre, numeroTorres FROM Proyecto"; 
         
-        try (Connection conn = this.conectar();
+        try (Connection conn = conexion.conectar(); // Usamos la clase conexion
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
@@ -61,9 +47,9 @@ public class ProyectoDAO {
 
     // Método para actualizar un proyecto
     public void actualizarProyecto(Proyecto proyecto) {
-        String sql = "UPDATE Proyecto SET nombre = ?, numeroTorres = ? WHERE ID_PROYECTO = ?"; // Actualización solo de los campos relevantes
+        String sql = "UPDATE Proyecto SET nombre = ?, numeroTorres = ? WHERE ID_PROYECTO = ?"; 
         
-        try (Connection conn = this.conectar();
+        try (Connection conn = conexion.conectar(); // Usamos la clase conexion
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, proyecto.getNombre());
             pstmt.setInt(2, proyecto.getNumeroTorres());
@@ -79,7 +65,7 @@ public class ProyectoDAO {
     public void eliminarProyecto(int idProyecto) {
         String sql = "DELETE FROM Proyecto WHERE ID_PROYECTO = ?";
         
-        try (Connection conn = this.conectar();
+        try (Connection conn = conexion.conectar(); // Usamos la clase conexion
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, idProyecto);
             pstmt.executeUpdate();

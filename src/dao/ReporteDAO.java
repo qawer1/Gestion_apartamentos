@@ -1,5 +1,6 @@
 package dao;
 
+import conexion.conexion;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,26 +8,16 @@ import modelo.Venta;
 import modelo.Pago;
 
 public class ReporteDAO {
-    private Connection conectar() {
-        Connection conn = null;
-        try {
-            String url = "jdbc:oracle:thin:@localhost:1521:xe";
-            String username = "SYSTEM";
-            String password = "Case18283022";
-            conn = DriverManager.getConnection(url, username, password);
-        } catch (SQLException e) {
-            System.out.println("Error de conexión: " + e.getMessage());
-        }
-        return conn;
-    }
 
     // Método para generar reporte de ventas (con estado de venta)
     public List<Venta> obtenerReporteVentas() {
         List<Venta> ventas = new ArrayList<>();
         String sql = "{ call sp_generarReporteVentas(?) }";
+        Connection conn = null;
 
-        try (Connection conn = conectar();
-             CallableStatement cstmt = conn.prepareCall(sql)) {
+        try {
+            conn = conexion.conectar();  // Usar la conexión de la clase 'conexion'
+            CallableStatement cstmt = conn.prepareCall(sql);
             cstmt.registerOutParameter(1, Types.REF_CURSOR);
             cstmt.execute();
 
@@ -44,6 +35,8 @@ public class ReporteDAO {
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener reporte de ventas: " + e.getMessage());
+        } finally {
+            conexion.desconectar(conn);  // Asegurar la desconexión
         }
         return ventas;
     }
@@ -52,9 +45,11 @@ public class ReporteDAO {
     public List<Pago> obtenerReportePagos() {
         List<Pago> pagos = new ArrayList<>();
         String sql = "{ call sp_generarReportePagos(?) }";
+        Connection conn = null;
 
-        try (Connection conn = conectar();
-             CallableStatement cstmt = conn.prepareCall(sql)) {
+        try {
+            conn = conexion.conectar();  // Usar la conexión de la clase 'conexion'
+            CallableStatement cstmt = conn.prepareCall(sql);
             cstmt.registerOutParameter(1, Types.REF_CURSOR);
             cstmt.execute();
 
@@ -70,6 +65,8 @@ public class ReporteDAO {
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener reporte de pagos: " + e.getMessage());
+        } finally {
+            conexion.desconectar(conn);  // Asegurar la desconexión
         }
         return pagos;
     }
@@ -78,9 +75,11 @@ public class ReporteDAO {
     public List<Venta> obtenerVentasPorCliente(int cedulaCliente) {
         List<Venta> ventas = new ArrayList<>();
         String sql = "SELECT * FROM VENTA WHERE CEDULA_CLIENTES = ?";
+        Connection conn = null;
 
-        try (Connection conn = conectar();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            conn = conexion.conectar();  // Usar la conexión de la clase 'conexion'
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, cedulaCliente);
             ResultSet rs = pstmt.executeQuery();
 
@@ -97,6 +96,8 @@ public class ReporteDAO {
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener ventas del cliente: " + e.getMessage());
+        } finally {
+            conexion.desconectar(conn);  // Asegurar la desconexión
         }
         return ventas;
     }
@@ -105,9 +106,11 @@ public class ReporteDAO {
     public List<Pago> obtenerPagosPorCliente(int cedulaCliente) {
         List<Pago> pagos = new ArrayList<>();
         String sql = "SELECT * FROM PAGO WHERE CEDULA_CLIENTE = ?";
+        Connection conn = null;
 
-        try (Connection conn = conectar();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            conn = conexion.conectar();  // Usar la conexión de la clase 'conexion'
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, cedulaCliente);
             ResultSet rs = pstmt.executeQuery();
 
@@ -122,6 +125,8 @@ public class ReporteDAO {
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener pagos del cliente: " + e.getMessage());
+        } finally {
+            conexion.desconectar(conn);  // Asegurar la desconexión
         }
         return pagos;
     }
@@ -130,9 +135,11 @@ public class ReporteDAO {
     public double obtenerTotalPagadoPorCliente(int cedulaCliente, int idApartamento) {
         double totalPagado = 0.0;
         String sql = "SELECT SUM(VALORPAGO) AS TOTAL_PAGADO FROM PAGO WHERE CEDULA_CLIENTE = ? AND ID_APARTAMENTO = ?";
+        Connection conn = null;
 
-        try (Connection conn = conectar();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            conn = conexion.conectar();  // Usar la conexión de la clase 'conexion'
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, cedulaCliente);
             pstmt.setInt(2, idApartamento);
             ResultSet rs = pstmt.executeQuery();
@@ -142,6 +149,8 @@ public class ReporteDAO {
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener total pagado por cliente: " + e.getMessage());
+        } finally {
+            conexion.desconectar(conn);  // Asegurar la desconexión
         }
         return totalPagado;
     }
@@ -150,9 +159,11 @@ public class ReporteDAO {
     public double obtenerPrecioTotalApartamento(int idApartamento) {
         double precioTotal = 0.0;
         String sql = "SELECT VALORAPARTAMENTO FROM APARTAMENTO WHERE ID_APARTAMENTO = ?";
+        Connection conn = null;
 
-        try (Connection conn = conectar();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            conn = conexion.conectar();  // Usar la conexión de la clase 'conexion'
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, idApartamento);
             ResultSet rs = pstmt.executeQuery();
 
@@ -161,6 +172,8 @@ public class ReporteDAO {
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener precio total del apartamento: " + e.getMessage());
+        } finally {
+            conexion.desconectar(conn);  // Asegurar la desconexión
         }
         return precioTotal;
     }

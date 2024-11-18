@@ -1,10 +1,9 @@
 package modelo;
 
 public class Proyecto {
-    private int idProyecto;        // ID del proyecto
-    private String nombre;         // Nombre del proyecto
-    private int numeroTorres;      // Número de torres en el proyecto
-
+    private int idProyecto;       
+    private String nombre;         
+    private int numeroTorres;      
     // Constructor vacío
     public Proyecto() {}
 

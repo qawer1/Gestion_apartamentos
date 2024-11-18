@@ -14,13 +14,13 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class VentasPanel extends JPanel {
-    private JTextField txtIdVenta; // Campo para el ID de la venta
+    private JTextField txtIdVenta; 
     private JTextField txtPrecioTotal;
     private JTextField txtNumeroCuotas;
     private JTextField txtIntereses;
     private JComboBox<String> cmbClientes;
     private JComboBox<String> cmbApartamentos;
-    private JComboBox<String> cmbEstadoVenta; // ComboBox para seleccionar el estado de la venta
+    private JComboBox<String> cmbEstadoVenta; 
     private JTextArea txtVentas;
     private VentaController ventaController;
     private ClienteController clienteController;
@@ -31,11 +31,11 @@ public class VentasPanel extends JPanel {
         clienteController = new ClienteController();
         apartamentoController = new ApartamentoController();
         setLayout(new BorderLayout(10, 10));
-        setBackground(Color.GRAY); // Fondo gris para el panel
+        setBackground(Color.GRAY); 
 
         // Panel de entrada de datos
-        JPanel inputPanel = new JPanel(new GridLayout(9, 2, 5, 5)); // Hemos cambiado a 9 filas para el nuevo botón
-        inputPanel.setBackground(Color.GRAY); // Fondo gris para el panel de entrada
+        JPanel inputPanel = new JPanel(new GridLayout(9, 2, 5, 5)); 
+        inputPanel.setBackground(Color.GRAY); 
 
         inputPanel.add(new JLabel("ID Venta:"));
         txtIdVenta = new JTextField();
@@ -71,32 +71,32 @@ public class VentasPanel extends JPanel {
 
         // Panel de botones (disposición horizontal)
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Disposición horizontal con espacio entre botones
-        buttonPanel.setBackground(Color.GRAY); // Fondo gris para el panel de botones
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); 
+        buttonPanel.setBackground(Color.GRAY); 
 
         JButton btnCrear = new JButton("Crear");
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnEditar = new JButton("Editar");
-        JButton btnRefrescar = new JButton("Refrescar"); // Nuevo botón de refrescar
+        JButton btnRefrescar = new JButton("Refrescar"); 
 
         // Ajustar el tamaño de los botones para que sean pequeños
         ajustarBoton(btnCrear);
         ajustarBoton(btnLeer);
         ajustarBoton(btnEliminar);
         ajustarBoton(btnEditar);
-        ajustarBoton(btnRefrescar); // Ajuste para el nuevo botón
+        ajustarBoton(btnRefrescar); 
 
         // Añadir botones al panel
         buttonPanel.add(btnCrear);
         buttonPanel.add(btnLeer);
         buttonPanel.add(btnEliminar);
         buttonPanel.add(btnEditar);
-        buttonPanel.add(btnRefrescar); // Añadir el botón "Refrescar"
+        buttonPanel.add(btnRefrescar);
 
         // Agregar paneles al layout
         add(inputPanel, BorderLayout.NORTH);
-        add(buttonPanel, BorderLayout.CENTER); // Añadir panel de botones en el centro
+        add(buttonPanel, BorderLayout.CENTER); 
 
         // Área de texto para mostrar ventas
         txtVentas = new JTextArea(10, 30);
@@ -113,7 +113,7 @@ public class VentasPanel extends JPanel {
 
                 // Obtener el cliente y apartamento seleccionados
                 String clienteSeleccionado = (String) cmbClientes.getSelectedItem();
-                int idCliente = Integer.parseInt(clienteSeleccionado.split(" - ")[0]); // Asumimos que el formato es "ID - Nombre"
+                int idCliente = Integer.parseInt(clienteSeleccionado.split(" - ")[0]); 
 
                 String apartamentoSeleccionado = (String) cmbApartamentos.getSelectedItem();
                 int idApartamento = Integer.parseInt(apartamentoSeleccionado.split(" - ")[0]);
@@ -135,7 +135,7 @@ public class VentasPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<Venta> ventas = ventaController.obtenerVentas();
-                txtVentas.setText(""); // Limpiar el área de texto antes de listar las ventas
+                txtVentas.setText(""); 
                 if (ventas.isEmpty()) {
                     txtVentas.append("No hay ventas registradas.\n");
                 } else {
@@ -157,7 +157,7 @@ public class VentasPanel extends JPanel {
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int idVenta = Integer.parseInt(txtIdVenta.getText()); // Ahora usamos el ID de la venta
+                int idVenta = Integer.parseInt(txtIdVenta.getText()); 
                 ventaController.eliminarVenta(idVenta);
                 JOptionPane.showMessageDialog(null, "Venta eliminada exitosamente");
                 limpiarCampos();
@@ -168,7 +168,7 @@ public class VentasPanel extends JPanel {
         btnEditar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int idVenta = Integer.parseInt(txtIdVenta.getText()); // Ahora usamos el ID de la venta
+                int idVenta = Integer.parseInt(txtIdVenta.getText()); 
                 double precioTotal = Double.parseDouble(txtPrecioTotal.getText());
                 int numeroCuotas = Integer.parseInt(txtNumeroCuotas.getText());
                 double intereses = Double.parseDouble(txtIntereses.getText());
@@ -192,7 +192,7 @@ public class VentasPanel extends JPanel {
         btnRefrescar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Limpiar los JComboBox antes de recargarlos
+               
                 cmbClientes.removeAllItems();
                 cmbApartamentos.removeAllItems();
                 cargarClientes();

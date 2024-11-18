@@ -9,14 +9,14 @@ import java.util.List;
 
 public class ApartamentoDAO {
 
-    // Método para obtener todos los apartamentos (incluye estadoVenta)
+    // Método para obtener todos los apartamentos 
     public List<Apartamento> obtenerApartamentos() {
         List<Apartamento> apartamentos = new ArrayList<>();
         String sql = "SELECT ID_apartamento, ID_torre, Numero_apartamento, valorApartamento, tipoUnidad, area, matricula, estadoVenta FROM Apartamento";
         Connection conn = null;
 
         try {
-            conn = conexion.conectar(); // Conectar a la base de datos
+            conn = conexion.conectar(); 
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -29,7 +29,7 @@ public class ApartamentoDAO {
                 apartamento.setTipoUnidad(rs.getString("tipoUnidad"));
                 apartamento.setArea(rs.getString("area"));
                 apartamento.setMatricula(rs.getString("matricula"));
-                apartamento.setEstadoVenta(rs.getString("estadoVenta"));  // Obtener estadoVenta
+                apartamento.setEstadoVenta(rs.getString("estadoVenta"));  
                 apartamentos.add(apartamento);
             }
 
@@ -38,7 +38,7 @@ public class ApartamentoDAO {
         } catch (SQLException e) {
             System.out.println("Error al obtener apartamentos: " + e.getMessage());
         } finally {
-            conexion.desconectar(conn); // Cerrar la conexión
+            conexion.desconectar(conn); 
         }
         return apartamentos;
     }

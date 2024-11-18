@@ -13,17 +13,17 @@ public class UsuarioPanel extends JPanel {
     private JTextField txtNombre;
     private JTextField txtContrasena;
     private JTextField txtRol;
-    private JTextArea txtAreaUsuarios; // Área de texto para mostrar los usuarios
+    private JTextArea txtAreaUsuarios; 
     private UsuarioController usuarioController;
 
     public UsuarioPanel() {
         usuarioController = new UsuarioController();
         setLayout(new BorderLayout(10, 10));
-        setBackground(Color.GRAY); // Fondo gris para el panel
+        setBackground(Color.GRAY); 
 
         // Panel para los campos de entrada
         JPanel inputPanel = new JPanel(new GridLayout(6, 2, 5, 5));
-        inputPanel.setBackground(Color.GRAY); // Fondo gris para el panel de entrada
+        inputPanel.setBackground(Color.GRAY);
 
         inputPanel.add(new JLabel("ID del Usuario:"));
         txtId = new JTextField();
@@ -42,15 +42,15 @@ public class UsuarioPanel extends JPanel {
         inputPanel.add(txtRol);
 
         // Crear área de texto para mostrar los usuarios
-        txtAreaUsuarios = new JTextArea(10, 30);  // Tamaño del área de texto
-        txtAreaUsuarios.setEditable(false); // No editable
+        txtAreaUsuarios = new JTextArea(10, 30);  
+        txtAreaUsuarios.setEditable(false); 
         JScrollPane scrollPane = new JScrollPane(txtAreaUsuarios);
         add(scrollPane, BorderLayout.SOUTH);
 
         // Panel de botones
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Disposición horizontal de botones
-        buttonPanel.setBackground(Color.GRAY); // Fondo gris para el panel de botones
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.setBackground(Color.GRAY); 
 
         JButton btnCrear = new JButton("Crear");
         JButton btnActualizar = new JButton("Actualizar");
@@ -143,6 +143,6 @@ public class UsuarioPanel extends JPanel {
     // Método para ajustar el tamaño de los botones
     private void ajustarBoton(JButton boton) {
         boton.setFont(new Font("Arial", Font.PLAIN, 12));
-        boton.setPreferredSize(new Dimension(120, 30)); // Tamaño más pequeño
+        boton.setPreferredSize(new Dimension(120, 30)); 
     }
 }

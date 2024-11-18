@@ -15,7 +15,7 @@ public class PagoController {
     // Método para crear un pago
     public void crearPago(int ID_Pago, double valorPago, String fecha, int Cedula_cliente, int Cedula_asesor) {
         Pago pago = new Pago();
-        pago.setID_Pago(ID_Pago);  // Asignar ID_Pago manualmente
+        pago.setID_Pago(ID_Pago); 
         pago.setValorPago(valorPago);
         pago.setFecha(fecha);
         pago.setCedula_cliente(Cedula_cliente);
@@ -30,7 +30,7 @@ public class PagoController {
 
     // Método para listar los pagos
     public void listarPagos() {
-        List<Pago> pagos = pagoDAO.obtenerPagos(); // Asegúrate de usar el nombre correcto
+        List<Pago> pagos = pagoDAO.obtenerPagos();
         if (pagos.isEmpty()) {
             System.out.println("No hay pagos registrados.");
         } else {
@@ -43,7 +43,7 @@ public class PagoController {
     // Método para actualizar un pago
     public void actualizarPago(int ID_Pago, double valorPago, String fecha, int Cedula_cliente, int Cedula_asesor) {
         Pago pago = new Pago();
-        pago.setID_Pago(ID_Pago);  // Asignar ID_Pago manualmente
+        pago.setID_Pago(ID_Pago);  
         pago.setValorPago(valorPago);
         pago.setFecha(fecha);
         pago.setCedula_cliente(Cedula_cliente);

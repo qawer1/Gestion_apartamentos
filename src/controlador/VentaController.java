@@ -22,7 +22,7 @@ public class VentaController {
             venta.setIntereses(intereses);
             venta.setIdCliente(idCliente);
             venta.setIdApartamento(idApartamento);
-            venta.setEstadoVenta(estadoVenta);  // Establecer el estado de la venta
+            venta.setEstadoVenta(estadoVenta);  
 
             // El ID se asignará automáticamente en el DAO gracias a la secuencia o disparador
             ventaDAO.crearVenta(venta); 
@@ -54,7 +54,7 @@ public class VentaController {
             venta.setIntereses(intereses);
             venta.setIdCliente(idCliente);
             venta.setIdApartamento(idApartamento);
-            venta.setEstadoVenta(estadoVenta);  // Actualizar el estado de la venta
+            venta.setEstadoVenta(estadoVenta);  
 
             ventaDAO.actualizarVenta(venta);
         } catch (Exception e) {

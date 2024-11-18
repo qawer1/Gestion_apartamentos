@@ -20,7 +20,7 @@ public class Venta {
         this.intereses = intereses;
         this.idCliente = idCliente;
         this.idApartamento = idApartamento;
-        this.estadoVenta = estadoVenta;  // Inicializar el estado de la venta
+        this.estadoVenta = estadoVenta;  
     }
 
     // Getters y Setters
@@ -73,11 +73,11 @@ public class Venta {
     }
 
     public String getEstadoVenta() {
-        return estadoVenta;  // Getter para el estado de la venta
+        return estadoVenta;  
     }
 
     public void setEstadoVenta(String estadoVenta) {
-        this.estadoVenta = estadoVenta;  // Setter para el estado de la venta
+        this.estadoVenta = estadoVenta; 
     }
 
     @Override
@@ -89,7 +89,7 @@ public class Venta {
                 ", intereses=" + intereses +
                 ", idCliente=" + idCliente +
                 ", idApartamento=" + idApartamento +
-                ", estadoVenta='" + estadoVenta + '\'' +  // Incluir el estado en la representación de la venta
+                ", estadoVenta='" + estadoVenta + '\'' + 
                 '}';
     }
 }

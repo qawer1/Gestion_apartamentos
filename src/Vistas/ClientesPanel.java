@@ -110,7 +110,7 @@ public class ClientesPanel extends JPanel {
         // Crear área de texto para mostrar los clientes
         txtClientes = new JTextArea(10, 30);
         txtClientes.setEditable(false);
-        txtClientes.setForeground(Color.BLACK); // Cambiar color de letras a negro
+        txtClientes.setForeground(Color.BLACK); 
         add(new JScrollPane(txtClientes), BorderLayout.SOUTH);
 
         // Acción para crear cliente
@@ -135,7 +135,7 @@ public class ClientesPanel extends JPanel {
         // Acción para leer clientes
         btnLeer.addActionListener(e -> {
             List<Cliente> clientes = clienteController.obtenerClientes();
-            txtClientes.setText("");  // Limpiar el área de texto antes de listar
+            txtClientes.setText("");  
             if (clientes.isEmpty()) {
                 txtClientes.append("No hay clientes registrados.\n");
             } else {
@@ -198,7 +198,7 @@ public class ClientesPanel extends JPanel {
     // Método para ajustar el tamaño de los botones
     private void ajustarBoton(JButton boton) {
         boton.setFont(new Font("Arial", Font.PLAIN, 12));
-        boton.setPreferredSize(new Dimension(100, 25)); // Tamaño compacto similar al primer código
+        boton.setPreferredSize(new Dimension(100, 25)); 
         boton.setMinimumSize(new Dimension(100, 25));
         boton.setMaximumSize(new Dimension(100, 25));
     }

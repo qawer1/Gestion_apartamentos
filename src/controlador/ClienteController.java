@@ -23,7 +23,7 @@ public class ClienteController {
 
     // Método para listar todos los clientes en formato legible
     public String listarClientes() {
-        List<Cliente> clientes = obtenerClientes(); // Llama a obtenerClientes() para obtener la lista
+        List<Cliente> clientes = obtenerClientes(); 
         StringBuilder sb = new StringBuilder();
         sb.append("Lista de Clientes:\n");
         for (Cliente cliente : clientes) {

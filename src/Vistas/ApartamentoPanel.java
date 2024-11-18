@@ -18,7 +18,7 @@ public class ApartamentoPanel extends JPanel {
     private JComboBox<Integer> cbIDTorre;
     private JTextArea txtApartamentos;
     private ApartamentoController apartamentoController;
-    private JButton btnRefrescar;  // Botón para refrescar
+    private JButton btnRefrescar;  
 
     public ApartamentoPanel() {
         // Inicializar el controlador
@@ -27,10 +27,10 @@ public class ApartamentoPanel extends JPanel {
         // Configuración del panel principal
         setLayout(new BorderLayout(10, 10));
         setBackground(Color.GRAY);
-        setPreferredSize(new Dimension(400, 300)); // Limitar tamaño del panel
+        setPreferredSize(new Dimension(400, 300)); 
 
         // Panel de entrada de datos
-        JPanel inputPanel = new JPanel(new GridLayout(9, 2, 5, 5));  // Aumentado a 9 para incluir el botón "Refrescar"
+        JPanel inputPanel = new JPanel(new GridLayout(9, 2, 5, 5)); 
         inputPanel.setBackground(Color.GRAY);
 
         // Configurar campos de entrada y etiquetas
@@ -92,7 +92,7 @@ public class ApartamentoPanel extends JPanel {
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnEditar = new JButton("Editar");
-        btnRefrescar = new JButton("Refrescar");  // Crear el botón Refrescar aquí
+        btnRefrescar = new JButton("Refrescar");
 
         ajustarBoton(btnCrear);
         ajustarBoton(btnLeer);
@@ -190,7 +190,7 @@ public class ApartamentoPanel extends JPanel {
         });
 
         // Acción para refrescar las torres
-        btnRefrescar.addActionListener(e -> refrescarTorres());  // Acción para refrescar el JComboBox
+        btnRefrescar.addActionListener(e -> refrescarTorres()); 
     }
 
     // Método para cargar las torres en el combo box
@@ -203,8 +203,8 @@ public class ApartamentoPanel extends JPanel {
 
     // Método para refrescar las torres en el combo box
     private void refrescarTorres() {
-        cbIDTorre.removeAllItems();  // Limpiar elementos actuales
-        cargarTorres();  // Recargar las torres desde el controlador
+        cbIDTorre.removeAllItems();  
+        cargarTorres();  
     }
 
     // Método para limpiar los campos de entrada
@@ -222,6 +222,6 @@ public class ApartamentoPanel extends JPanel {
     // Método para ajustar el tamaño de los botones
     private void ajustarBoton(JButton boton) {
         boton.setFont(new Font("Arial", Font.PLAIN, 12));
-        boton.setPreferredSize(new Dimension(100, 25)); // Tamaño compacto de los botones
+        boton.setPreferredSize(new Dimension(100, 25)); 
     }
 }

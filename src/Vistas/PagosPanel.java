@@ -31,10 +31,10 @@ public class PagosPanel extends JPanel {
         // Configuración del panel principal
         setLayout(new BorderLayout(10, 10));
         setBackground(Color.GRAY);
-        setPreferredSize(new Dimension(400, 300)); // Limitar tamaño del panel
+        setPreferredSize(new Dimension(400, 300)); 
 
         // Panel de entrada de datos
-        JPanel inputPanel = new JPanel(new GridLayout(6, 2, 5, 5)); // Aumentar el número de filas
+        JPanel inputPanel = new JPanel(new GridLayout(6, 2, 5, 5)); 
         inputPanel.setBackground(Color.GRAY);
 
         // Configurar campos de entrada y etiquetas
@@ -79,20 +79,20 @@ public class PagosPanel extends JPanel {
         JButton btnLeer = new JButton("Leer");
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnEditar = new JButton("Editar");
-        JButton btnRefrescar = new JButton("Refrescar"); // Botón de refresco
+        JButton btnRefrescar = new JButton("Refrescar"); 
 
         ajustarBoton(btnCrear);
         ajustarBoton(btnLeer);
         ajustarBoton(btnEliminar);
         ajustarBoton(btnEditar);
-        ajustarBoton(btnRefrescar); // Ajustar el botón de refresco
+        ajustarBoton(btnRefrescar); 
 
         // Agregar botones al panel de botones
         buttonPanel.add(btnCrear);
         buttonPanel.add(btnLeer);
         buttonPanel.add(btnEliminar);
         buttonPanel.add(btnEditar);
-        buttonPanel.add(btnRefrescar); // Agregar el botón de refresco
+        buttonPanel.add(btnRefrescar); 
 
         // Agregar paneles al panel principal
         add(inputPanel, BorderLayout.NORTH);
@@ -128,7 +128,7 @@ public class PagosPanel extends JPanel {
         // Acción para leer pagos
         btnLeer.addActionListener(e -> {
             List<Pago> pagos = pagoController.obtenerPagos();
-            txtPagos.setText("");  // Limpiar el área de texto antes de listar los pagos
+            txtPagos.setText("");  
 
             if (pagos.isEmpty()) {
                 txtPagos.append("No hay pagos registrados.\n");
@@ -180,14 +180,14 @@ public class PagosPanel extends JPanel {
 
         // Acción para refrescar los JComboBox
         btnRefrescar.addActionListener(e -> {
-            cargarClientes(); // Refrescar la lista de clientes
-            cargarAsesores(); // Refrescar la lista de asesores
+            cargarClientes(); 
+            cargarAsesores(); 
         });
     }
 
     // Método para cargar la lista de clientes en el combo box
     private void cargarClientes() {
-        cmbClientes.removeAllItems(); // Limpiar el JComboBox antes de recargar
+        cmbClientes.removeAllItems(); 
         List<Cliente> clientes = clienteController.obtenerClientes();
         for (Cliente cliente : clientes) {
             cmbClientes.addItem(cliente.getCedula() + " - " + cliente.getNombre());
@@ -196,7 +196,7 @@ public class PagosPanel extends JPanel {
 
     // Método para cargar la lista de asesores en el combo box
     private void cargarAsesores() {
-        cmbAsesores.removeAllItems(); // Limpiar el JComboBox antes de recargar
+        cmbAsesores.removeAllItems(); 
         List<Asesor> asesores = asesorController.obtenerAsesores();
         for (Asesor asesor : asesores) {
             cmbAsesores.addItem(asesor.getCedula() + " - " + asesor.getNombre());
@@ -215,6 +215,6 @@ public class PagosPanel extends JPanel {
     // Método para ajustar el tamaño de los botones
     private void ajustarBoton(JButton boton) {
         boton.setFont(new Font("Arial", Font.PLAIN, 12));
-        boton.setPreferredSize(new Dimension(100, 30)); // Tamaño personalizado
+        boton.setPreferredSize(new Dimension(100, 30)); 
     }
 }

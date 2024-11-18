@@ -38,7 +38,7 @@ public class AsesorController {
     }
 
     public String listarAsesores() {
-        List<Asesor> asesores = obtenerAsesores(); // Llama a obtenerAsesores()
+        List<Asesor> asesores = obtenerAsesores(); 
         StringBuilder sb = new StringBuilder();
         sb.append("Lista de Asesores:\n");
         for (Asesor asesor : asesores) {

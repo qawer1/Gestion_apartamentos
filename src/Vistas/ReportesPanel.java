@@ -22,7 +22,7 @@ public class ReportesPanel extends JPanel {
         reporteController = new ReporteController();
         clienteController = new ClienteController();
         setLayout(new BorderLayout());
-        setBackground(Color.GRAY);  // Fondo gris para el panel principal
+        setBackground(Color.GRAY);  
 
         // Botones para generar reportes
         JButton btnGenerarReporte = new JButton("Generar Reporte");

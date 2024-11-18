@@ -20,14 +20,14 @@ public class ApartamentoController {
     // Método para crear un apartamento, ahora incluye estadoVenta como parámetro
     public void crearApartamento(int id_apartamento, int id_torre, int numero_apartamento, double valorApartamento, String tipoUnidad, String area, String matricula, String estadoVenta) {
         Apartamento apartamento = new Apartamento();
-        apartamento.setID_apartamento(id_apartamento); // Asigna el ID manualmente
-        apartamento.setID_torre(id_torre); // Asigna el ID de torre seleccionado
+        apartamento.setID_apartamento(id_apartamento); 
+        apartamento.setID_torre(id_torre); 
         apartamento.setNumero_apartamento(numero_apartamento);
         apartamento.setValorApartamento(valorApartamento);
         apartamento.setTipoUnidad(tipoUnidad);
         apartamento.setArea(area);
         apartamento.setMatricula(matricula);
-        apartamento.setEstadoVenta(estadoVenta);  // Asigna el estadoVenta
+        apartamento.setEstadoVenta(estadoVenta); 
         apartamentoDAO.crearApartamento(apartamento);
     }
 
@@ -39,14 +39,14 @@ public class ApartamentoController {
     // Método para actualizar un apartamento, ahora incluye estadoVenta como parámetro
     public void actualizarApartamento(int id_apartamento, int id_torre, int numero_apartamento, double valorApartamento, String tipoUnidad, String area, String matricula, String estadoVenta) {
         Apartamento apartamento = new Apartamento();
-        apartamento.setID_apartamento(id_apartamento); // Asigna el ID para actualizar el registro correcto
-        apartamento.setID_torre(id_torre); // Asigna el ID de torre seleccionado
+        apartamento.setID_apartamento(id_apartamento); 
+        apartamento.setID_torre(id_torre); 
         apartamento.setNumero_apartamento(numero_apartamento);
         apartamento.setValorApartamento(valorApartamento);
         apartamento.setTipoUnidad(tipoUnidad);
         apartamento.setArea(area);
         apartamento.setMatricula(matricula);
-        apartamento.setEstadoVenta(estadoVenta);  // Actualiza el estadoVenta
+        apartamento.setEstadoVenta(estadoVenta);  
         apartamentoDAO.actualizarApartamento(apartamento);
     }
 
@@ -63,7 +63,7 @@ public class ApartamentoController {
               .append(", Tipo: ").append(apartamento.getTipoUnidad())
               .append(", Área: ").append(apartamento.getArea())
               .append(", Matrícula: ").append(apartamento.getMatricula())
-              .append(", Estado de Venta: ").append(apartamento.getEstadoVenta())  // Muestra el estadoVenta
+              .append(", Estado de Venta: ").append(apartamento.getEstadoVenta()) 
               .append("\n");
         }
         return sb.toString();

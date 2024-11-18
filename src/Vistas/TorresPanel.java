@@ -12,11 +12,11 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class TorresPanel extends JPanel {
-    private JTextField txtId; // Campo para ID de la torre
-    private JTextField txtNumeroTorre; // Campo para el número de la torre
-    private JTextField txtNumeroApartamentos; // Campo para el número de apartamentos
-    private JTextArea txtTorres; // Área de texto para mostrar torres
-    private JComboBox<String> cmbProyectos; // JComboBox para seleccionar proyecto
+    private JTextField txtId; 
+    private JTextField txtNumeroTorre; 
+    private JTextField txtNumeroApartamentos; 
+    private JTextArea txtTorres; 
+    private JComboBox<String> cmbProyectos; 
     private TorreController torreController;
     private ProyectoController proyectoController;
 
@@ -24,11 +24,11 @@ public class TorresPanel extends JPanel {
         torreController = new TorreController();
         proyectoController = new ProyectoController();
         setLayout(new BorderLayout(10, 10));
-        setBackground(Color.GRAY); // Fondo gris para el panel
+        setBackground(Color.GRAY); 
 
         // Crear panel de entrada con GridLayout
         JPanel inputPanel = new JPanel(new GridLayout(5, 2, 5, 5));
-        inputPanel.setBackground(Color.GRAY); // Fondo gris para panel de entrada
+        inputPanel.setBackground(Color.GRAY); 
 
         // ID de la Torre
         JLabel labelId = new JLabel("ID de la Torre:");
@@ -42,7 +42,7 @@ public class TorresPanel extends JPanel {
         labelProyecto.setForeground(Color.WHITE);
         inputPanel.add(labelProyecto);
         cmbProyectos = new JComboBox<>();
-        cargarProyectos(); // Llamar al método que carga los proyectos
+        cargarProyectos(); 
         inputPanel.add(cmbProyectos);
 
         // Número de la Torre
@@ -61,8 +61,8 @@ public class TorresPanel extends JPanel {
 
         // Panel de botones (ahora horizontal)
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Disposición horizontal
-        buttonPanel.setBackground(Color.GRAY); // Fondo gris para el panel de botones
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); 
+        buttonPanel.setBackground(Color.GRAY); 
 
         JButton btnCrear = new JButton("Crear");
         JButton btnLeer = new JButton("Leer");
@@ -75,24 +75,24 @@ public class TorresPanel extends JPanel {
         ajustarBoton(btnLeer);
         ajustarBoton(btnEliminar);
         ajustarBoton(btnEditar);
-        ajustarBoton(btnRefrescar); // Botón de refrescar
+        ajustarBoton(btnRefrescar); 
 
         // Añadir botones al panel
         buttonPanel.add(btnCrear);
         buttonPanel.add(btnLeer);
         buttonPanel.add(btnEliminar);
         buttonPanel.add(btnEditar);
-        buttonPanel.add(btnRefrescar); // Añadir el botón de refrescar
+        buttonPanel.add(btnRefrescar); 
 
         // Añadir paneles al layout principal
         add(inputPanel, BorderLayout.NORTH);
-        add(buttonPanel, BorderLayout.CENTER); // Añadir el panel de botones al centro
+        add(buttonPanel, BorderLayout.CENTER); 
 
         // Área de texto para mostrar torres
         txtTorres = new JTextArea(10, 30);
         txtTorres.setEditable(false);
-        txtTorres.setForeground(Color.BLACK); // Cambiar color de letras a negro
-        add(new JScrollPane(txtTorres), BorderLayout.SOUTH); // Cambiar a la parte inferior
+        txtTorres.setForeground(Color.BLACK); 
+        add(new JScrollPane(txtTorres), BorderLayout.SOUTH); 
 
         // ActionListener para el botón "Crear Torre"
         btnCrear.addActionListener(new ActionListener() {
@@ -100,13 +100,13 @@ public class TorresPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int idTorre = Integer.parseInt(txtId.getText());
-                    int idProyecto = obtenerIdProyectoSeleccionado(); // Obtener el ID del proyecto seleccionado
+                    int idProyecto = obtenerIdProyectoSeleccionado(); 
                     int numeroTorre = Integer.parseInt(txtNumeroTorre.getText());
                     int numeroApartamentos = Integer.parseInt(txtNumeroApartamentos.getText());
                     torreController.crearTorre(idTorre, idProyecto, numeroTorre, numeroApartamentos);
                     JOptionPane.showMessageDialog(null, "Torre creada exitosamente");
                     limpiarCampos();
-                    cargarProyectos();  // Recargar los proyectos para actualizar el JComboBox
+                    cargarProyectos();  
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese valores válidos.");
                 }
@@ -118,7 +118,7 @@ public class TorresPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<Torre> torres = torreController.obtenerTorres();
-                txtTorres.setText("");  // Limpiar el área de texto antes de listar las torres
+                txtTorres.setText("");  
                 if (torres.isEmpty()) {
                     txtTorres.append("No hay torres registradas.\n");
                 } else {
@@ -142,7 +142,7 @@ public class TorresPanel extends JPanel {
                     torreController.eliminarTorre(idTorre);
                     JOptionPane.showMessageDialog(null, "Torre eliminada exitosamente");
                     limpiarCampos();
-                    cargarProyectos();  // Recargar los proyectos para actualizar el JComboBox
+                    cargarProyectos();  
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese un ID válido.");
                 }
@@ -155,13 +155,13 @@ public class TorresPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int idTorre = Integer.parseInt(txtId.getText());
-                    int idProyecto = obtenerIdProyectoSeleccionado(); // Obtener el ID del proyecto seleccionado
+                    int idProyecto = obtenerIdProyectoSeleccionado(); 
                     int numeroTorre = Integer.parseInt(txtNumeroTorre.getText());
                     int numeroApartamentos = Integer.parseInt(txtNumeroApartamentos.getText());
                     torreController.actualizarTorre(idTorre, idProyecto, numeroTorre, numeroApartamentos);
                     JOptionPane.showMessageDialog(null, "Torre actualizada exitosamente");
                     limpiarCampos();
-                    cargarProyectos();  // Recargar los proyectos para actualizar el JComboBox
+                    cargarProyectos(); 
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese valores válidos.");
                 }
@@ -172,7 +172,7 @@ public class TorresPanel extends JPanel {
         btnRefrescar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cargarProyectos();  // Recargar los proyectos para actualizar el JComboBox
+                cargarProyectos();  
             }
         });
     }
@@ -189,19 +189,19 @@ public class TorresPanel extends JPanel {
     // Método para obtener el ID del proyecto seleccionado
     private int obtenerIdProyectoSeleccionado() {
         String proyectoSeleccionado = (String) cmbProyectos.getSelectedItem();
-        return Integer.parseInt(proyectoSeleccionado.split(" - ")[0]); // Extraer el ID del proyecto
+        return Integer.parseInt(proyectoSeleccionado.split(" - ")[0]); 
     }
 
     // Método para limpiar los campos de entrada
     private void limpiarCampos() {
-        txtId.setText(""); // Limpiar el campo de ID
-        cmbProyectos.setSelectedIndex(0); // Restablecer la selección de proyecto
-        txtNumeroTorre.setText(""); // Limpiar el campo de número de torre
-        txtNumeroApartamentos.setText(""); // Limpiar el campo de número de apartamentos
+        txtId.setText(""); 
+        cmbProyectos.setSelectedIndex(0); 
+        txtNumeroTorre.setText(""); 
+        txtNumeroApartamentos.setText(""); 
     }
 
     // Método para ajustar el tamaño de los botones
     private void ajustarBoton(JButton boton) {
-        boton.setPreferredSize(new Dimension(100, 30)); // Establecer el tamaño preferido del botón
+        boton.setPreferredSize(new Dimension(100, 30)); 
     }
 }

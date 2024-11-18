@@ -7,18 +7,18 @@ import java.util.List;
 
 public class TorreController {
     private TorreDAO torreDAO;
-    private ProyectoController proyectoController; // Controlador de Proyecto
+    private ProyectoController proyectoController; 
 
     // Constructor que inicializa el DAO de Torre y ProyectoController
     public TorreController() {
         this.torreDAO = new TorreDAO();
-        this.proyectoController = new ProyectoController(); // Inicializar el controlador de proyectos
+        this.proyectoController = new ProyectoController(); 
     }
 
     // Método para crear una torre, incluyendo ID_TORRE
     public void crearTorre(int idTorre, int idProyecto, int numeroTorre, int numeroApartamentos) {
         Torre torre = new Torre();
-        torre.setIdTorre(idTorre); // Ahora se incluye el ID_TORRE
+        torre.setIdTorre(idTorre); 
         torre.setIdProyecto(idProyecto);
         torre.setNumero_torre(numeroTorre);
         torre.setNumeroApartamentos(numeroApartamentos);
@@ -68,8 +68,8 @@ public class TorreController {
         System.out.println("Torre eliminada exitosamente.");
     }
 
-    // Método para obtener todos los proyectos (usado en la vista)
+    // Método para obtener todos los proyectos
     public List<Proyecto> obtenerProyectos() {
-        return proyectoController.obtenerProyectos(); // Delegar la obtención de proyectos al ProyectoController
+        return proyectoController.obtenerProyectos(); 
     }
 }

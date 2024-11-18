@@ -25,7 +25,7 @@ public class AsesoresPanel extends JPanel {
 
         // Crear panel de entrada con GridLayout
         JPanel inputPanel = new JPanel(new GridLayout(5, 2, 5, 5));
-        inputPanel.setBackground(Color.GRAY); // Fondo gris
+        inputPanel.setBackground(Color.GRAY); 
 
         // Cédula
         JLabel labelCedula = new JLabel("Cédula:");
@@ -69,7 +69,7 @@ public class AsesoresPanel extends JPanel {
 
         // Crear panel de botones con FlowLayout
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        buttonPanel.setBackground(Color.GRAY); // Fondo gris
+        buttonPanel.setBackground(Color.GRAY); 
 
         JButton btnCrear = new JButton("Crear ");
         JButton btnLeer = new JButton("Leer");
@@ -94,7 +94,7 @@ public class AsesoresPanel extends JPanel {
         // Crear área de texto para mostrar los asesores
         txtAsesores = new JTextArea(10, 30);
         txtAsesores.setEditable(false);
-        txtAsesores.setForeground(Color.BLACK); // Cambiar color de letras a negro
+        txtAsesores.setForeground(Color.BLACK); 
         add(new JScrollPane(txtAsesores), BorderLayout.SOUTH);
 
         // Acción para crear asesor
@@ -122,7 +122,7 @@ btnLeer.addActionListener(new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
         List<Asesor> asesores = asesorController.obtenerAsesores();
-        txtAsesores.setText(""); // Limpiar el área de texto antes de listar
+        txtAsesores.setText(""); 
         if (asesores.isEmpty()) {
             txtAsesores.append("No hay asesores registrados.\n");
         } else {
@@ -186,7 +186,7 @@ btnLeer.addActionListener(new ActionListener() {
     // Método para ajustar el tamaño de los botones
     private void ajustarBoton(JButton boton) {
         boton.setFont(new Font("Arial", Font.PLAIN, 12));
-        boton.setPreferredSize(new Dimension(100, 25)); // Tamaño compacto similar al primer código
+        boton.setPreferredSize(new Dimension(100, 25)); 
         boton.setMinimumSize(new Dimension(100, 25));
         boton.setMaximumSize(new Dimension(100, 25));
     }

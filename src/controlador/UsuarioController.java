@@ -61,7 +61,7 @@ public class UsuarioController {
 
     // Método para obtener el rol de un usuario
     public String obtenerRolUsuario(String nombre) {
-        Usuario usuario = usuarioDAO.obtenerUsuarioPorNombre(nombre);  // Suponemos que este método existe en el DAO.
+        Usuario usuario = usuarioDAO.obtenerUsuarioPorNombre(nombre);
         return usuario != null ? usuario.getRol() : null;
     }
 }

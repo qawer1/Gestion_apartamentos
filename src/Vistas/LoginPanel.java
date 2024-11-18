@@ -25,7 +25,7 @@ public class LoginPanel extends JFrame {
         // Panel izquierdo con imagen y título
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
-        leftPanel.setBackground(new Color(100, 149, 237)); // Azul para el fondo izquierdo
+        leftPanel.setBackground(new Color(100, 149, 237)); 
         leftPanel.setPreferredSize(new Dimension(200, 350));
 
         JLabel lblTitle = new JLabel("LOGIN", JLabel.CENTER);
@@ -33,7 +33,7 @@ public class LoginPanel extends JFrame {
         lblTitle.setForeground(Color.WHITE);
         leftPanel.add(lblTitle, BorderLayout.NORTH);
 
-        JLabel buildingIcon = new JLabel(new ImageIcon("C:\\Users\\Sebastian\\OneDrive\\Pictures\\img\\apartamentos.png")); // Icono de edificio
+        JLabel buildingIcon = new JLabel(new ImageIcon("C:\\Users\\Sebastian\\OneDrive\\Pictures\\img\\apartamentos.png")); 
         buildingIcon.setHorizontalAlignment(JLabel.CENTER);
         leftPanel.add(buildingIcon, BorderLayout.CENTER);
 

@@ -3,8 +3,8 @@ package Vistas;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.net.URL;
 import vistas.ReportesPanel;
-
 
 public class MainFrame extends JFrame {
     private JPanel mainPanel;
@@ -87,14 +87,19 @@ public class MainFrame extends JFrame {
         button.setHorizontalAlignment(SwingConstants.LEFT);
         button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
 
+        // Cargar imagen desde el JAR
         if (iconPath != null) {
-            ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
-            // Redimensionar el icono a un tamaño uniforme
-            Image img = icon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
-            button.setIcon(new ImageIcon(img));
+            URL iconURL = getClass().getResource(iconPath);
+            if (iconURL != null) {
+                ImageIcon icon = new ImageIcon(iconURL);
+                Image img = icon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+                button.setIcon(new ImageIcon(img));
+            } else {
+                System.out.println("Icono no encontrado: " + iconPath);
+            }
         }
 
-        // Acción para mostrar el panel correspondiente
+       
         button.addActionListener((ActionEvent e) -> showPanel(panelName));
 
         return button;

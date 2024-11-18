@@ -30,13 +30,13 @@ public class ReporteDAO {
                 venta.setIntereses(rs.getDouble("INTERESES"));
                 venta.setIdCliente(rs.getInt("CEDULA_CLIENTES"));
                 venta.setIdApartamento(rs.getInt("ID_APARTAMENTO"));
-                venta.setEstadoVenta(rs.getString("ESTADO_VENTA"));  // Estado de la venta
+                venta.setEstadoVenta(rs.getString("ESTADO_VENTA"));  
                 ventas.add(venta);
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener reporte de ventas: " + e.getMessage());
         } finally {
-            conexion.desconectar(conn);  // Asegurar la desconexión
+            conexion.desconectar(conn); 
         }
         return ventas;
     }
@@ -66,7 +66,7 @@ public class ReporteDAO {
         } catch (SQLException e) {
             System.out.println("Error al obtener reporte de pagos: " + e.getMessage());
         } finally {
-            conexion.desconectar(conn);  // Asegurar la desconexión
+            conexion.desconectar(conn); 
         }
         return pagos;
     }
@@ -91,13 +91,13 @@ public class ReporteDAO {
                 venta.setIntereses(rs.getDouble("INTERESES"));
                 venta.setIdCliente(rs.getInt("CEDULA_CLIENTES"));
                 venta.setIdApartamento(rs.getInt("ID_APARTAMENTO"));
-                venta.setEstadoVenta(rs.getString("ESTADO_VENTA"));  // Estado de la venta
+                venta.setEstadoVenta(rs.getString("ESTADO_VENTA"));  
                 ventas.add(venta);
             }
         } catch (SQLException e) {
             System.out.println("Error al obtener ventas del cliente: " + e.getMessage());
         } finally {
-            conexion.desconectar(conn);  // Asegurar la desconexión
+            conexion.desconectar(conn);  
         }
         return ventas;
     }
@@ -126,7 +126,7 @@ public class ReporteDAO {
         } catch (SQLException e) {
             System.out.println("Error al obtener pagos del cliente: " + e.getMessage());
         } finally {
-            conexion.desconectar(conn);  // Asegurar la desconexión
+            conexion.desconectar(conn);  
         }
         return pagos;
     }
@@ -150,7 +150,7 @@ public class ReporteDAO {
         } catch (SQLException e) {
             System.out.println("Error al obtener total pagado por cliente: " + e.getMessage());
         } finally {
-            conexion.desconectar(conn);  // Asegurar la desconexión
+            conexion.desconectar(conn); 
         }
         return totalPagado;
     }
@@ -173,7 +173,7 @@ public class ReporteDAO {
         } catch (SQLException e) {
             System.out.println("Error al obtener precio total del apartamento: " + e.getMessage());
         } finally {
-            conexion.desconectar(conn);  // Asegurar la desconexión
+            conexion.desconectar(conn);  
         }
         return precioTotal;
     }
